@@ -24,7 +24,9 @@
       "Shampoo."
     ],
     "rating": 5,
-    "videos": []
+    "videos": [
+      "/api/media/7"
+    ]
   },
   {
     "id": 2,

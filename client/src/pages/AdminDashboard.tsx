@@ -328,13 +328,15 @@ export default function AdminDashboard() {
     nombre: "",
     email: "",
     telefono: "",
+    cedula: "",
     unidad: "Aura 1",
     fecha_inicio: "",
     fecha_fin: "",
     plan: "",
     total: 0,
     abono: 0,
-    estado: 2
+    estado: 2,
+    adicionales: [] as string[]
   });
 
   useEffect(() => {
@@ -2810,6 +2812,14 @@ export default function AdminDashboard() {
                 />
               </div>
               <div className="space-y-2">
+                <Label>Cédula</Label>
+                <Input 
+                  placeholder="1234567890" 
+                  className="rounded-xl"
+                  onChange={(e) => setNewReservaData({...newReservaData, cedula: e.target.value})}
+                />
+              </div>
+              <div className="space-y-2">
                 <Label>Unidad</Label>
                 <Select onValueChange={(v) => setNewReservaData({...newReservaData, unidad: v})} defaultValue="Aura 1">
                   <SelectTrigger className="rounded-xl">
@@ -2904,6 +2914,34 @@ export default function AdminDashboard() {
                 </SelectContent>
               </Select>
             </div>
+
+            {dynamicAddons.length > 0 && (
+              <div className="space-y-2">
+                <Label>Adicionales</Label>
+                <div className="rounded-xl border border-stone-200 p-3 space-y-2 max-h-48 overflow-y-auto">
+                  {dynamicAddons.map((addon: any) => {
+                    const checked = newReservaData.adicionales.includes(addon.id);
+                    return (
+                      <label key={addon.id} className="flex items-center gap-3 cursor-pointer hover:bg-stone-50 rounded-lg px-2 py-1.5 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={() => {
+                            const next = checked
+                              ? newReservaData.adicionales.filter(id => id !== addon.id)
+                              : [...newReservaData.adicionales, addon.id];
+                            setNewReservaData({...newReservaData, adicionales: next});
+                          }}
+                          className="w-4 h-4 accent-accent rounded"
+                        />
+                        <span className="text-sm flex-1">{addon.title}</span>
+                        <span className="text-xs text-muted-foreground font-mono">${(addon.price || 0).toLocaleString()}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
 
           <DialogFooter>
