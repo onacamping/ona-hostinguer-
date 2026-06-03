@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Sparkles, Heart, Film, Star, Sun, Moon, TreePine, Mountain, Flame, Gift, Tag } from "lucide-react";
+import { Check, Sparkles, Heart, Film, Star, Sun, Moon, TreePine, Mountain, Flame, Gift, Tag, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,6 +22,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export function PlansSection() {
   const [, setLocation] = useLocation();
+  const [selectedPlan, setSelectedPlan] = useState<any | null>(null);
   const { data: plans = [] } = useQuery<any[]>({
     queryKey: ["/api/plans/active"],
   });
@@ -47,7 +50,10 @@ export function PlansSection() {
             >
               {plan.bannerImage ? (
                 /* ── IMAGE MODE ── */
-                <div className="h-full relative rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col min-h-[420px]">
+                <div
+                  className="h-full relative rounded-2xl overflow-hidden shadow-md group hover:shadow-xl transition-all duration-300 flex flex-col min-h-[420px] cursor-pointer"
+                  onClick={() => setSelectedPlan(plan)}
+                >
                   <img
                     src={plan.bannerImage}
                     alt={plan.nombre}
@@ -62,8 +68,11 @@ export function PlansSection() {
                   )}
 
                   <div className="relative z-10 mt-auto p-5">
+                    <p className="text-white/80 text-xs uppercase tracking-widest font-bold mb-2 text-center">
+                      Toca para ver detalles
+                    </p>
                     <button
-                      onClick={() => setLocation(`/reservar?planId=${plan.id}`)}
+                      onClick={(e) => { e.stopPropagation(); setLocation(`/reservar?planId=${plan.id}`); }}
                       className="w-full py-3 text-sm font-bold uppercase tracking-widest rounded-xl transition-all"
                       style={{ backgroundColor: plan.color || '#8B5A2B', color: '#fff' }}
                     >
@@ -124,6 +133,67 @@ export function PlansSection() {
           ))}
         </div>
       </div>
+
+      {/* Modal para plan en modo imagen */}
+      <Dialog open={!!selectedPlan} onOpenChange={(open) => { if (!open) setSelectedPlan(null); }}>
+        <DialogContent className="max-w-2xl p-0 overflow-hidden rounded-2xl border-none bg-transparent shadow-2xl">
+          {selectedPlan && (
+            <div className="relative">
+              {/* Imagen a pantalla completa */}
+              <img
+                src={selectedPlan.bannerImage}
+                alt={selectedPlan.nombre}
+                className="w-full max-h-[75vh] object-cover"
+              />
+
+              {/* Gradiente inferior */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+              {/* Badge preventa */}
+              {selectedPlan.preventa && (
+                <div className="absolute top-4 right-4 bg-accent text-white text-[10px] font-bold px-3 py-1 rounded-full animate-pulse">
+                  PREVENTA
+                </div>
+              )}
+
+              {/* Contenido inferior */}
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h2 className="text-white font-serif text-2xl font-bold mb-1">{selectedPlan.nombre}</h2>
+                <p className="text-white/75 text-sm italic mb-4">{selectedPlan.eslogan}</p>
+
+                {selectedPlan.incluye?.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {selectedPlan.incluye.slice(0, 5).map((item: string, i: number) => (
+                      <span key={i} className="bg-white/20 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
+                        <Check className="w-3 h-3 shrink-0" /> {item}
+                      </span>
+                    ))}
+                    {selectedPlan.incluye.length > 5 && (
+                      <span className="text-white/60 text-xs self-center">+{selectedPlan.incluye.length - 5} más incluidos</span>
+                    )}
+                  </div>
+                )}
+
+                <button
+                  onClick={() => { setSelectedPlan(null); setLocation(`/reservar?planId=${selectedPlan.id}`); }}
+                  className="w-full py-3.5 text-sm font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 active:scale-[0.98]"
+                  style={{ backgroundColor: selectedPlan.color || '#8B5A2B', color: '#fff' }}
+                >
+                  Seleccionar este Plan
+                </button>
+              </div>
+
+              {/* Botón cerrar */}
+              <button
+                onClick={() => setSelectedPlan(null)}
+                className="absolute top-4 left-4 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white rounded-full p-2 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

@@ -254,10 +254,10 @@ export function CampingsSection() {
               >
                 {(() => {
                   const blocked = isUnitBlocked(camping.name, selectedDate);
-                  return (
+                  const cardContent = (
                     <Card className={cn(
                       "border-none shadow-lg overflow-hidden group h-full flex flex-col bg-card transition-all duration-500",
-                      blocked ? "opacity-75 ring-2 ring-red-300" : "hover:shadow-2xl"
+                      blocked ? "opacity-75 ring-2 ring-red-300" : "hover:shadow-2xl cursor-pointer"
                     )}>
                       <div className="relative">
                         <ImageCarousel images={camping.images} name={camping.name} campingId={camping.id} />
@@ -296,22 +296,22 @@ export function CampingsSection() {
                       <CardFooter className="flex items-center justify-between border-t border-border pt-6">
                         <div className="flex flex-col">
                           <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-                            {blocked ? "Unidad no disponible" : "Reserva tu experiencia"}
+                            {blocked ? "Unidad no disponible" : "Toca para ver detalles"}
                           </span>
                         </div>
-                        {!blocked ? (
-                          <CampingDetailsDialog camping={camping} range={{ from: selectedDate, to: selectedDate ? new Date(selectedDate.getTime() + 86400000) : undefined }}>
-                            <Button variant="outline" className="text-xs uppercase tracking-widest font-bold border-accent text-accent hover:bg-accent hover:text-white transition-colors">
-                              Ver Detalles
-                            </Button>
-                          </CampingDetailsDialog>
-                        ) : (
+                        {blocked && (
                           <Button variant="outline" disabled className="text-xs uppercase tracking-widest font-bold border-red-200 text-red-400 cursor-not-allowed">
                             No Disponible
                           </Button>
                         )}
                       </CardFooter>
                     </Card>
+                  );
+
+                  return blocked ? cardContent : (
+                    <CampingDetailsDialog camping={camping} range={{ from: selectedDate, to: selectedDate ? new Date(selectedDate.getTime() + 86400000) : undefined }}>
+                      {cardContent}
+                    </CampingDetailsDialog>
                   );
                 })()}
               </motion.div>
