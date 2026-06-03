@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Sparkles, Heart, Film, Star, Sun, Moon, TreePine, Mountain, Flame, Gift, Tag, X } from "lucide-react";
+import { Check, Sparkles, Heart, Film, Star, Sun, Moon, TreePine, Mountain, Flame, Gift, Tag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
@@ -136,61 +136,29 @@ export function PlansSection() {
 
       {/* Modal para plan en modo imagen */}
       <Dialog open={!!selectedPlan} onOpenChange={(open) => { if (!open) setSelectedPlan(null); }}>
-        <DialogContent className="max-w-2xl p-0 overflow-hidden rounded-2xl border-none bg-transparent shadow-2xl">
+        <DialogContent className="max-w-lg w-full p-0 overflow-hidden rounded-2xl border-none bg-black shadow-2xl flex flex-col gap-0">
           {selectedPlan && (
-            <div className="relative">
-              {/* Imagen a pantalla completa */}
-              <img
-                src={selectedPlan.bannerImage}
-                alt={selectedPlan.nombre}
-                className="w-full max-h-[75vh] object-cover"
-              />
+            <>
+              {/* Imagen completa sin recorte */}
+              <div className="w-full">
+                <img
+                  src={selectedPlan.bannerImage}
+                  alt={selectedPlan.nombre}
+                  className="w-full h-auto block"
+                />
+              </div>
 
-              {/* Gradiente inferior */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-              {/* Badge preventa */}
-              {selectedPlan.preventa && (
-                <div className="absolute top-4 right-4 bg-accent text-white text-[10px] font-bold px-3 py-1 rounded-full animate-pulse">
-                  PREVENTA
-                </div>
-              )}
-
-              {/* Contenido inferior */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h2 className="text-white font-serif text-2xl font-bold mb-1">{selectedPlan.nombre}</h2>
-                <p className="text-white/75 text-sm italic mb-4">{selectedPlan.eslogan}</p>
-
-                {selectedPlan.incluye?.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {selectedPlan.incluye.slice(0, 5).map((item: string, i: number) => (
-                      <span key={i} className="bg-white/20 backdrop-blur-sm text-white text-xs px-3 py-1 rounded-full flex items-center gap-1">
-                        <Check className="w-3 h-3 shrink-0" /> {item}
-                      </span>
-                    ))}
-                    {selectedPlan.incluye.length > 5 && (
-                      <span className="text-white/60 text-xs self-center">+{selectedPlan.incluye.length - 5} más incluidos</span>
-                    )}
-                  </div>
-                )}
-
+              {/* Botón al pie, fuera de la imagen */}
+              <div className="p-4 bg-black">
                 <button
                   onClick={() => { setSelectedPlan(null); setLocation(`/reservar?planId=${selectedPlan.id}`); }}
-                  className="w-full py-3.5 text-sm font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 active:scale-[0.98]"
+                  className="w-full py-4 text-sm font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 active:scale-[0.98]"
                   style={{ backgroundColor: selectedPlan.color || '#8B5A2B', color: '#fff' }}
                 >
                   Seleccionar este Plan
                 </button>
               </div>
-
-              {/* Botón cerrar */}
-              <button
-                onClick={() => setSelectedPlan(null)}
-                className="absolute top-4 left-4 bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white rounded-full p-2 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+            </>
           )}
         </DialogContent>
       </Dialog>

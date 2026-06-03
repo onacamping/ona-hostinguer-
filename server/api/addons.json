@@ -12,7 +12,24 @@
     "allowMultiple": false,
     "multipleLabel": "",
     "maxQuantity": null,
-    "media": []
+    "media": [
+      {
+        "url": "/api/media/3",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/4",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/5",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/6",
+        "type": "video"
+      }
+    ]
   },
   {
     "id": "dec_premium",
