@@ -135,6 +135,9 @@ export default function BookingPage() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [showQrFullscreen, setShowQrFullscreen] = useState(false);
   const canvasRef = useState<HTMLCanvasElement | null>(null);
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountResult, setDiscountResult] = useState<{ valid: boolean; tipo?: string; valor?: number; mensaje?: string } | null>(null);
+  const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   const [planBlocks, setPlanBlocks] = useState<
     Array<{
       id: string;
@@ -741,8 +744,36 @@ export default function BookingPage() {
     return surcharge;
   }, [tarifas, range.from, nights, selectedPlanId, totalBase]);
 
-  const total = totalBase + addonsTotal + tarifaSurcharge;
+  const discountAmount = useMemo(() => {
+    if (!discountResult?.valid || !discountResult.valor) return 0;
+    const base = totalBase + addonsTotal + tarifaSurcharge;
+    if (discountResult.tipo === "porcentaje") return Math.round(base * discountResult.valor / 100);
+    return Math.min(discountResult.valor, base);
+  }, [discountResult, totalBase, addonsTotal, tarifaSurcharge]);
+
+  const total = totalBase + addonsTotal + tarifaSurcharge - discountAmount;
   const deposit = Math.round(total * 0.35);
+
+  const validateDiscountCode = async () => {
+    if (!discountCode.trim()) return;
+    setIsValidatingDiscount(true);
+    try {
+      const res = await fetch("/api/validate-discount", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          codigo: discountCode.trim().toUpperCase(),
+          planId: selectedPlanId,
+          campingTypeId: initialCamping?.typeId ?? null,
+        }),
+      });
+      const data = await res.json();
+      setDiscountResult(data);
+    } catch {
+      setDiscountResult({ valid: false, mensaje: "Error al validar el código" });
+    }
+    setIsValidatingDiscount(false);
+  };
 
   const isFormValid = useMemo(() => {
     return !!(
@@ -2266,6 +2297,12 @@ export default function BookingPage() {
                     </div>
                   )}
                   <div className="pt-6 border-t border-white/20">
+                    {discountAmount > 0 && (
+                      <div className="flex justify-between items-center mb-2 text-sm text-green-400">
+                        <span className="flex items-center gap-1.5"><Tag className="w-3.5 h-3.5" /> Descuento ({discountCode.toUpperCase()})</span>
+                        <span className="font-bold">− ${discountAmount.toLocaleString()}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between items-center mb-1">
                       <span className="text-sm uppercase tracking-widest font-bold">
                         Total
@@ -2306,6 +2343,38 @@ export default function BookingPage() {
                       </span>
                     </Button>
                   )}
+
+                  {/* Discount code input */}
+                  <div className="pt-2">
+                    <p className="text-[10px] text-white/40 uppercase tracking-widest mb-2 font-medium">¿Tienes un código de descuento?</p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={discountCode}
+                        onChange={e => {
+                          setDiscountCode(e.target.value.toUpperCase());
+                          if (discountResult) setDiscountResult(null);
+                        }}
+                        onKeyDown={e => e.key === "Enter" && validateDiscountCode()}
+                        placeholder="CÓDIGO"
+                        className="flex-1 bg-white/10 border border-white/20 text-white placeholder:text-white/30 rounded-xl px-3 py-2 text-xs font-mono uppercase tracking-widest focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
+                      />
+                      <button
+                        onClick={validateDiscountCode}
+                        disabled={isValidatingDiscount || !discountCode.trim()}
+                        className="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold rounded-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                      >
+                        {isValidatingDiscount ? "..." : "Aplicar"}
+                      </button>
+                    </div>
+                    {discountResult && (
+                      <p className={`text-[10px] mt-1.5 font-medium ${discountResult.valid ? "text-green-400" : "text-red-400"}`}>
+                        {discountResult.valid
+                          ? `✓ Código válido: ${discountResult.tipo === "porcentaje" ? `${discountResult.valor}% de descuento` : `$${(discountResult.valor || 0).toLocaleString()} de descuento`}`
+                          : `✗ ${discountResult.mensaje || "Código inválido"}`}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             </div>

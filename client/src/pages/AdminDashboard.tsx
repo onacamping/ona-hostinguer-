@@ -243,7 +243,22 @@ export default function AdminDashboard() {
     images: [] as string[],
     videos: [] as string[],
     features: [] as string[],
+    typeId: 1,
+    rating: 5,
     newFeature: ""
+  });
+
+  // Discount codes state
+  const [discountCodes, setDiscountCodes] = useState<any[]>([]);
+  const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
+  const [editingDiscount, setEditingDiscount] = useState<any | null>(null);
+  const [discountForm, setDiscountForm] = useState({
+    codigo: "",
+    tipo: "porcentaje" as "porcentaje" | "valor",
+    valor: 0,
+    planIds: [] as string[],
+    campingTypeIds: [] as number[],
+    activo: true
   });
   const [addonForm, setAddonForm] = useState({
     title: "",
@@ -366,6 +381,7 @@ export default function AdminDashboard() {
     fetchDynamicPlans();
     fetchDynamicCampings();
     fetchDynamicAddons();
+    fetchDiscountCodes();
     fetch("/api/settings").then(r => r.json()).then(d => { if (d.heroMedia) setHeroSettings(d.heroMedia); }).catch(() => {});
     fetch("/api/tarifas").then(r => r.json()).then(d => setTarifasData(d)).catch(() => {});
   }, []);
@@ -387,21 +403,67 @@ export default function AdminDashboard() {
   const handleSaveCamping = async () => {
     try {
       const { newFeature, ...campingData } = campingForm as any;
-      const url = `/api/campings/${editingCamping.id}`;
+      const isEdit = !!editingCamping;
+      const url = isEdit ? `/api/campings/${editingCamping.id}` : "/api/campings";
+      const method = isEdit ? "PUT" : "POST";
       const response = await fetch(url, {
-        method: "PUT",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(campingData)
       });
       const data = await response.json();
       if (data.success) {
-        toast({ title: "Éxito", description: "Camping actualizado correctamente" });
+        toast({ title: "Éxito", description: isEdit ? "Camping actualizado" : "Camping creado correctamente" });
         setIsCampingModalOpen(false);
         fetchDynamicCampings();
       } else {
-        toast({ title: "Error", description: data.error || "No se pudo actualizar el camping", variant: "destructive" });
+        toast({ title: "Error", description: data.error || "Error al guardar camping", variant: "destructive" });
       }
     } catch (error) { toast({ title: "Error", description: "Error de conexión", variant: "destructive" }); }
+  };
+
+  const handleDeleteCamping = async (id: number) => {
+    if (!confirm("¿Eliminar este camping?")) return;
+    try {
+      const res = await fetch(`/api/campings/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) { toast({ title: "Camping eliminado" }); fetchDynamicCampings(); }
+      else toast({ title: "Error", description: data.error, variant: "destructive" });
+    } catch { toast({ title: "Error de conexión", variant: "destructive" }); }
+  };
+
+  const fetchDiscountCodes = async () => {
+    try {
+      const res = await fetch("/api/discount-codes");
+      if (res.ok) setDiscountCodes(await res.json());
+    } catch {}
+  };
+
+  const handleSaveDiscount = async () => {
+    if (!discountForm.codigo.trim()) {
+      toast({ title: "Error", description: "El código es obligatorio", variant: "destructive" }); return;
+    }
+    try {
+      const url = editingDiscount ? `/api/discount-codes/${editingDiscount.id}` : "/api/discount-codes";
+      const method = editingDiscount ? "PUT" : "POST";
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(discountForm) });
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: editingDiscount ? "Código actualizado" : "Código creado" });
+        setIsDiscountModalOpen(false);
+        fetchDiscountCodes();
+      } else toast({ title: "Error", description: data.error, variant: "destructive" });
+    } catch { toast({ title: "Error de conexión", variant: "destructive" }); }
+  };
+
+  const handleDeleteDiscount = async (id: string) => {
+    if (!confirm("¿Eliminar este código?")) return;
+    try {
+      const res = await fetch(`/api/discount-codes/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) { toast({ title: "Código eliminado" }); fetchDiscountCodes(); }
+      else toast({ title: "Error", description: data.error, variant: "destructive" });
+    } catch { toast({ title: "Error de conexión", variant: "destructive" }); }
   };
 
   const handleSaveAddon = async () => {
@@ -1104,6 +1166,7 @@ export default function AdminDashboard() {
               <TabsTrigger value="planes" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Planes</TabsTrigger>
               <TabsTrigger value="campings" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Campings</TabsTrigger>
               <TabsTrigger value="addons" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Adicionales</TabsTrigger>
+              <TabsTrigger value="descuentos" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">🏷 Descuentos</TabsTrigger>
               <TabsTrigger value="bloqueos" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Bloqueos</TabsTrigger>
               <TabsTrigger value="plan-blocks" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Restricciones</TabsTrigger>
               <TabsTrigger value="unit-blocks" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Inhabilitar</TabsTrigger>
@@ -1271,19 +1334,41 @@ export default function AdminDashboard() {
 
           <TabsContent value="campings">
             <div className="bg-white rounded-3xl shadow-sm border border-stone-200 p-6">
-              <h2 className="text-xl font-serif text-primary mb-6">Gestión de Campings</h2>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-serif text-primary">Gestión de Campings</h2>
+                <Button
+                  className="bg-primary text-white hover:bg-primary/90 rounded-xl px-4 py-2 text-sm font-medium"
+                  onClick={() => {
+                    setEditingCamping(null);
+                    setCampingForm({ name: "", description: "", image: "", images: [], videos: [], features: [], typeId: 1, rating: 5, newFeature: "" });
+                    setIsCampingModalOpen(true);
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-1.5" /> Nuevo Camping
+                </Button>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {dynamicCampings.map(c => (
                   <div key={c.id} className="border rounded-2xl p-4 flex gap-4 items-start">
-                    <img src={c.image} alt={c.name} className="w-24 h-24 object-cover rounded-xl" />
+                    <img src={c.image} alt={c.name} className="w-24 h-24 object-cover rounded-xl bg-stone-100" />
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg">{c.name}</h3>
-                      <p className="text-sm text-stone-500 line-clamp-2">{c.description}</p>
-                      <Button variant="outline" size="sm" className="mt-2" onClick={() => {
-                        setEditingCamping(c);
-                        setCampingForm({ ...c, images: c.images || [], videos: c.videos || [], newFeature: "" });
-                        setIsCampingModalOpen(true);
-                      }}><Edit className="w-4 h-4 mr-2" /> Editar</Button>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="font-bold text-lg">{c.name}</h3>
+                          <span className="text-[10px] text-stone-400 uppercase tracking-wider">Tipo {c.typeId}</span>
+                        </div>
+                      </div>
+                      <p className="text-sm text-stone-500 line-clamp-2 mt-1">{c.description}</p>
+                      <div className="flex gap-2 mt-2">
+                        <Button variant="outline" size="sm" onClick={() => {
+                          setEditingCamping(c);
+                          setCampingForm({ ...c, images: c.images || [], videos: c.videos || [], newFeature: "" });
+                          setIsCampingModalOpen(true);
+                        }}><Edit className="w-4 h-4 mr-1" /> Editar</Button>
+                        <Button variant="outline" size="sm" className="border-red-200 text-red-500 hover:bg-red-50" onClick={() => handleDeleteCamping(c.id)}>
+                          <Trash2 className="w-4 h-4 mr-1" /> Eliminar
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -1493,6 +1578,70 @@ export default function AdminDashboard() {
                   </TableBody>
                 </Table>
               </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="descuentos">
+            <div className="bg-white rounded-3xl shadow-sm border border-stone-200 p-6">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h2 className="text-xl font-serif text-primary">Códigos de Descuento</h2>
+                  <p className="text-xs text-stone-400 mt-1">Crea códigos que tus clientes pueden ingresar al reservar</p>
+                </div>
+                <Button
+                  className="bg-primary text-white hover:bg-primary/90 rounded-xl px-4 py-2 text-sm font-medium"
+                  onClick={() => {
+                    setEditingDiscount(null);
+                    setDiscountForm({ codigo: "", tipo: "porcentaje", valor: 0, planIds: [], campingTypeIds: [], activo: true });
+                    setIsDiscountModalOpen(true);
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-1.5" /> Nuevo Código
+                </Button>
+              </div>
+              {discountCodes.length === 0 ? (
+                <p className="text-stone-400 text-sm text-center py-10">No hay códigos creados aún</p>
+              ) : (
+                <div className="space-y-3">
+                  {discountCodes.map(dc => {
+                    const validPlans = dc.planIds?.length
+                      ? dc.planIds.map((pid: string) => dynamicPlans.find(p => p.id === pid)?.nombre || pid).join(", ")
+                      : "Todos los planes";
+                    const validCampings = dc.campingTypeIds?.length
+                      ? [...new Set(dynamicCampings.filter(c => dc.campingTypeIds.includes(c.typeId)).map(c => c.name.split(' ')[0]))].join(", ")
+                      : "Todos los campings";
+                    return (
+                      <div key={dc.id} className="border border-stone-200 rounded-2xl p-4 flex items-start gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-mono font-bold text-sm bg-stone-100 px-2 py-0.5 rounded-lg">{dc.codigo}</span>
+                            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${dc.activo ? "bg-green-100 text-green-700" : "bg-stone-100 text-stone-400"}`}>
+                              {dc.activo ? "Activo" : "Inactivo"}
+                            </span>
+                            <span className="text-xs font-bold text-accent">
+                              {dc.tipo === "porcentaje" ? `${dc.valor}% OFF` : `$${(dc.valor || 0).toLocaleString()} OFF`}
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-stone-400 mt-1 space-y-0.5">
+                            <p>Planes: {validPlans}</p>
+                            <p>Campings: {validCampings}</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                          <Button variant="outline" size="sm" onClick={() => {
+                            setEditingDiscount(dc);
+                            setDiscountForm({ codigo: dc.codigo, tipo: dc.tipo, valor: dc.valor, planIds: dc.planIds || [], campingTypeIds: dc.campingTypeIds || [], activo: dc.activo });
+                            setIsDiscountModalOpen(true);
+                          }}><Edit className="w-4 h-4" /></Button>
+                          <Button variant="outline" size="sm" className="border-red-200 text-red-500 hover:bg-red-50" onClick={() => handleDeleteDiscount(dc.id)}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </TabsContent>
 
@@ -2017,11 +2166,29 @@ export default function AdminDashboard() {
 
       <Dialog open={isCampingModalOpen} onOpenChange={setIsCampingModalOpen}>
         <DialogContent className="sm:max-w-xl rounded-[2rem]">
-          <DialogHeader><DialogTitle>Editar Camping: {campingForm.name}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{editingCamping ? `Editar: ${campingForm.name}` : "Nuevo Camping"}</DialogTitle></DialogHeader>
           <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto px-1">
-            <div className="space-y-2">
-              <Label>Nombre</Label>
-              <Input value={campingForm.name} onChange={e => setCampingForm({...campingForm, name: e.target.value})} />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Nombre</Label>
+                <Input value={campingForm.name} placeholder="Ej: Domo 1" onChange={e => setCampingForm({...campingForm, name: e.target.value})} />
+              </div>
+              <div className="space-y-2">
+                <Label>Tipo (typeId para precios)</Label>
+                <select
+                  className="w-full rounded-xl border p-2 text-sm"
+                  value={campingForm.typeId}
+                  onChange={e => setCampingForm({...campingForm, typeId: parseInt(e.target.value)})}
+                >
+                  {Array.from(new Set(dynamicCampings.map(c => c.typeId))).sort().map(tid => (
+                    <option key={tid} value={tid}>Tipo {tid} ({dynamicCampings.find(c => c.typeId === tid)?.name?.split(' ')[0] || tid})</option>
+                  ))}
+                  <option value={Math.max(...dynamicCampings.map(c => c.typeId), 0) + 1}>
+                    Tipo {Math.max(...dynamicCampings.map(c => c.typeId), 0) + 1} (Nuevo)
+                  </option>
+                </select>
+                <p className="text-[10px] text-stone-400">El tipo determina qué precio de plan se usa</p>
+              </div>
             </div>
             <div className="space-y-2">
               <Label>Descripción</Label>
@@ -2821,17 +2988,14 @@ export default function AdminDashboard() {
               </div>
               <div className="space-y-2">
                 <Label>Unidad</Label>
-                <Select onValueChange={(v) => setNewReservaData({...newReservaData, unidad: v})} defaultValue="Aura 1">
+                <Select onValueChange={(v) => setNewReservaData({...newReservaData, unidad: v})} defaultValue={dynamicCampings[0]?.name || "Aura 1"}>
                   <SelectTrigger className="rounded-xl">
                     <SelectValue placeholder="Seleccionar unidad" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Aura 1">Aura 1</SelectItem>
-                    <SelectItem value="Aura 2">Aura 2</SelectItem>
-                    <SelectItem value="Aura 3">Aura 3</SelectItem>
-                    <SelectItem value="Aura 4">Aura 4</SelectItem>
-                    <SelectItem value="Árbol 1">Árbol 1</SelectItem>
-                    <SelectItem value="Nido 1">Nido 1</SelectItem>
+                    {dynamicCampings.map(c => (
+                      <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -2952,6 +3116,115 @@ export default function AdminDashboard() {
               disabled={!newReservaData.nombre || !newReservaData.fecha_inicio || !newReservaData.fecha_fin || !newReservaData.plan}
             >
               Crear Reserva
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isDiscountModalOpen} onOpenChange={setIsDiscountModalOpen}>
+        <DialogContent className="sm:max-w-lg rounded-[2rem]">
+          <DialogHeader>
+            <DialogTitle>{editingDiscount ? "Editar Código" : "Nuevo Código de Descuento"}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto px-1">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Código</Label>
+                <Input
+                  placeholder="Ej: PROMO20"
+                  value={discountForm.codigo}
+                  onChange={e => setDiscountForm({...discountForm, codigo: e.target.value.toUpperCase()})}
+                  className="font-mono rounded-xl"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Estado</Label>
+                <div className="flex items-center gap-2 pt-2">
+                  <input
+                    type="checkbox"
+                    id="dc-activo"
+                    checked={discountForm.activo}
+                    onChange={e => setDiscountForm({...discountForm, activo: e.target.checked})}
+                    className="w-4 h-4 accent-primary"
+                  />
+                  <label htmlFor="dc-activo" className="text-sm cursor-pointer select-none">Activo</label>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Tipo de Descuento</Label>
+                <select
+                  className="w-full rounded-xl border p-2 text-sm"
+                  value={discountForm.tipo}
+                  onChange={e => setDiscountForm({...discountForm, tipo: e.target.value as "porcentaje" | "valor"})}
+                >
+                  <option value="porcentaje">Porcentaje (%)</option>
+                  <option value="valor">Valor fijo ($)</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label>{discountForm.tipo === "porcentaje" ? "Descuento (%)" : "Valor ($)"}</Label>
+                <Input
+                  type="number"
+                  min={0}
+                  max={discountForm.tipo === "porcentaje" ? 100 : undefined}
+                  value={discountForm.valor}
+                  onChange={e => setDiscountForm({...discountForm, valor: parseFloat(e.target.value) || 0})}
+                  className="rounded-xl"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Planes válidos <span className="text-stone-400 text-xs font-normal">(vacío = todos)</span></Label>
+              <div className="space-y-1.5 border rounded-xl p-3 max-h-36 overflow-y-auto">
+                {dynamicPlans.map(p => (
+                  <label key={p.id} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-stone-50 rounded px-1 py-0.5">
+                    <input
+                      type="checkbox"
+                      className="w-3.5 h-3.5 accent-primary"
+                      checked={discountForm.planIds.includes(p.id)}
+                      onChange={e => {
+                        const ids = e.target.checked
+                          ? [...discountForm.planIds, p.id]
+                          : discountForm.planIds.filter((id: string) => id !== p.id);
+                        setDiscountForm({...discountForm, planIds: ids});
+                      }}
+                    />
+                    {p.nombre}
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Tipos de camping válidos <span className="text-stone-400 text-xs font-normal">(vacío = todos)</span></Label>
+              <div className="space-y-1.5 border rounded-xl p-3 max-h-36 overflow-y-auto">
+                {Array.from(new Set(dynamicCampings.map(c => c.typeId))).sort().map(tid => {
+                  const sample = dynamicCampings.find(c => c.typeId === tid);
+                  return (
+                    <label key={tid} className="flex items-center gap-2 text-sm cursor-pointer hover:bg-stone-50 rounded px-1 py-0.5">
+                      <input
+                        type="checkbox"
+                        className="w-3.5 h-3.5 accent-primary"
+                        checked={discountForm.campingTypeIds.includes(tid)}
+                        onChange={e => {
+                          const ids = e.target.checked
+                            ? [...discountForm.campingTypeIds, tid]
+                            : discountForm.campingTypeIds.filter((id: number) => id !== tid);
+                          setDiscountForm({...discountForm, campingTypeIds: ids});
+                        }}
+                      />
+                      Tipo {tid} — {sample?.name.split(' ')[0] || `Tipo ${tid}`}
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setIsDiscountModalOpen(false)} className="rounded-xl">Cancelar</Button>
+            <Button onClick={handleSaveDiscount} className="bg-primary text-white hover:bg-primary/90 rounded-xl">
+              {editingDiscount ? "Guardar Cambios" : "Crear Código"}
             </Button>
           </DialogFooter>
         </DialogContent>

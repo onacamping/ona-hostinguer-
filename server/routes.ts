@@ -417,12 +417,15 @@ export async function registerRoutes(
         }
       }
 
-      // Map camping name to typeId
-      const campingTypeMap: Record<string, number> = {
-        "Aura VIP": 1, "Aura": 1,
-        "Árbol": 2,
-        "Nido": 3
-      };
+      // Map camping name to typeId (dynamic from campings.json)
+      let campingTypeMap: Record<string, number> = { "Aura VIP": 1, "Aura": 1, "Árbol": 2, "Nido": 3 };
+      try {
+        const campingsData: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+        campingsData.forEach((c: any) => {
+          const fw = c.name.split(' ')[0];
+          if (fw && !campingTypeMap[fw]) campingTypeMap[fw] = c.typeId;
+        });
+      } catch {}
       const typeId = campingTypeMap[camping] || 0;
 
       // Get planId from dynamic plans
@@ -731,6 +734,19 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/campings", (req, res) => {
+    try {
+      const data: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+      const maxId = data.reduce((max: number, c: any) => Math.max(max, c.id || 0), 0);
+      const newCamping = { id: maxId + 1, rating: 5, images: [], videos: [], features: [], ...req.body };
+      data.push(newCamping);
+      fs.writeFileSync(campingsFile, JSON.stringify(data, null, 2));
+      res.json({ success: true, camping: newCamping });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   app.put("/api/campings/:id", (req, res) => {
     try {
       const { id } = req.params;
@@ -744,6 +760,98 @@ export async function registerRoutes(
     } catch (error: any) {
       res.status(500).json({ success: false, error: error.message });
     }
+  });
+
+  app.delete("/api/campings/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      let data: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+      const initial = data.length;
+      data = data.filter((c: any) => c.id !== parseInt(id));
+      if (data.length === initial) return res.status(404).json({ success: false, error: "Camping not found" });
+      fs.writeFileSync(campingsFile, JSON.stringify(data, null, 2));
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  // Discount Codes Management
+  const discountCodesFile = path.join(process.cwd(), "server", "api", "discount-codes.json");
+  if (!fs.existsSync(discountCodesFile)) fs.writeFileSync(discountCodesFile, JSON.stringify([]));
+
+  app.get("/api/discount-codes", (req, res) => {
+    try {
+      const data = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+      res.json(data);
+    } catch (error: any) { res.status(500).json({ error: error.message }); }
+  });
+
+  app.post("/api/discount-codes", (req, res) => {
+    try {
+      const data: any[] = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+      const { codigo } = req.body;
+      if (data.some((d: any) => d.codigo.toUpperCase() === (codigo || "").toUpperCase())) {
+        return res.status(400).json({ success: false, error: "Ya existe un código con ese nombre" });
+      }
+      const newCode = { id: `dc_${Date.now()}`, activo: true, planIds: [], campingTypeIds: [], ...req.body, codigo: (codigo || "").toUpperCase() };
+      data.push(newCode);
+      fs.writeFileSync(discountCodesFile, JSON.stringify(data, null, 2));
+      res.json({ success: true, code: newCode });
+    } catch (error: any) { res.status(500).json({ success: false, error: error.message }); }
+  });
+
+  app.put("/api/discount-codes/:id", (req, res) => {
+    try {
+      const data: any[] = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+      const index = data.findIndex((d: any) => d.id === req.params.id);
+      if (index === -1) return res.status(404).json({ success: false, error: "Código no encontrado" });
+      data[index] = { ...data[index], ...req.body, codigo: (req.body.codigo || data[index].codigo).toUpperCase() };
+      fs.writeFileSync(discountCodesFile, JSON.stringify(data, null, 2));
+      res.json({ success: true, code: data[index] });
+    } catch (error: any) { res.status(500).json({ success: false, error: error.message }); }
+  });
+
+  app.delete("/api/discount-codes/:id", (req, res) => {
+    try {
+      let data: any[] = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+      const initial = data.length;
+      data = data.filter((d: any) => d.id !== req.params.id);
+      if (data.length === initial) return res.status(404).json({ success: false, error: "Código no encontrado" });
+      fs.writeFileSync(discountCodesFile, JSON.stringify(data, null, 2));
+      res.json({ success: true });
+    } catch (error: any) { res.status(500).json({ success: false, error: error.message }); }
+  });
+
+  app.post("/api/validate-discount", (req, res) => {
+    try {
+      const { codigo, planId, campingTypeId } = req.body;
+      const data: any[] = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+      const plansData: any[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), "server", "api", "plans.json"), "utf-8"));
+      const campingsData: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+
+      const found = data.find((d: any) => d.codigo.toUpperCase() === (codigo || "").toUpperCase());
+      if (!found) return res.json({ valid: false, mensaje: "Código de descuento no válido." });
+      if (!found.activo) return res.json({ valid: false, mensaje: "Este código ya no está activo." });
+
+      const planOk = !found.planIds || found.planIds.length === 0 || found.planIds.includes(planId);
+      const campingOk = !found.campingTypeIds || found.campingTypeIds.length === 0 || found.campingTypeIds.includes(campingTypeId);
+
+      if (!planOk || !campingOk) {
+        const validPlanNames = found.planIds?.length
+          ? found.planIds.map((pid: string) => plansData.find((p: any) => p.id === pid)?.nombre || pid).join(", ")
+          : "todos los planes";
+        const validCampingNames = found.campingTypeIds?.length
+          ? [...new Set(campingsData.filter((c: any) => found.campingTypeIds.includes(c.typeId)).map((c: any) => c.name.split(' ')[0]))].join(", ")
+          : "todos los campings";
+        return res.json({
+          valid: false,
+          mensaje: `Este código es válido para: ${validPlanNames}${found.campingTypeIds?.length ? ` en ${validCampingNames}` : ""}.`
+        });
+      }
+
+      res.json({ valid: true, descuento: { tipo: found.tipo, valor: found.valor, codigo: found.codigo } });
+    } catch (error: any) { res.status(500).json({ valid: false, mensaje: error.message }); }
   });
 
   // Addons Management
