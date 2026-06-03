@@ -1,0 +1,155 @@
+[
+  {
+    "id": "reconectar",
+    "nombre": "Plan Reconectar",
+    "eslogan": "Un momento para celebrar su historia ❗❗(MAYO Y JUNIO 759.990)🚨🏷SOLO POR ABRIL👇⏰",
+    "descripcion": "✨ Una noche para volver a encontrarse.",
+    "tipo": "normal",
+    "icono": "Heart",
+    "color": "#C45C26",
+    "estado": true,
+    "preventa": false,
+    "fechaInicio": null,
+    "fechaFin": null,
+    "precios": {
+      "1": 690000,
+      "2": 1,
+      "3": 1
+    },
+    "incluye": [
+      "IVA incluido",
+      "Michelada de bienvenida",
+      "Fogata con masmelitos",
+      "Decoración tipo picnic (9 foticos,petalos,velitas,pizarra personalizada,luces decorativas,letrero TE AMO)",
+      "Meditacion guiada para sanar (opcional)",
+      "Cena y velada romantica",
+      "Desayuno sabor de mamá",
+      "Servicio al loving",
+      "Parqueadero",
+      "Zonas verdes"
+    ],
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-06-03T18:18:47.575Z"
+  },
+  {
+    "id": "rutina",
+    "nombre": "Plan Salir de la Rutina",
+    "eslogan": "Un momento para celebrar su historia ❗❗(MAYO Y JUNIO 712.000)🚨🏷SOLO POR ABRIL👇⏰",
+    "descripcion": "✨ Escapen juntos de la rutina.",
+    "tipo": "normal",
+    "icono": "Film",
+    "color": "#6B8E23",
+    "estado": true,
+    "preventa": false,
+    "fechaInicio": null,
+    "fechaFin": null,
+    "precios": {
+      "1": 640000,
+      "2": 1,
+      "3": 1
+    },
+    "incluye": [
+      "IVA incluido",
+      "Michelada de bienvenida",
+      "Fogata con masmelitos",
+      "Cena noche de peliculas",
+      "Cine privado en el jacuzzi",
+      "Boletos para cine personalizados",
+      "Desayuno sabor de mamá",
+      "Servicio al loving",
+      "Parqueadero",
+      "Zonas verdes"
+    ],
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-04-17T16:25:43.788Z"
+  },
+  {
+    "id": "plan_pizzas_date_de_temporada",
+    "nombre": "Plan spa day de temporada ",
+    "eslogan": "Escapada perfecta por tiempo limitado. 📢❗SOLO POR ABRIL 👇⏰",
+    "descripcion": "Reserva ahora y tendras decoracion incluida de parte de nosotros",
+    "tipo": "temporada",
+    "icono": "Tag",
+    "color": "#db399f",
+    "estado": true,
+    "preventa": false,
+    "fechaInicio": "2026-05-01T12:00:00",
+    "fechaFin": "2026-06-30T12:00:00",
+    "precios": {
+      "1": 799990,
+      "2": 1,
+      "3": 1
+    },
+    "incluye": [
+      "IVA incluido",
+      "Michelada de bienvenida",
+      "Fogata con masmelos y galleticas",
+      "Cine privado en el jacuzzi",
+      "Kit pizza para crear en pareja",
+      "Desayuno premium en la cama",
+      "Decoracion personalizada para tu ocasion especial (Cumpleaños,pedidas,aniversario)",
+      "Servicio al loving",
+      "Parqueadero",
+      "Zonas verdes"
+    ],
+    "createdAt": "2026-02-01T02:59:50.210Z",
+    "updatedAt": "2026-05-11T15:40:16.628Z"
+  },
+  {
+    "id": "cinema_love_nido_y_arbol_pasadia",
+    "nombre": "CINEMA LOVE (PASADIA)",
+    "eslogan": "ESCAPADA 2:00PM A 8:00PM ",
+    "descripcion": "",
+    "tipo": "normal",
+    "icono": "Sparkles",
+    "color": "#8B5A2B",
+    "estado": true,
+    "preventa": false,
+    "fechaInicio": null,
+    "fechaFin": null,
+    "precios": {
+      "1": 1,
+      "2": 399990,
+      "3": 350000
+    },
+    "incluye": [
+      "IVA INCLUIDO",
+      "ESPACIO PRIVADO DEL CAMPING",
+      "MICHELADA DE BIENVENIDA",
+      "DECORACION: 9 FOTICOS, ROSAS DECORATIVAS, PIZARRA PERSONALIZADA Y LETRERO DE TE AMO.",
+      "CENA: PERROS CALIENTES: PAPAS A LA FRANCESA, NACHOS PARA COMPARTIR, PALOMITAS Y BEBIDAS.",
+      "ACCESO A PISCINA"
+    ],
+    "createdAt": "2026-04-17T16:27:52.749Z",
+    "updatedAt": "2026-05-11T15:41:11.287Z"
+  },
+  {
+    "id": "nature_lunch_nido_y_arbol_pasadia",
+    "nombre": "NATURE LUNCH (PASADIA)",
+    "eslogan": "ESCAPADA DE 11:00AM  5:00PM ",
+    "descripcion": "",
+    "tipo": "normal",
+    "icono": "Sparkles",
+    "color": "#8B5A2B",
+    "estado": true,
+    "preventa": false,
+    "fechaInicio": null,
+    "fechaFin": null,
+    "precios": {
+      "1": 1,
+      "2": 380000,
+      "3": 300000
+    },
+    "incluye": [
+      "IVA INCLUIDO",
+      "ESPACIO PRIVADO EN EL CAMPING",
+      "MICHELADA DE BIENVENIDA",
+      "DECORACION: 9 FOTICOS, ROSAS DECORATIVAS, PIZARRA PERSONALIZADA Y LETRERO DE TE AMO.",
+      "ALMUERZO PARA DOS: ENTRADA, PLATO FUERTE, POSTRE Y BEBIDAS",
+      "ACCESO A PISCINA",
+      "COMODIDADES DEL CAMPINGS Y LA FINCA"
+    ],
+    "createdAt": "2026-04-17T16:29:11.678Z",
+    "updatedAt": "2026-05-11T15:42:03.914Z"
+  }
+]

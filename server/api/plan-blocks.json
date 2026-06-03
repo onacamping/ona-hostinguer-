@@ -1,0 +1,55 @@
+[
+  {
+    "id": "1769954592394",
+    "planId": "reconectar",
+    "campingIds": [
+      2,
+      3
+    ],
+    "fechaInicio": "2026-03-01T12:00:00",
+    "fechaFin": "2027-01-01T12:00:00",
+    "createdAt": "2026-02-01T14:03:12.394Z"
+  },
+  {
+    "id": "1769954610997",
+    "planId": "rutina",
+    "campingIds": [
+      2,
+      3
+    ],
+    "fechaInicio": "2026-03-01T12:00:00",
+    "fechaFin": "2027-01-01T12:00:00",
+    "createdAt": "2026-02-01T14:03:30.997Z"
+  },
+  {
+    "id": "1776443377274",
+    "planId": "cinema_love_nido_y_arbol_pasadia",
+    "campingIds": [
+      1
+    ],
+    "fechaInicio": "2026-04-17T12:00:00",
+    "fechaFin": "2027-04-17T12:00:00",
+    "createdAt": "2026-04-17T16:29:37.274Z"
+  },
+  {
+    "id": "1776443394131",
+    "planId": "nature_lunch_nido_y_arbol_pasadia",
+    "campingIds": [
+      1
+    ],
+    "fechaInicio": "2026-04-17T12:00:00",
+    "fechaFin": "2027-04-17T12:00:00",
+    "createdAt": "2026-04-17T16:29:54.131Z"
+  },
+  {
+    "id": "1778514237981",
+    "planId": "plan_pizzas_date_de_temporada",
+    "campingIds": [
+      2,
+      3
+    ],
+    "fechaInicio": "2026-05-11T12:00:00",
+    "fechaFin": "2026-08-31T12:00:00",
+    "createdAt": "2026-05-11T15:43:57.981Z"
+  }
+]

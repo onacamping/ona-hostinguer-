@@ -1,0 +1,151 @@
+[
+  {
+    "id": 1,
+    "typeId": 1,
+    "name": "Aura 1",
+    "image": "/assets/aura_new/aura_1.png",
+    "images": [
+      "/assets/aura_new/aura_2.png",
+      "/assets/aura_new/aura_3.png",
+      "/assets/aura_new/aura_4.png",
+      "/assets/aura_new/aura_5.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Aura 1: MIRADOR A LAS MONTAÑAS🌳",
+    "features": [
+      "Jacuzzi privado climatizado",
+      "Hamaca",
+      "Malla catamaran",
+      "Baño privado",
+      "Piscina",
+      "Toallas",
+      "Jabon",
+      "Shampoo."
+    ],
+    "rating": 5,
+    "videos": []
+  },
+  {
+    "id": 2,
+    "typeId": 1,
+    "name": "Aura 2",
+    "image": "/assets/aura_new/aura_1.png",
+    "images": [
+      "/assets/aura_new/aura_1.png",
+      "/assets/aura_new/aura_2.png",
+      "/assets/aura_new/aura_3.png",
+      "/assets/aura_new/aura_4.png",
+      "/assets/aura_new/aura_5.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Aura 2: MIRADOR A LAS MONTAÑAS🌳🌞",
+    "features": [
+      "Jacuzzi privado climatizado",
+      "Hamaca",
+      "Malla catamaran",
+      "Baño privado",
+      "Piscina",
+      "Toallas",
+      "Jabon",
+      "Shampoo."
+    ],
+    "rating": 5
+  },
+  {
+    "id": 3,
+    "typeId": 1,
+    "name": "Aura 3",
+    "image": "/assets/aura_new/aura_1.png",
+    "images": [
+      "/assets/aura_new/aura_1.png",
+      "/assets/aura_new/aura_2.png",
+      "/assets/aura_new/aura_3.png",
+      "/assets/aura_new/aura_4.png",
+      "/assets/aura_new/aura_5.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Aura 3: MIRADOR A LAS MONTAÑAS🌳🌞",
+    "features": [
+      "Jacuzzi privado climatizado",
+      "Hamaca",
+      "Malla catamaran",
+      "Baño privado",
+      "Piscina",
+      "Toallas",
+      "Jabon",
+      "Shampoo."
+    ],
+    "rating": 5
+  },
+  {
+    "id": 4,
+    "typeId": 1,
+    "name": "Aura 4",
+    "image": "/assets/aura_new/aura_1.png",
+    "images": [
+      "/assets/aura_new/aura_1.png",
+      "/assets/aura_new/aura_2.png",
+      "/assets/aura_new/aura_3.png",
+      "/assets/aura_new/aura_4.png",
+      "/assets/aura_new/aura_5.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Aura 4: MIRADOR A LAS MONTAÑAS🌳🌞",
+    "features": [
+      "Jacuzzi privado climatizado",
+      "Hamaca",
+      "Malla catamaran",
+      "Baño privado",
+      "Piscina",
+      "Toallas",
+      "Jabon",
+      "Shampoo."
+    ],
+    "rating": 5
+  },
+  {
+    "id": 5,
+    "typeId": 2,
+    "name": "Árbol 1 (PASADIA)",
+    "image": "/assets/image_1767377091964.png",
+    "images": [
+      "/assets/image_1767377091964.png",
+      "/assets/arbol/arbol_extra_1.png",
+      "/assets/arbol/arbol_extra_2.png",
+      "/assets/arbol/arbol_extra_3.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Árbol 1: Elevada entre las copas, una perspectiva única.",
+    "features": [
+      "Malla catamaran",
+      "Piscina",
+      "Baño zona social"
+    ],
+    "rating": 4.9
+  },
+  {
+    "id": 6,
+    "typeId": 3,
+    "name": "Nido 1",
+    "image": "/assets/image_1767376107559.png",
+    "images": [
+      "/assets/image_1767376107559.png",
+      "/assets/nido/nido_extra_1.png",
+      "/assets/nido/nido_extra_2.png",
+      "/assets/pool/pool_1.png",
+      "/assets/pool/pool_2.png"
+    ],
+    "description": "Unidad Nido 1: El refugio perfecto para una conexión profunda.",
+    "features": [
+      "Hamaca",
+      "Piscina",
+      "Baño zona social"
+    ],
+    "rating": 4.8
+  }
+]

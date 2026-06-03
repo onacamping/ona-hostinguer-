@@ -1,0 +1,128 @@
+[
+  {
+    "id": "dec_basica",
+    "title": "Decoración básica",
+    "price": 30000,
+    "description": "Flores naturales + Pizarra personalizada + Velitas.",
+    "details": [
+      "Flores naturales de la región",
+      "Pizarra personalizada con mensaje",
+      "Velitas decorativas"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": []
+  },
+  {
+    "id": "dec_premium",
+    "title": "Decoración premium",
+    "price": 70000,
+    "description": "9 fotos + luces decorativas + pizarra personalizada + flores naturales + velitas + letrero 'Te amo'.",
+    "details": [
+      "9 fotos impresas",
+      "Luces LED decorativas",
+      "Pizarra personalizada",
+      "Flores naturales",
+      "Velitas aromáticas",
+      "Letrero 'Te amo'"
+    ]
+  },
+  {
+    "id": "plan_3_dias_aura",
+    "title": "Plan adicional para 3 días (Aura)",
+    "price": 450000,
+    "description": "Disponible desde el segundo día. Incluye: noche adicional + cena estándar + desayuno estándar.",
+    "details": [
+      "Noche adicional de hospedaje",
+      "Cena estándar (segunda noche)",
+      "Desayuno estándar (tercer día)",
+      "Check-in: 3:00 pm",
+      "Check-out: 11:30 am"
+    ]
+  },
+  {
+    "id": "plan_3_dias_arbol",
+    "title": "Plan adicional para 3 días (Árbol)",
+    "price": 390000,
+    "description": "Disponible desde el segundo día. Incluye: noche adicional + cena estándar + desayuno estándar.",
+    "details": [
+      "Noche adicional de hospedaje",
+      "Cena estándar (segunda noche)",
+      "Desayuno estándar (tercer día)",
+      "Check-in: 3:00 pm",
+      "Check-out: 11:30 am"
+    ]
+  },
+  {
+    "id": "plan_3_dias_nido",
+    "title": "Plan adicional para 3 días (Nido)",
+    "price": 390000,
+    "description": "Disponible desde el segundo día. Incluye: noche adicional + cena estándar + desayuno estándar.",
+    "details": [
+      "Noche adicional de hospedaje",
+      "Cena estándar (segunda noche)",
+      "Desayuno estándar (tercer día)",
+      "Check-in: 3:00 pm",
+      "Check-out: 11:30 am"
+    ]
+  },
+  {
+    "id": "cena_romantica",
+    "title": "Cena romántica",
+    "price": 90000,
+    "description": "Cena especial para dos.",
+    "details": [
+      "Menú especial de 3 pasos",
+      "Decoración de mesa",
+      "Bebida de acompañamiento"
+    ]
+  },
+  {
+    "id": "almuerzos",
+    "title": "2 almuerzos caseros",
+    "price": 70000,
+    "description": "Deliciosos almuerzos caseros de mamá.",
+    "details": [
+      "2 platos típicos",
+      "Bebida natural",
+      "Postre casero"
+    ]
+  },
+  {
+    "id": "cine_palomitas",
+    "title": "Cine y palomitas",
+    "price": 28000,
+    "description": "Proyector y palomitas.",
+    "details": [
+      "Uso de proyector",
+      "Palomitas de maíz calientes"
+    ]
+  },
+  {
+    "id": "cine_cena",
+    "title": "Combo noche de películas",
+    "price": 50000,
+    "description": "Cine + cena para una noche perfecta.",
+    "details": [
+      "Proyector de cine",
+      "Cena temática",
+      "Palomitas"
+    ]
+  },
+  {
+    "title": "1123",
+    "price": 123123,
+    "description": "123123",
+    "details": [
+      "12312",
+      "123",
+      "123"
+    ],
+    "allowMultiple": true,
+    "multipleLabel": "",
+    "maxQuantity": 6,
+    "media": [],
+    "id": "addon_1780431695729"
+  }
+]
