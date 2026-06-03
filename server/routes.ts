@@ -685,6 +685,26 @@ export async function registerRoutes(
     }
   });
 
+  // Generic media upload endpoint for plan banners, hero, etc.
+  app.post("/api/upload/media", uploadMedia.single("media"), async (req, res) => {
+    try {
+      const file = (req as any).file;
+      if (!file) return res.status(400).json({ success: false, error: "No file uploaded" });
+      const filePath = path.join(process.cwd(), "public", "uploads", file.filename);
+      const fileBuffer = fs.readFileSync(filePath);
+      const base64 = fileBuffer.toString("base64");
+      const dataUri = `data:${file.mimetype};base64,${base64}`;
+      try { fs.unlinkSync(filePath); } catch {}
+      const result = await pool.query(
+        "INSERT INTO media_files (data, mime_type) VALUES ($1, $2) RETURNING id",
+        [dataUri, file.mimetype]
+      );
+      res.json({ success: true, url: `/api/media/${result.rows[0].id}`, mimeType: file.mimetype });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   app.post("/api/upload-addon-media", uploadMedia.array("media", 20), async (req, res) => {
     try {
       const files = (req as any).files as any[];
@@ -1116,7 +1136,7 @@ export async function registerRoutes(
 
   app.post("/api/plans", (req, res) => {
     try {
-      const { nombre, eslogan, descripcion, tipo, icono, color, precios, incluye, fechaInicio, fechaFin, preventa, desactivarOtros } = req.body;
+      const { nombre, eslogan, descripcion, tipo, icono, color, precios, incluye, fechaInicio, fechaFin, preventa, desactivarOtros, bannerImage } = req.body;
 
       if (!nombre || !eslogan || !tipo || !precios) {
         return res.status(400).json({ success: false, error: "Datos incompletos" });
@@ -1178,6 +1198,7 @@ export async function registerRoutes(
         fechaFin: tipo === "temporada" ? fechaFin : null,
         precios,
         incluye: incluye || [],
+        bannerImage: bannerImage || null,
         createdAt: new Date().toISOString()
       };
 
@@ -1193,7 +1214,7 @@ export async function registerRoutes(
   app.put("/api/plans/:id", (req, res) => {
     try {
       const { id } = req.params;
-      const { nombre, eslogan, descripcion, tipo, icono, color, precios, incluye, fechaInicio, fechaFin, preventa, estado, desactivarOtros } = req.body;
+      const { nombre, eslogan, descripcion, tipo, icono, color, precios, incluye, fechaInicio, fechaFin, preventa, estado, desactivarOtros, bannerImage } = req.body;
 
       const plans = readPlans();
       const planIndex = plans.findIndex((p: any) => p.id === id);
@@ -1245,6 +1266,7 @@ export async function registerRoutes(
         fechaFin: tipo === "temporada" ? (fechaFin ?? plans[planIndex].fechaFin) : null,
         precios: precios ?? plans[planIndex].precios,
         incluye: incluye ?? plans[planIndex].incluye,
+        bannerImage: bannerImage !== undefined ? bannerImage : (plans[planIndex].bannerImage || null),
         updatedAt: new Date().toISOString()
       };
 

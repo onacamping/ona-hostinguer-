@@ -3403,13 +3403,25 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            {/* Banner Image */}
+            {/* Banner Image Toggle */}
             <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-3">
-              <div>
-                <p className="font-bold text-sm text-stone-700">Imagen de Banner (opcional)</p>
-                <p className="text-xs text-stone-500">Si subes una imagen, la tarjeta del plan mostrará solo la imagen en lugar del contenido normal.</p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-sm text-stone-700">Modo imagen</p>
+                  <p className="text-xs text-stone-500">Actívalo para que la tarjeta del plan muestre solo una foto en vez del texto.</p>
+                </div>
+                <Switch
+                  checked={!!planForm.bannerImage}
+                  onCheckedChange={(checked) => {
+                    if (!checked) {
+                      setPlanForm({ ...planForm, bannerImage: "" });
+                    }
+                    // Si se activa, no hacemos nada aquí — el usuario debe subir la imagen
+                  }}
+                />
               </div>
-              {planForm.bannerImage ? (
+
+              {!!planForm.bannerImage && (
                 <div className="relative rounded-xl overflow-hidden h-40">
                   <img src={planForm.bannerImage} alt="Banner" className="w-full h-full object-cover" />
                   <button
@@ -3420,7 +3432,9 @@ export default function AdminDashboard() {
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-              ) : (
+              )}
+
+              {!planForm.bannerImage && (
                 <div>
                   <input type="file" id="plan-banner-upload" accept="image/*" className="hidden" onChange={async (e) => {
                     const file = e.target.files?.[0];
@@ -3431,8 +3445,15 @@ export default function AdminDashboard() {
                     try {
                       const res = await fetch("/api/upload/media", { method: "POST", body: fd });
                       const data = await res.json();
-                      if (data.url) setPlanForm({ ...planForm, bannerImage: data.url });
-                    } catch { /* silent */ } finally { setPlanBannerUploading(false); e.target.value = ""; }
+                      if (data.url) {
+                        setPlanForm({ ...planForm, bannerImage: data.url });
+                        toast({ title: "Imagen subida", description: "La imagen de banner se cargó correctamente." });
+                      } else {
+                        toast({ title: "Error", description: data.error || "No se pudo subir la imagen", variant: "destructive" });
+                      }
+                    } catch (err) {
+                      toast({ title: "Error", description: "Error de conexión al subir la imagen", variant: "destructive" });
+                    } finally { setPlanBannerUploading(false); e.target.value = ""; }
                   }} />
                   <Button type="button" variant="outline" size="sm" disabled={planBannerUploading} onClick={() => document.getElementById("plan-banner-upload")?.click()}>
                     {planBannerUploading ? <><span className="w-4 h-4 mr-1 animate-spin border-2 border-current border-t-transparent rounded-full inline-block" /> Subiendo...</> : <><Upload className="w-4 h-4 mr-1" /> Subir imagen de banner</>}
