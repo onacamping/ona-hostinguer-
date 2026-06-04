@@ -154,78 +154,6 @@ export async function registerRoutes(
     }
   });
 
-  // Auto-assign unit: find first available unit of a given typeId for a date range
-  app.get("/api/auto-assign-unit", async (req, res) => {
-    try {
-      const typeId = parseInt(req.query.typeId as string);
-      const fechaInicio = req.query.fechaInicio as string;
-      const fechaFin = req.query.fechaFin as string;
-      if (!typeId || !fechaInicio || !fechaFin) {
-        return res.status(400).json({ error: "Missing typeId, fechaInicio, or fechaFin" });
-      }
-      const startOnly = fechaInicio.substring(0, 10);
-      const endOnly = fechaFin.substring(0, 10);
-
-      // Get all units of this typeId from campings.json
-      const campingsFile = path.join(process.cwd(), "server", "api", "campings.json");
-      let allUnits: any[] = [];
-      try {
-        allUnits = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
-      } catch {}
-      const unitsOfType = allUnits.filter((c: any) => c.typeId === typeId);
-      if (unitsOfType.length === 0) {
-        return res.status(404).json({ error: "No units found for this type" });
-      }
-
-      // Get blocked dates for each unit
-      const blockedReservations = await pool.query(
-        `SELECT unidad FROM reservas WHERE estado != 3 AND SUBSTRING(fecha_inicio, 1, 10) < $1 AND SUBSTRING(fecha_fin, 1, 10) > $2`,
-        [endOnly, startOnly]
-      );
-      const occupiedUnitNames = new Set(blockedReservations.rows.map((r: any) => r.unidad));
-
-      // Check unit blocks
-      const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
-      let unitBlocks: any[] = [];
-      if (fs.existsSync(ubFile)) {
-        try {
-          unitBlocks = JSON.parse(fs.readFileSync(ubFile, "utf-8"));
-        } catch {}
-      }
-      const bookingStart = new Date(fechaInicio.includes('T') ? fechaInicio : fechaInicio + 'T12:00:00');
-      const bookingEnd = new Date(fechaFin.includes('T') ? fechaFin : fechaFin + 'T12:00:00');
-
-      // Find first available unit
-      const availableUnit = unitsOfType.find((unit: any) => {
-        // Check if unit is occupied by reservation
-        if (occupiedUnitNames.has(unit.name)) return false;
-        // Check if unit is blocked
-        const isBlocked = unitBlocks.some((block: any) => {
-          if (block.unitName !== unit.name) return false;
-          if (!block.fechaInicio && !block.fechaFin) return true;
-          const blockStart = block.fechaInicio ? new Date(block.fechaInicio) : new Date(0);
-          const blockEnd = block.fechaFin ? new Date(block.fechaFin) : new Date(9999, 11, 31);
-          return bookingStart <= blockEnd && bookingEnd >= blockStart;
-        });
-        return !isBlocked;
-      });
-
-      if (availableUnit) {
-        res.json({
-          available: true,
-          unitId: availableUnit.id,
-          unitName: availableUnit.name,
-          typeId: availableUnit.typeId,
-        });
-      } else {
-        res.json({ available: false, error: "No hay unidades disponibles para estas fechas" });
-      }
-    } catch (error: any) {
-      console.error("Auto-assign error:", error);
-      res.status(500).json({ error: error.message });
-    }
-  });
-
   app.post("/api/cancelar-reserva.php", async (req, res) => {
     const { referencia } = req.body;
     if (!referencia) return res.status(400).json({ success: false, error: "Referencia no proporcionada" });
@@ -431,119 +359,51 @@ export async function registerRoutes(
   });
 
   // Customer reservation endpoint with plan block and unit availability validation
-  // Helper: auto-assign a unit from a pool by typeId for a date range
-  async function autoAssignUnit(typeId: number, fechaInicio: string, fechaFin: string, preferredName?: string): Promise<{ unitId: number; unitName: string } | null> {
-    const startOnly = fechaInicio.substring(0, 10);
-    const endOnly = fechaFin.substring(0, 10);
-    const bookingStart = new Date(fechaInicio.includes('T') ? fechaInicio : fechaInicio + 'T12:00:00');
-    const bookingEnd = new Date(fechaFin.includes('T') ? fechaFin : fechaFin + 'T12:00:00');
-
-    // Get all units of this type from campings.json
-    let allUnits: any[] = [];
-    try {
-      allUnits = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
-    } catch {}
-    const unitsOfType = allUnits.filter((c: any) => c.typeId === typeId);
-    if (unitsOfType.length === 0) return null;
-
-    // Check existing reservations
-    const existingRes = await pool.query(
-      `SELECT unidad FROM reservas WHERE estado != 3 AND SUBSTRING(fecha_inicio, 1, 10) < $1 AND SUBSTRING(fecha_fin, 1, 10) > $2`,
-      [endOnly, startOnly]
-    );
-    const occupied = new Set(existingRes.rows.map((r: any) => r.unidad));
-
-    // Check unit blocks
-    const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
-    let unitBlocks: any[] = [];
-    if (fs.existsSync(ubFile)) {
-      try { unitBlocks = JSON.parse(fs.readFileSync(ubFile, "utf-8")); } catch {}
-    }
-
-    const availableUnits = unitsOfType.filter((u: any) => {
-      if (occupied.has(u.name)) return false;
-      const isBlocked = unitBlocks.some((block: any) => {
-        if (block.unitName !== u.name) return false;
-        if (!block.fechaInicio && !block.fechaFin) return true;
-        const blockStart = block.fechaInicio ? new Date(block.fechaInicio) : new Date(0);
-        const blockEnd = block.fechaFin ? new Date(block.fechaFin) : new Date(9999, 11, 31);
-        return bookingStart <= blockEnd && bookingEnd >= blockStart;
-      });
-      return !isBlocked;
-    });
-
-    if (availableUnits.length === 0) return null;
-
-    // If preferred name is specified and available, pick it; otherwise pick the first
-    const preferred = availableUnits.find((u: any) => u.name === preferredName);
-    const chosen = preferred || availableUnits[0];
-    return { unitId: chosen.id, unitName: chosen.name };
-  }
-
   app.post("/api/crear-reserva.php", async (req, res) => {
     const { plan, camping, unidad, fecha_inicio, fecha_fin, adicionales, total, nombre, telefono, email, cedula } = req.body;
-
+    
     if (!plan || !camping || !unidad || !fecha_inicio || !fecha_fin || !nombre || !telefono || !email) {
       return res.status(400).json({ success: false, error: "Datos incompletos" });
     }
 
     try {
-      let finalUnitName = unidad;
-      let finalUnitId = null;
-
+      // Check if the specific unit is already taken for these dates
       const startOnly = fecha_inicio.substring(0, 10);
       const endOnly = fecha_fin.substring(0, 10);
 
-      // Auto-assign unit if the submitted unit is a generic type (e.g. "Aura" not "Aura 1")
-      // Detect by checking if the unit name is NOT a specific unit name in campings.json
-      let allUnits: any[] = [];
-      try { allUnits = JSON.parse(fs.readFileSync(campingsFile, "utf-8")); } catch {}
-      const isSpecificUnit = allUnits.some((u: any) => u.name === unidad);
+      const existingBooking = await pool.query(
+        `SELECT id FROM reservas 
+         WHERE unidad = $1 AND estado != 3 
+         AND SUBSTRING(fecha_inicio, 1, 10) < $2 
+         AND SUBSTRING(fecha_fin, 1, 10) > $3`,
+        [unidad, endOnly, startOnly]
+      );
 
-      if (!isSpecificUnit) {
-        // Generic name: resolve typeId and auto-assign
-        const campingTypeMap: Record<string, number> = {};
-        allUnits.forEach((c: any) => { const fw = c.name.split(' ')[0]; if (fw && !campingTypeMap[fw]) campingTypeMap[fw] = c.typeId; });
-        const typeId = campingTypeMap[unidad] || 0;
-        if (!typeId) {
-          return res.status(400).json({ success: false, error: "Tipo de camping no reconocido" });
-        }
-        const assigned = await autoAssignUnit(typeId, fecha_inicio, fecha_fin);
-        if (!assigned) {
-          return res.status(400).json({ success: false, error: "No hay unidades disponibles para este tipo de camping en las fechas seleccionadas" });
-        }
-        finalUnitName = assigned.unitName;
-        finalUnitId = assigned.unitId;
-      } else {
-        // Specific unit name provided: validate it's free
-        const existingBooking = await pool.query(
-          `SELECT id FROM reservas WHERE unidad = $1 AND estado != 3 AND SUBSTRING(fecha_inicio, 1, 10) < $2 AND SUBSTRING(fecha_fin, 1, 10) > $3`,
-          [unidad, endOnly, startOnly]
-        );
-        if (existingBooking.rows.length > 0) {
-          return res.status(400).json({ success: false, error: "Esta unidad ya se encuentra reservada o bloqueada para las fechas seleccionadas." });
-        }
-        // Check unit blocks
-        const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
-        if (fs.existsSync(ubFile)) {
-          try {
-            const ub = JSON.parse(fs.readFileSync(ubFile, "utf-8"));
-            const bookingStart = new Date(fecha_inicio.includes('T') ? fecha_inicio : fecha_inicio + 'T12:00:00');
-            const bookingEnd = new Date(fecha_fin.includes('T') ? fecha_fin : fecha_fin + 'T12:00:00');
-            const isUnitDisabled = ub.some((block: any) => {
-              if (block.unitName !== unidad) return false;
-              if (!block.fechaInicio && !block.fechaFin) return true;
-              const blockStart = block.fechaInicio ? new Date(block.fechaInicio) : new Date(0);
-              const blockEnd = block.fechaFin ? new Date(block.fechaFin) : new Date(9999, 11, 31);
-              return bookingStart <= blockEnd && bookingEnd >= blockStart;
-            });
-            if (isUnitDisabled) {
-              return res.status(400).json({ success: false, error: "Esta unidad se encuentra inhabilitada para las fechas seleccionadas." });
-            }
-          } catch {}
-        }
-        finalUnitName = unidad;
-        finalUnitId = allUnits.find((u: any) => u.name === unidad)?.id || null;
+      if (existingBooking.rows.length > 0) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Esta unidad ya se encuentra reservada o bloqueada para las fechas seleccionadas." 
+        });
+      }
+
+      // Check for unit blocks (compare against reservation dates, not current time)
+      const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
+      if (fs.existsSync(ubFile)) {
+        try {
+          const ub = JSON.parse(fs.readFileSync(ubFile, "utf-8"));
+          const bookingStart = new Date(fecha_inicio.includes('T') ? fecha_inicio : fecha_inicio + 'T12:00:00');
+          const bookingEnd = new Date(fecha_fin.includes('T') ? fecha_fin : fecha_fin + 'T12:00:00');
+          const isUnitDisabled = ub.some((block: any) => {
+            if (block.unitName !== unidad) return false;
+            if (!block.fechaInicio && !block.fechaFin) return true;
+            const blockStart = block.fechaInicio ? new Date(block.fechaInicio) : new Date(0);
+            const blockEnd = block.fechaFin ? new Date(block.fechaFin) : new Date(9999, 11, 31);
+            return bookingStart <= blockEnd && bookingEnd >= blockStart;
+          });
+          if (isUnitDisabled) {
+            return res.status(400).json({ success: false, error: "Esta unidad se encuentra inhabilitada para las fechas seleccionadas." });
+          }
+        } catch {}
       }
 
       // Check for plan blocks
@@ -620,7 +480,7 @@ export async function registerRoutes(
         [
           plan,
           camping,
-          finalUnitName,
+          unidad,
           fechaInicioNorm,
           fechaFinNorm,
           total,
@@ -637,7 +497,7 @@ export async function registerRoutes(
         ]
       );
 
-      res.json({ success: true, referencia, assignedUnit: finalUnitName });
+      res.json({ success: true, referencia });
     } catch (error: any) {
       console.error("Reservation Error:", error);
       res.status(500).json({ success: false, error: error.message });

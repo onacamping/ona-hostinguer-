@@ -538,25 +538,6 @@ export default function BookingPage() {
     { id: 3, name: "Nido", icon: <LayoutGrid className="w-4 h-4" /> },
   ];
 
-  const unitGroups = useMemo(() => {
-    const groups = new Map<number, { name: string; firstUnitId: number; count: number; units: any[] }>();
-    campings.forEach((c) => {
-      const existing = groups.get(c.typeId);
-      if (existing) {
-        existing.count += 1;
-        existing.units.push(c);
-      } else {
-        groups.set(c.typeId, {
-          name: c.typeId === 1 ? "Aura" : c.name,
-          firstUnitId: c.id,
-          count: 1,
-          units: [c],
-        });
-      }
-    });
-    return Array.from(groups.values());
-  }, [campings]);
-
   const filteredUnits = useMemo(
     () =>
       selectedTypeId ? campings.filter((c) => c.typeId === selectedTypeId) : [],
@@ -959,7 +940,7 @@ export default function BookingPage() {
         body: JSON.stringify({
           plan: selectedPlan?.nombre || "",
           camping: campingTypes.find((t) => t.id === selectedTypeId)?.name,
-          unidad: selectedTypeId === 1 ? "Aura" : (campingTypes.find((t) => t.id === selectedTypeId)?.name || initialCamping.name),
+          unidad: initialCamping.name,
           fecha_inicio: range.from ? format(range.from, "yyyy-MM-dd") : "",
           fecha_fin: finalEndDate ? format(finalEndDate, "yyyy-MM-dd") : "",
           adicionales: selectedAddons.map(id => {
@@ -1571,10 +1552,6 @@ export default function BookingPage() {
                         const motivo = blocked
                           ? getUnitBlockMotivo(unit.name)
                           : "";
-                        // Hide Aura 2, 3, 4 — only show Aura 1 as "Aura" for the group
-                        const isAura = unit.name.split(" ")[0] === "Aura";
-                        if (isAura && unit.name !== "Aura 1") return null;
-                        const displayName = isAura ? "Aura" : unit.name;
                         return (
                           <button
                             key={unit.id}
@@ -1597,13 +1574,8 @@ export default function BookingPage() {
                                 blocked && "text-stone-400",
                               )}
                             >
-                              {displayName}
+                              {unit.name}
                             </span>
-                            {isAura && (
-                              <span className="block text-[10px] text-stone-400 mt-1">
-                                {filteredUnits.filter(u => u.name.split(" ")[0] === "Aura").length} disponibles
-                              </span>
-                            )}
                             {blocked && (
                               <div className="mt-2 flex flex-col items-center gap-1">
                                 <div className="flex items-center gap-1 text-red-500">

@@ -9,9 +9,9 @@
       "Pizarra personalizada con mensaje",
       "Velitas decorativas"
     ],
-    "allowMultiple": true,
+    "allowMultiple": false,
     "multipleLabel": "",
-    "maxQuantity": 1,
+    "maxQuantity": null,
     "media": [
       {
         "url": "/api/media/3",
