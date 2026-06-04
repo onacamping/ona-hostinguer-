@@ -538,6 +538,25 @@ export default function BookingPage() {
     { id: 3, name: "Nido", icon: <LayoutGrid className="w-4 h-4" /> },
   ];
 
+  const unitGroups = useMemo(() => {
+    const groups = new Map<number, { name: string; firstUnitId: number; count: number; units: any[] }>();
+    campings.forEach((c) => {
+      const existing = groups.get(c.typeId);
+      if (existing) {
+        existing.count += 1;
+        existing.units.push(c);
+      } else {
+        groups.set(c.typeId, {
+          name: c.typeId === 1 ? "Aura" : c.name,
+          firstUnitId: c.id,
+          count: 1,
+          units: [c],
+        });
+      }
+    });
+    return Array.from(groups.values());
+  }, [campings]);
+
   const filteredUnits = useMemo(
     () =>
       selectedTypeId ? campings.filter((c) => c.typeId === selectedTypeId) : [],
