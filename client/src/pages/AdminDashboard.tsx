@@ -1166,12 +1166,12 @@ export default function AdminDashboard() {
               <TabsTrigger value="planes" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Planes</TabsTrigger>
               <TabsTrigger value="campings" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Campings</TabsTrigger>
               <TabsTrigger value="addons" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Adicionales</TabsTrigger>
-              <TabsTrigger value="descuentos" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">🏷 Descuentos</TabsTrigger>
+              <TabsTrigger value="descuentos" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Descuentos</TabsTrigger>
               <TabsTrigger value="bloqueos" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Bloqueos</TabsTrigger>
               <TabsTrigger value="plan-blocks" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Restricciones</TabsTrigger>
               <TabsTrigger value="unit-blocks" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Inhabilitar</TabsTrigger>
-              <TabsTrigger value="inicio" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">🏔 Inicio</TabsTrigger>
-              <TabsTrigger value="tarifas" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">💰 Tarifas</TabsTrigger>
+              <TabsTrigger value="inicio" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Inicio</TabsTrigger>
+              <TabsTrigger value="tarifas" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">Tarifas</TabsTrigger>
             </TabsList>
           )}
 
