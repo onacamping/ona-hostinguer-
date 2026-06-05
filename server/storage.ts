@@ -1,14 +1,11 @@
 import { users, bookings, User, InsertUser, Booking, InsertBooking } from "@shared/schema";
 import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
-
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-  createBooking(booking: InsertBooking): Promise<Booking>;
+  createUser(user: any): Promise<User>;
+  createBooking(booking: any): Promise<Booking>;
   getCampings(): Promise<any[]>;
 }
 
@@ -31,7 +28,6 @@ export class MemStorage implements IStorage {
         features: ["Jacuzzi VIP", "Cine Privado", "Cena Especial", "Vista Premium", "Malla Catamarán", "Zona BBQ"],
         rating: 5.0
       }
-      // Add more as needed or import from a shared data file
     ];
   }
 
@@ -49,29 +45,29 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async createUser(insertUser: any): Promise<User> {
     const id = randomUUID();
-    const user: User = {
+    const user: User = { 
       id,
-      username: insertUser.username,
-      password: insertUser.password
+      username: insertUser.username || "",
+      password: insertUser.password || ""
     };
     this.users.set(id, user);
     return user;
   }
 
-  async createBooking(insertBooking: InsertBooking): Promise<Booking> {
+  async createBooking(insertBooking: any): Promise<Booking> {
     const id = randomUUID();
     const booking: Booking = {
       id,
-      campingId: insertBooking.campingId,
-      planId: insertBooking.planId,
-      customerName: insertBooking.customerName,
-      customerEmail: insertBooking.customerEmail,
-      startDate: insertBooking.startDate,
-      endDate: insertBooking.endDate,
-      totalPrice: insertBooking.totalPrice,
-      addons: insertBooking.addons ?? null
+      campingId: insertBooking.campingId || "",
+      planId: insertBooking.planId || "",
+      customerName: insertBooking.customerName || "",
+      customerEmail: insertBooking.customerEmail || "",
+      startDate: insertBooking.startDate || "",
+      endDate: insertBooking.endDate || "",
+      totalPrice: insertBooking.totalPrice || "",
+      addons: insertBooking.addons || null
     };
     this.bookings.set(id, booking);
     return booking;
