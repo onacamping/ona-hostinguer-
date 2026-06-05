@@ -21,6 +21,13 @@ export const bookings = pgTable("bookings", {
   addons: text("addons").array(),
 });
 
+// Esquemas de inserción (Zod)
+export const insertUserSchema = createInsertSchema(users);
 export const insertBookingSchema = createInsertSchema(bookings);
+
+// Tipos exportados para TypeScript
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type User = typeof users.$inferSelect;
+
 export type InsertBooking = z.infer<typeof insertBookingSchema>;
 export type Booking = typeof bookings.$inferSelect;
