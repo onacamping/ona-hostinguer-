@@ -1,4 +1,4 @@
-import { users, bookings, type User, type InsertUser, type Booking, type InsertBooking } from "@shared/schema";
+import { users, bookings, User, InsertUser, Booking, InsertBooking } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -49,14 +49,14 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async createUser(insertUser: any): Promise<User> {
+  async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
     const user: User = { ...insertUser, id };
     this.users.set(id, user);
     return user;
   }
 
-  async createBooking(insertBooking: any): Promise<Booking> {
+  async createBooking(insertBooking: InsertBooking): Promise<Booking> {
     const id = randomUUID();
     const booking: Booking = { ...insertBooking, id };
     this.bookings.set(id, booking);
