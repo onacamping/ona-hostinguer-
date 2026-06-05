@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["client/src/*"],
@@ -17,7 +16,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": false
   },
   "include": ["src", "server", "shared"]
 }
