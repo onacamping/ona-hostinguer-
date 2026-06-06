@@ -318,8 +318,8 @@ export async function registerRoutes(httpServer, app) {
             const endOnly = fecha_fin.substring(0, 10);
             const existingBooking = await pool.query(`SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND LEFT(fecha_inicio, 10) < $2 
-         AND LEFT(fecha_fin, 10) > $3`, [unidad, endOnly, startOnly]);
+         AND TO_CHAR(fecha_inicio::timestamp, 'YYYY-MM-DD') < $2 
+         AND TO_CHAR(fecha_fin::timestamp, 'YYYY-MM-DD') > $3`, [unidad, endOnly, startOnly]);
             if (existingBooking.rows.length > 0) {
                 return res.status(400).json({
                     success: false,
@@ -371,8 +371,8 @@ export async function registerRoutes(httpServer, app) {
             const endOnly = fecha_fin.substring(0, 10);
             const existingBooking = await pool.query(`SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND LEFT(fecha_inicio, 10) < $2 
-         AND LEFT(fecha_fin, 10) > $3`, [unidad, endOnly, startOnly]);
+         AND TO_CHAR(fecha_inicio::timestamp, 'YYYY-MM-DD') < $2 
+         AND TO_CHAR(fecha_fin::timestamp, 'YYYY-MM-DD') > $3`, [unidad, endOnly, startOnly]);
             if (existingBooking.rows.length > 0) {
                 return res.status(400).json({
                     success: false,
@@ -657,7 +657,7 @@ export async function registerRoutes(httpServer, app) {
                 fs.unlinkSync(filePath);
             }
             catch { }
-            const result = await pool.query("INSERT INTO media_files (data, mime_type) VALUES ($1, $2) RETURNING id", [dataUri, file.mimetype]);
+            const result = await pool.query("INSERT INTO media_files (data, mime_type, created_at) VALUES ($1, $2, NOW()) RETURNING id", [dataUri, file.mimetype]);
             res.json({ success: true, url: `/api/media/${result.rows[0].id}`, mimeType: file.mimetype });
         }
         catch (error) {
@@ -678,7 +678,7 @@ export async function registerRoutes(httpServer, app) {
                 fs.unlinkSync(filePath);
             }
             catch { }
-            const result = await pool.query("INSERT INTO media_files (data, mime_type) VALUES ($1, $2) RETURNING id", [dataUri, file.mimetype]);
+            const result = await pool.query("INSERT INTO media_files (data, mime_type, created_at) VALUES ($1, $2, NOW()) RETURNING id", [dataUri, file.mimetype]);
             res.json({ success: true, url: `/api/media/${result.rows[0].id}`, mimeType: file.mimetype });
         }
         catch (error) {
@@ -700,7 +700,7 @@ export async function registerRoutes(httpServer, app) {
                     fs.unlinkSync(filePath);
                 }
                 catch { }
-                const dbResult = await pool.query("INSERT INTO media_files (data, mime_type) VALUES ($1, $2) RETURNING id", [dataUri, file.mimetype]);
+                const dbResult = await pool.query("INSERT INTO media_files (data, mime_type, created_at) VALUES ($1, $2, NOW()) RETURNING id", [dataUri, file.mimetype]);
                 results.push({
                     url: `/api/media/${dbResult.rows[0].id}`,
                     type: file.mimetype.startsWith("video/") ? "video" : "image"
