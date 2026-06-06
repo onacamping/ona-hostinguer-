@@ -479,7 +479,7 @@ export async function registerRoutes(httpServer, app) {
                 email,
                 1, // PENDIENTE
                 referencia,
-                adicionales ? JSON.stringify(adicionales) : null,
+                adicionales ? (typeof adicionales === "string" ? adicionales : JSON.stringify(adicionales)) : null,
                 createdAt,
                 cedula || null
             ]);
