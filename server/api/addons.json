@@ -14,19 +14,15 @@
     "maxQuantity": null,
     "media": [
       {
-        "url": "/api/media/3",
+        "url": "/api/media/9",
         "type": "image"
       },
       {
-        "url": "/api/media/4",
+        "url": "/api/media/10",
         "type": "image"
       },
       {
-        "url": "/api/media/5",
-        "type": "image"
-      },
-      {
-        "url": "/api/media/6",
+        "url": "/api/media/11",
         "type": "video"
       }
     ]
