@@ -1,4 +1,4 @@
-import { users, bookings, User, InsertUser, Booking, InsertBooking } from "@shared/schema";
+import { users, bookings, User, InsertUser, Booking, InsertBooking } from "../shared/schema.js";
 import { randomUUID } from "crypto";
 
 export interface IStorage {

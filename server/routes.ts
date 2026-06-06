@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
-import { insertBookingSchema } from "../shared/schema";
+import { storage } from "./storage.js";
+import { insertBookingSchema } from "../shared/schema.js";
 import { execa } from "execa";
 import path from "path";
 import fs from "fs";

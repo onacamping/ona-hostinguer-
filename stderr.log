@@ -1,0 +1,828 @@
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/server/routes' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/server/routes'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:268:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/routes.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34)
+    at new ModuleJobSync (node:internal/modules/esm/module_job:414:17) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///home/u211298421/domains/onacampings.com/nodejs/dist/shared/schema'
+}
+
+Node.js v24.6.0
