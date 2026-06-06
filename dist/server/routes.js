@@ -318,8 +318,8 @@ export async function registerRoutes(httpServer, app) {
             const endOnly = fecha_fin.substring(0, 10);
             const existingBooking = await pool.query(`SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND LEFT(fecha_inicio, 10) < $2 
-         AND LEFT(fecha_fin, 10) > $3`, [unidad, endOnly, startOnly]);
+         AND LEFT(fecha_inicio::text, 10) < $2 
+         AND LEFT(fecha_fin::text, 10) > $3`, [unidad, endOnly, startOnly]);
             if (existingBooking.rows.length > 0) {
                 return res.status(400).json({
                     success: false,
@@ -371,8 +371,8 @@ export async function registerRoutes(httpServer, app) {
             const endOnly = fecha_fin.substring(0, 10);
             const existingBooking = await pool.query(`SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND LEFT(fecha_inicio, 10) < $2 
-         AND LEFT(fecha_fin, 10) > $3`, [unidad, endOnly, startOnly]);
+         AND LEFT(fecha_inicio::text, 10) < $2 
+         AND LEFT(fecha_fin::text, 10) > $3`, [unidad, endOnly, startOnly]);
             if (existingBooking.rows.length > 0) {
                 return res.status(400).json({
                     success: false,
