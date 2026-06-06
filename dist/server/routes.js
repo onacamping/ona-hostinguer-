@@ -274,7 +274,7 @@ export async function registerRoutes(httpServer, app) {
             }
             if (adicionales !== undefined) {
                 updates.push(`adicionales = $${paramIndex++}`);
-                params.push(adicionales !== null ? JSON.stringify(adicionales) : null);
+                params.push(adicionales !== null ? String(Array.isArray(adicionales) ? adicionales.join(",") : adicionales) : null);
             }
             if (updates.length === 0)
                 return res.json({ success: true, message: "No updates provided" });
@@ -479,7 +479,7 @@ export async function registerRoutes(httpServer, app) {
                 email,
                 1, // PENDIENTE
                 referencia,
-                adicionales ? (typeof adicionales === "string" ? adicionales : JSON.stringify(adicionales)) : null,
+                adicionales ? String(Array.isArray(adicionales) ? adicionales.join(",") : adicionales) : null,
                 createdAt,
                 cedula || null
             ]);
