@@ -826,3 +826,79 @@ Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/u211298421/domains/onaca
 }
 
 Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error: Cannot find package '/home/u211298421/domains/onacampings.com/nodejs/node_modules/express/index.js' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+    at packageResolve (node:internal/modules/esm/resolve:778:12)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error: Cannot find package '/home/u211298421/domains/onacampings.com/nodejs/node_modules/express/index.js' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+    at packageResolve (node:internal/modules/esm/resolve:778:12)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error: Cannot find package '/home/u211298421/domains/onacampings.com/nodejs/node_modules/express/index.js' imported from /home/u211298421/domains/onacampings.com/nodejs/dist/server/index.js
+    at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+    at packageResolve (node:internal/modules/esm/resolve:778:12)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0
+node:internal/modules/esm/resolve:1006
+    throw error;
+    ^
+
+Error: Cannot find package '/home/u211298421/domains/onacampings.com/nodejs/node_modules/zod/index.js' imported from /home/u211298421/domains/onacampings.com/nodejs/node_modules/drizzle-zod/index.mjs
+    at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+    at packageResolve (node:internal/modules/esm/resolve:778:12)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:735:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:771:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:794:52)
+    at #cachedResolveSync (node:internal/modules/esm/loader:754:25)
+    at ModuleLoader.getModuleJobForRequire (node:internal/modules/esm/loader:466:50)
+    at #link (node:internal/modules/esm/module_job:441:34) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v24.6.0

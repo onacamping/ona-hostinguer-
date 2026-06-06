@@ -306,8 +306,8 @@ export async function registerRoutes(
       const existingBooking = await pool.query(
         `SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND SUBSTRING(fecha_inicio, 1, 10) < $2 
-         AND SUBSTRING(fecha_fin, 1, 10) > $3`,
+         AND LEFT(fecha_inicio, 10) < $2 
+         AND LEFT(fecha_fin, 10) > $3`,
         [unidad, endOnly, startOnly]
       );
 
@@ -374,8 +374,8 @@ export async function registerRoutes(
       const existingBooking = await pool.query(
         `SELECT id FROM reservas 
          WHERE unidad = $1 AND estado != 3 
-         AND SUBSTRING(fecha_inicio, 1, 10) < $2 
-         AND SUBSTRING(fecha_fin, 1, 10) > $3`,
+         AND LEFT(fecha_inicio, 10) < $2 
+         AND LEFT(fecha_fin, 10) > $3`,
         [unidad, endOnly, startOnly]
       );
 
