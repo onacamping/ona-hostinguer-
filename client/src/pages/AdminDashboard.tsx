@@ -1082,8 +1082,9 @@ export default function AdminDashboard() {
     }
   };
 
-  const getStatusBadge = (estado: number) => {
-    switch (estado) {
+  const getStatusBadge = (estado: number | string) => {
+    const estadoNum = Number(estado);
+    switch (estadoNum) {
       case 1: return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pendiente</Badge>;
       case 2: return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Abonado</Badge>;
       case 3: return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelado</Badge>;

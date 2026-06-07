@@ -22,3 +22,15 @@
 [06-Jun-2026 13:35:40 UTC] Raw login input from STDIN: {"email":"admin@campings.com","password":"admin123"}
 [06-Jun-2026 13:35:40 UTC] Attempting login for email: admin@campings.com
 [06-Jun-2026 13:35:40 UTC] Login successful for: admin@campings.com
+[06-Jun-2026 13:45:48 UTC] Raw login input: 
+[06-Jun-2026 13:45:48 UTC] Raw login input from STDIN: {"email":"admin@campings.com","password":"admin123"}
+[06-Jun-2026 13:45:48 UTC] Attempting login for email: admin@campings.com
+[06-Jun-2026 13:45:48 UTC] Login successful for: admin@campings.com
+[06-Jun-2026 13:47:18 UTC] Raw login input: 
+[06-Jun-2026 13:47:18 UTC] Raw login input from STDIN: {"email":"admin@campings.com","password":"admin123"}
+[06-Jun-2026 13:47:18 UTC] Attempting login for email: admin@campings.com
+[06-Jun-2026 13:47:18 UTC] Login successful for: admin@campings.com
+[07-Jun-2026 01:31:13 UTC] Raw login input: 
+[07-Jun-2026 01:31:13 UTC] Raw login input from STDIN: {"email":"admin@campings.com","password":"admin123"}
+[07-Jun-2026 01:31:13 UTC] Attempting login for email: admin@campings.com
+[07-Jun-2026 01:31:13 UTC] Login successful for: admin@campings.com
