@@ -4,3 +4,5 @@ node_modules/
 *.sql
 *.sql.gz
 attached_assets/
+public/uploads/
+server/sessions/
