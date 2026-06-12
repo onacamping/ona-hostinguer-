@@ -2,7 +2,7 @@
   {
     "id": "reconectar",
     "nombre": "Plan Reconectar",
-    "eslogan": "Un momento para celebrar su historia ❗❗(MAYO Y JUNIO 759.990)🚨🏷SOLO POR ABRIL👇⏰",
+    "eslogan": "Un momento para celebrar su historia ❗❗ANTES $760.000 PRECIO EXCLUSIVO POR TIEMPO LIMITADO⏰",
     "descripcion": "✨ Una noche para volver a encontrarse.",
     "tipo": "normal",
     "icono": "Heart",
@@ -12,7 +12,7 @@
     "fechaInicio": null,
     "fechaFin": null,
     "precios": {
-      "1": 690000,
+      "1": 649990,
       "2": 1,
       "3": 1
     },
@@ -21,21 +21,20 @@
       "Michelada de bienvenida",
       "Fogata con masmelitos",
       "Decoración tipo picnic (9 foticos,petalos,velitas,pizarra personalizada,luces decorativas,letrero TE AMO)",
-      "Meditacion guiada para sanar (opcional)",
-      "Cena y velada romantica",
+      "Cartas para soltar al fuego",
+      "Cena: Entrada, plato fuerte, postre y bebida",
       "Desayuno sabor de mamá",
       "Servicio al loving",
-      "Parqueadero",
-      "Zonas verdes"
+      "Todas las comodidades del loving aura"
     ],
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-06-06T12:45:54.563Z",
-    "bannerImage": "/api/media/7"
+    "updatedAt": "2026-06-11T15:00:58.065Z",
+    "bannerImage": "/api/media/55"
   },
   {
     "id": "rutina",
     "nombre": "Plan Salir de la Rutina",
-    "eslogan": "Un momento para celebrar su historia ❗❗(MAYO Y JUNIO 712.000)🚨🏷SOLO POR ABRIL👇⏰",
+    "eslogan": "Un momento para celebrar su historia ❗❗ANTES $712.000 PRECIO POR TIEMPO LIMITADO👇⏰",
     "descripcion": "✨ Escapen juntos de la rutina.",
     "tipo": "normal",
     "icono": "Film",
@@ -45,7 +44,7 @@
     "fechaInicio": null,
     "fechaFin": null,
     "precios": {
-      "1": 640000,
+      "1": 599990,
       "2": 1,
       "3": 1
     },
@@ -58,43 +57,44 @@
       "Boletos para cine personalizados",
       "Desayuno sabor de mamá",
       "Servicio al loving",
-      "Parqueadero",
-      "Zonas verdes"
+      "Todas las comodidades loving aura"
     ],
     "createdAt": "2026-01-01T00:00:00.000Z",
-    "updatedAt": "2026-04-17T16:25:43.788Z"
+    "updatedAt": "2026-06-11T15:02:11.892Z",
+    "bannerImage": "/api/media/56"
   },
   {
     "id": "plan_pizzas_date_de_temporada",
     "nombre": "Plan spa day de temporada ",
-    "eslogan": "Escapada perfecta por tiempo limitado. 📢❗SOLO POR ABRIL 👇⏰",
-    "descripcion": "Reserva ahora y tendras decoracion incluida de parte de nosotros",
+    "eslogan": "Escapada perfecta por tiempo limitado. 📢TERMINA ESTE 30 DE JUNIO",
+    "descripcion": "Termina este 30 de junio✨🧖🏻‍♀️🧖🏻",
     "tipo": "temporada",
     "icono": "Tag",
     "color": "#db399f",
     "estado": true,
     "preventa": false,
-    "fechaInicio": "2026-05-01T12:00:00",
+    "fechaInicio": "2026-06-09T12:00:00",
     "fechaFin": "2026-06-30T12:00:00",
     "precios": {
-      "1": 799990,
+      "1": 800000,
       "2": 1,
       "3": 1
     },
     "incluye": [
       "IVA incluido",
       "Michelada de bienvenida",
-      "Fogata con masmelos y galleticas",
-      "Cine privado en el jacuzzi",
-      "Kit pizza para crear en pareja",
-      "Desayuno premium en la cama",
-      "Decoracion personalizada para tu ocasion especial (Cumpleaños,pedidas,aniversario)",
+      "Decoración para tu ocasión (Aniversario, pedida,cumpleaños)",
+      "Experiencia spa: Masajes en pareja, masajes con piedras volcánicas, aromaterapia, limpieza facial e hidratación, mascarilla corporal de chocolate.",
+      "Tabla de quesos y vino",
+      "Fogata con masmelos",
+      "Cena especial",
+      "Desayuno flotante",
       "Servicio al loving",
-      "Parqueadero",
-      "Zonas verdes"
+      "Todas las comodidades del loving aura"
     ],
     "createdAt": "2026-02-01T02:59:50.210Z",
-    "updatedAt": "2026-05-11T15:40:16.628Z"
+    "updatedAt": "2026-06-11T15:11:38.480Z",
+    "bannerImage": "/api/media/58"
   },
   {
     "id": "cinema_love_nido_y_arbol_pasadia",

@@ -3,14 +3,12 @@
     "id": 1,
     "typeId": 1,
     "name": "Aura 1",
-    "image": "/assets/aura_new/aura_1.png",
+    "image": "/api/media/13",
     "images": [
-      "/assets/aura_new/aura_2.png",
-      "/assets/aura_new/aura_3.png",
-      "/assets/aura_new/aura_4.png",
-      "/assets/aura_new/aura_5.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/api/media/14",
+      "/api/media/15",
+      "/api/media/16",
+      "/api/media/32"
     ],
     "description": "Unidad Aura 1: MIRADOR A LAS MONTAÑAS🌳",
     "features": [
@@ -21,26 +19,29 @@
       "Piscina",
       "Toallas",
       "Jabon",
-      "Shampoo."
+      "Shampoo",
+      "parqueadero."
     ],
     "rating": 5,
     "videos": [
-      "/api/media/7"
+      "/api/media/7",
+      "/api/media/17",
+      "/api/media/18",
+      "/api/media/19"
     ]
   },
   {
     "id": 2,
     "typeId": 1,
     "name": "Aura 2",
-    "image": "/assets/aura_new/aura_1.png",
+    "image": "/api/media/27",
     "images": [
-      "/assets/aura_new/aura_1.png",
-      "/assets/aura_new/aura_2.png",
-      "/assets/aura_new/aura_3.png",
-      "/assets/aura_new/aura_4.png",
-      "/assets/aura_new/aura_5.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/api/media/21",
+      "/api/media/23",
+      "/api/media/24",
+      "/api/media/33",
+      "/api/media/42",
+      "/api/media/43"
     ],
     "description": "Unidad Aura 2: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -51,23 +52,25 @@
       "Piscina",
       "Toallas",
       "Jabon",
-      "Shampoo."
+      "Shampoo",
+      "parqueadero."
     ],
-    "rating": 5
+    "rating": 5,
+    "videos": [
+      "/api/media/25",
+      "/api/media/44"
+    ]
   },
   {
     "id": 3,
     "typeId": 1,
     "name": "Aura 3",
-    "image": "/assets/aura_new/aura_1.png",
+    "image": "/api/media/29",
     "images": [
-      "/assets/aura_new/aura_1.png",
-      "/assets/aura_new/aura_2.png",
-      "/assets/aura_new/aura_3.png",
-      "/assets/aura_new/aura_4.png",
-      "/assets/aura_new/aura_5.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/api/media/34",
+      "/api/media/35",
+      "/api/media/38",
+      "/api/media/41"
     ],
     "description": "Unidad Aura 3: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -78,23 +81,25 @@
       "Piscina",
       "Toallas",
       "Jabon",
-      "Shampoo."
+      "Shampoo",
+      "parqueadero."
     ],
-    "rating": 5
+    "rating": 5,
+    "videos": [
+      "/api/media/36",
+      "/api/media/37"
+    ]
   },
   {
     "id": 4,
     "typeId": 1,
     "name": "Aura 4",
-    "image": "/assets/aura_new/aura_1.png",
+    "image": "/api/media/45",
     "images": [
-      "/assets/aura_new/aura_1.png",
-      "/assets/aura_new/aura_2.png",
-      "/assets/aura_new/aura_3.png",
-      "/assets/aura_new/aura_4.png",
-      "/assets/aura_new/aura_5.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/api/media/52",
+      "/api/media/53",
+      "",
+      "/api/media/54"
     ],
     "description": "Unidad Aura 4: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -105,9 +110,15 @@
       "Piscina",
       "Toallas",
       "Jabon",
-      "Shampoo."
+      "Shampoo",
+      "parqueadero."
     ],
-    "rating": 5
+    "rating": 5,
+    "videos": [
+      "/api/media/48",
+      "/api/media/49",
+      "/api/media/51"
+    ]
   },
   {
     "id": 5,
@@ -118,9 +129,10 @@
       "/assets/image_1767377091964.png",
       "/assets/arbol/arbol_extra_1.png",
       "/assets/arbol/arbol_extra_2.png",
-      "/assets/arbol/arbol_extra_3.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/assets/pool/pool_2.png",
+      "/api/media/90",
+      "/api/media/91",
+      "/api/media/92"
     ],
     "description": "Unidad Árbol 1: Elevada entre las copas, una perspectiva única.",
     "features": [
@@ -128,19 +140,19 @@
       "Piscina",
       "Baño zona social"
     ],
-    "rating": 4.9
+    "rating": 4.9,
+    "videos": []
   },
   {
     "id": 6,
     "typeId": 3,
-    "name": "Nido 1",
-    "image": "/assets/image_1767376107559.png",
+    "name": "Nido 1 (PASADÍA)",
+    "image": "/api/media/84",
     "images": [
-      "/assets/image_1767376107559.png",
       "/assets/nido/nido_extra_1.png",
-      "/assets/nido/nido_extra_2.png",
-      "/assets/pool/pool_1.png",
-      "/assets/pool/pool_2.png"
+      "/api/media/85",
+      "/api/media/86",
+      "/api/media/87"
     ],
     "description": "Unidad Nido 1: El refugio perfecto para una conexión profunda.",
     "features": [
@@ -148,6 +160,7 @@
       "Piscina",
       "Baño zona social"
     ],
-    "rating": 4.8
+    "rating": 4.8,
+    "videos": []
   }
 ]

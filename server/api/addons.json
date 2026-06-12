@@ -1,28 +1,26 @@
 [
   {
     "id": "dec_basica",
-    "title": "Decoración básica",
-    "price": 30000,
-    "description": "Flores naturales + Pizarra personalizada + Velitas.",
+    "title": "Decoración Cumpleaños",
+    "price": 60000,
+    "description": "Tarta vasca+velitas+dos copas de vino+letrero HBD+luces decorativas.",
     "details": [
-      "Flores naturales de la región",
-      "Pizarra personalizada con mensaje",
-      "Velitas decorativas"
+      "Tarta vasca para dos",
+      "Velitas",
+      "Dos copas de vino",
+      "Letrero HBD",
+      "Luces decorativas"
     ],
     "allowMultiple": false,
     "multipleLabel": "",
     "maxQuantity": null,
     "media": [
       {
-        "url": "/api/media/9",
+        "url": "/api/media/60",
         "type": "image"
       },
       {
-        "url": "/api/media/10",
-        "type": "image"
-      },
-      {
-        "url": "/api/media/11",
+        "url": "/api/media/61",
         "type": "video"
       }
     ]
@@ -30,15 +28,35 @@
   {
     "id": "dec_premium",
     "title": "Decoración premium",
-    "price": 70000,
-    "description": "9 fotos + luces decorativas + pizarra personalizada + flores naturales + velitas + letrero 'Te amo'.",
+    "price": 90000,
+    "description": "9 fotos + luces decorativas + pizarra personalizada + flores artificiales + velitas +luces decorativas + Globos rojos+Globo personalizado+letrero 'Te amo'.",
     "details": [
       "9 fotos impresas",
       "Luces LED decorativas",
       "Pizarra personalizada",
       "Flores naturales",
       "Velitas aromáticas",
-      "Letrero 'Te amo'"
+      "Letrero 'Te amo'",
+      "Luces decorativas",
+      "Globos rojos",
+      "Globo personalizado"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/64",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/65",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/66",
+        "type": "image"
+      }
     ]
   },
   {
@@ -49,93 +67,177 @@
     "details": [
       "Noche adicional de hospedaje",
       "Cena estándar (segunda noche)",
-      "Desayuno estándar (tercer día)",
-      "Check-in: 3:00 pm",
-      "Check-out: 11:30 am"
-    ]
-  },
-  {
-    "id": "plan_3_dias_arbol",
-    "title": "Plan adicional para 3 días (Árbol)",
-    "price": 390000,
-    "description": "Disponible desde el segundo día. Incluye: noche adicional + cena estándar + desayuno estándar.",
-    "details": [
-      "Noche adicional de hospedaje",
-      "Cena estándar (segunda noche)",
-      "Desayuno estándar (tercer día)",
-      "Check-in: 3:00 pm",
-      "Check-out: 11:30 am"
-    ]
-  },
-  {
-    "id": "plan_3_dias_nido",
-    "title": "Plan adicional para 3 días (Nido)",
-    "price": 390000,
-    "description": "Disponible desde el segundo día. Incluye: noche adicional + cena estándar + desayuno estándar.",
-    "details": [
-      "Noche adicional de hospedaje",
-      "Cena estándar (segunda noche)",
-      "Desayuno estándar (tercer día)",
-      "Check-in: 3:00 pm",
-      "Check-out: 11:30 am"
+      "Desayuno estándar (tercer día)"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/67",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/68",
+        "type": "video"
+      },
+      {
+        "url": "/api/media/69",
+        "type": "video"
+      }
     ]
   },
   {
     "id": "cena_romantica",
     "title": "Cena romántica",
     "price": 90000,
-    "description": "Cena especial para dos.",
+    "description": "Cena especial para dos: Entrada, plato fuerte y postre, decoración en la mesa.",
     "details": [
-      "Menú especial de 3 pasos",
-      "Decoración de mesa",
-      "Bebida de acompañamiento"
-    ]
-  },
-  {
-    "id": "almuerzos",
-    "title": "2 almuerzos caseros",
-    "price": 70000,
-    "description": "Deliciosos almuerzos caseros de mamá.",
-    "details": [
-      "2 platos típicos",
-      "Bebida natural",
-      "Postre casero"
+      "Entrada de mini empanaditas",
+      "Plato fuerte: Rollitos de pollo con queso y tocineta, papas en casquitos, ensalada.",
+      "Postre: Mini tarta vasca",
+      "Dos bebidas"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/70",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/71",
+        "type": "video"
+      },
+      {
+        "url": "/api/media/72",
+        "type": "image"
+      }
     ]
   },
   {
     "id": "cine_palomitas",
     "title": "Cine y palomitas",
-    "price": 28000,
-    "description": "Proyector y palomitas.",
+    "price": 30000,
+    "description": "Cine con palmitas dulces y saladas.",
     "details": [
-      "Uso de proyector",
-      "Palomitas de maíz calientes"
+      "Palomitas dulces y saladas",
+      "Cine privado"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/73",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/74",
+        "type": "video"
+      }
     ]
   },
   {
     "id": "cine_cena",
     "title": "Combo noche de películas",
     "price": 50000,
-    "description": "Cine + cena para una noche perfecta.",
+    "description": "Cena para dos: Perros calientes+Papas a la francesa+Nachos para compartir+Palomitas+Bebida+ Cine privado.",
     "details": [
-      "Proyector de cine",
-      "Cena temática",
-      "Palomitas"
+      "Cine privado en el jacuzzi",
+      "Cena noche de peliculas"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/75",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/76",
+        "type": "image"
+      }
     ]
   },
   {
-    "title": "1123",
-    "price": 123123,
-    "description": "123123",
+    "title": "DECORACIÓN PEDIDA DE NOVIAZGO O MATRIMONIO",
+    "price": 120000,
+    "description": "Letrero iluminado, 9 fotos impresas delos dos, Globo personalizado,Pétalos artificiales, Velitas, Faroles, Luces decorativas.",
     "details": [
-      "12312",
-      "123",
-      "123"
+      "Letrero iluminado",
+      "9 fotos impresas",
+      "Globo personalizado",
+      "Petalos artificiales",
+      "Velitas",
+      "Faroles",
+      "Luces decorativas"
     ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/77",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/78",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/79",
+        "type": "image"
+      }
+    ],
+    "id": "addon_1780431695729"
+  },
+  {
+    "title": "Almuerzos para dos ",
+    "price": 70000,
+    "description": "Almuerzo del día de nuestra cheff olguis.",
+    "details": [],
     "allowMultiple": true,
     "multipleLabel": "",
-    "maxQuantity": 6,
-    "media": [],
-    "id": "addon_1780431695729"
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/80",
+        "type": "image"
+      }
+    ],
+    "id": "addon_1781208154835"
+  },
+  {
+    "title": "MASAJES EN PAREJA",
+    "price": 250000,
+    "description": "Masajes para dos: Aromaterapia, masajes, masajes con piedras volcánicas, Limpieza facial e hidratación, mascarilla corporal de chocolate. Duración 1h 30min",
+    "details": [
+      "AROMATERAPIA",
+      "MASAJES",
+      "MASAJES CON PIEDRAS VOLCANICAS",
+      "LIMPIEZA FACIAL E HIDRATACION",
+      "MASCARILLA CORPORAL DE CHOCOLATE"
+    ],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/81",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/82",
+        "type": "image"
+      },
+      {
+        "url": "/api/media/83",
+        "type": "video"
+      }
+    ],
+    "id": "addon_1781209793672"
   }
 ]
