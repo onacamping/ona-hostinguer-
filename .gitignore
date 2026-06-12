@@ -6,3 +6,6 @@ node_modules/
 attached_assets/
 public/uploads/
 server/sessions/
+console.log
+error_log
+stderr.log
