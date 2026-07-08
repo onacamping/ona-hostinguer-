@@ -9,3 +9,5 @@ server/sessions/
 console.log
 error_log
 stderr.log
+console.log
+error_log

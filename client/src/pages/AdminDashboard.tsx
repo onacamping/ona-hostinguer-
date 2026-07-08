@@ -887,8 +887,13 @@ export default function AdminDashboard() {
     let addonIds: string[] = [];
     if (Array.isArray(rawAdicionales)) {
       addonIds = rawAdicionales;
-    } else if (typeof rawAdicionales === "string") {
-      try { addonIds = JSON.parse(rawAdicionales); } catch { addonIds = []; }
+    } else if (typeof rawAdicionales === "string" && rawAdicionales.trim().length > 0) {
+      const trimmed = rawAdicionales.trim();
+      if (trimmed.startsWith("[")) {
+        try { addonIds = JSON.parse(trimmed); } catch { addonIds = trimmed.split(","); }
+      } else {
+        addonIds = trimmed.split(",");
+      }
     }
     const parsedAddons = addonIds.map((entry: string) => {
       const [addonId, qty] = entry.split(":");
