@@ -890,7 +890,17 @@ export default function AdminDashboard() {
     } else if (typeof rawAdicionales === "string") {
       try { addonIds = JSON.parse(rawAdicionales); } catch { addonIds = []; }
     }
-    const addonNames = dynamicAddons.filter((a: any) => addonIds.includes(a.id)).map((a: any) => a.title);
+    const parsedAddons = addonIds.map((entry: string) => {
+      const [addonId, qty] = entry.split(":");
+      return { addonId, qty: qty ? parseInt(qty) : 1 };
+    });
+    const addonNames = parsedAddons
+      .map(({ addonId, qty }) => {
+        const addon = dynamicAddons.find((a: any) => a.id === addonId);
+        if (!addon) return null;
+        return qty > 1 ? `${addon.title} x${qty}` : addon.title;
+      })
+      .filter((n) => Boolean(n));
     const cedulaRow = reserva.cedula ? 1 : 0;
     const extraHeight = addonNames.length > 0 ? 60 + addonNames.length * 28 : 0;
     const canvasHeight = 1000 + extraHeight + cedulaRow * 45;
@@ -1297,6 +1307,9 @@ export default function AdminDashboard() {
                           <div className="flex flex-col">
                             <span className="font-medium text-stone-900">{reserva.nombre}</span>
                             <span className="text-[10px] uppercase tracking-tighter text-stone-400">{reserva.plan}</span>
+                            {reserva.cedula && (
+                              <span className="text-[10px] text-stone-400">CC: {reserva.cedula}</span>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>

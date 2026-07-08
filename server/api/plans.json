@@ -65,36 +65,35 @@
   },
   {
     "id": "plan_pizzas_date_de_temporada",
-    "nombre": "Plan spa day de temporada ",
+    "nombre": "Plan aventura de temporada ",
     "eslogan": "Escapada perfecta por tiempo limitado. 📢TERMINA ESTE 30 DE JUNIO",
-    "descripcion": "Termina este 30 de junio✨🧖🏻‍♀️🧖🏻",
+    "descripcion": "PRECIO EN PREVENTA",
     "tipo": "temporada",
-    "icono": "Tag",
+    "icono": "Mountain",
     "color": "#db399f",
     "estado": true,
     "preventa": false,
-    "fechaInicio": "2026-06-09T12:00:00",
-    "fechaFin": "2026-06-30T12:00:00",
+    "fechaInicio": "2026-07-01T12:00:00",
+    "fechaFin": "2026-08-31T12:00:00",
     "precios": {
-      "1": 800000,
+      "1": 799990,
       "2": 1,
       "3": 1
     },
     "incluye": [
       "IVA incluido",
       "Michelada de bienvenida",
-      "Decoración para tu ocasión (Aniversario, pedida,cumpleaños)",
-      "Experiencia spa: Masajes en pareja, masajes con piedras volcánicas, aromaterapia, limpieza facial e hidratación, mascarilla corporal de chocolate.",
-      "Tabla de quesos y vino",
-      "Fogata con masmelos",
-      "Cena especial",
-      "Desayuno flotante",
+      "Recorrido en cuatrimoto en pista y termina en una quebrada natural",
+      "Cine privado en el Jacuzzi",
+      "Fogata con masmelitos",
+      "Cena romántica para dos",
+      "Desayuno en la cama",
       "Servicio al loving",
-      "Todas las comodidades del loving aura"
+      "Todas las comodidades el loving aura"
     ],
     "createdAt": "2026-02-01T02:59:50.210Z",
-    "updatedAt": "2026-06-11T15:11:38.480Z",
-    "bannerImage": "/api/media/58"
+    "updatedAt": "2026-06-30T20:21:00.628Z",
+    "bannerImage": "/api/media/93"
   },
   {
     "id": "cinema_love_nido_y_arbol_pasadia",

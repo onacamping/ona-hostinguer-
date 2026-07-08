@@ -23,12 +23,7 @@
       "parqueadero."
     ],
     "rating": 5,
-    "videos": [
-      "/api/media/7",
-      "/api/media/17",
-      "/api/media/18",
-      "/api/media/19"
-    ]
+    "videos": []
   },
   {
     "id": 2,

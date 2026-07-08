@@ -393,6 +393,7 @@ export default function BookingPage() {
             ? format(range.to, "dd 'de' MMMM yyyy", { locale: es })
             : "---",
         },
+        ...(discountAmount > 0 ? [{ label: `Descuento (${discountCode.toUpperCase()})`, value: `− $${discountAmount.toLocaleString()} COP` }] : []),
         { label: "Total", value: `$${total.toLocaleString()} COP` },
         { label: "Anticipo (35%)", value: `$${deposit.toLocaleString()} COP` },
         {
