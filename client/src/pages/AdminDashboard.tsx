@@ -160,7 +160,7 @@ export default function AdminDashboard() {
       // El servidor envía YYYY-MM-DD o YYYY-MM-DDT12:00:00
       const start = (r.fecha_inicio || "").substring(0, 10);
       const end = (r.fecha_fin || "").substring(0, 10);
-      return dateStr >= start && dateStr < end && r.estado !== 3; // Not cancelled
+      return dateStr >= start && dateStr < end && r.estado !== 3 && r.estado !== 5; // Not cancelled or hidden
     });
 
     if (activeReservas.length === 0) return { status: "free" as const, color: "bg-green-100 text-green-700", label: "Libre" };
@@ -1104,6 +1104,7 @@ export default function AdminDashboard() {
       case 2: return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Abonado</Badge>;
       case 3: return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelado</Badge>;
       case 4: return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Completado</Badge>;
+      case 5: return <Badge variant="outline" className="bg-gray-100 text-gray-500 border-gray-300">Oculto</Badge>;
       default: return <Badge variant="outline">Desconocido</Badge>;
     }
   };
@@ -1284,7 +1285,7 @@ export default function AdminDashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredReservas.filter(r => r.plan !== "BLOQUEO ADMIN" && r.estado !== 5).map((reserva) => (
+                    {filteredReservas.filter(r => r.plan !== "BLOQUEO ADMIN" && (statusFilter === "5" || r.estado !== 5)).map((reserva) => (
                       <TableRow 
                         key={reserva.id} 
                         className={cn("hover:bg-stone-50/50 cursor-pointer", selectedReservas.includes(reserva.id) && "bg-stone-50")}
@@ -2134,7 +2135,7 @@ export default function AdminDashboard() {
                         const start = (r.fecha_inicio || "").substring(0, 10);
                         const end = (r.fecha_fin || "").substring(0, 10);
                         // Usar comparación de strings que es segura para fechas YYYY-MM-DD
-                        return dateStr >= start && dateStr < end && r.estado !== 3;
+                        return dateStr >= start && dateStr < end && r.estado !== 3 && r.estado !== 5;
                       });
                       if (dayReservas.length > 0) {
                         setSelectedDayReservas(dayReservas);
@@ -3581,7 +3582,8 @@ export default function AdminDashboard() {
                 {[
                   { id: "normal", label: "Normal", desc: "Plan estándar sin límite de fechas" },
                   { id: "temporada", label: "Temporada", desc: "Plan con fechas específicas (máx 2 meses)" },
-                  { id: "preventa", label: "Preventa", desc: "Plan con badge de preventa visible" }
+                  { id: "preventa", label: "Preventa", desc: "Plan con badge de preventa visible" },
+                  { id: "pasadia", label: "Pasadía", desc: "Solo bloquea un día, sin noche" }
                 ].map(tipo => (
                   <button
                     key={tipo.id}

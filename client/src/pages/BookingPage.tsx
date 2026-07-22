@@ -153,7 +153,7 @@ export default function BookingPage() {
     nombre: string;
     eslogan: string;
     descripcion: string;
-    tipo: "normal" | "temporada" | "preventa";
+    tipo: "normal" | "temporada" | "preventa" | "pasadia";
     icono: string;
     color: string;
     estado: boolean;
@@ -1645,10 +1645,9 @@ export default function BookingPage() {
                                         locale: es,
                                       })}{" "}
                                       {selectedTypeId === 1 && (
-                                        <>
-                                          ({days} Días / {nights}{" "}
-                                          {nights === 1 ? "Noche" : "Noches"})
-                                        </>
+                                        selectedPlan?.tipo === "pasadia"
+                                          ? <> Pasadía</>
+                                          : <>({days} Días / {nights}{" "}{nights === 1 ? "Noche" : "Noches"})</>
                                       )}
                                     </span>
                                   ) : (
@@ -2255,8 +2254,9 @@ export default function BookingPage() {
                       <span className="text-xs text-accent font-bold uppercase tracking-wider">
                         {initialCamping.name}
                         {initialCamping.typeId === 1 && (
-                          <> ({days} Días / {nights}{" "}
-                          {nights === 1 ? "Noche" : "Noches"})</>
+                          selectedPlan?.tipo === "pasadia"
+                            ? <> Pasadía</>
+                            : <> ({days} Días / {nights}{" "}{nights === 1 ? "Noche" : "Noches"})</>
                         )}
                       </span>
                     ) : (
