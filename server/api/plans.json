@@ -66,14 +66,14 @@
   {
     "id": "plan_pizzas_date_de_temporada",
     "nombre": "Plan aventura de temporada ",
-    "eslogan": "Escapada perfecta por tiempo limitado. 📢TERMINA ESTE 30 DE JUNIO",
-    "descripcion": "PRECIO EN PREVENTA",
+    "eslogan": "Escapada perfecta por tiempo limitado. ",
+    "descripcion": "PLAN SOLO POR JULIO-AGOSTO",
     "tipo": "temporada",
     "icono": "Mountain",
     "color": "#db399f",
     "estado": true,
     "preventa": false,
-    "fechaInicio": "2026-07-01T12:00:00",
+    "fechaInicio": "2026-07-15T12:00:00",
     "fechaFin": "2026-08-31T12:00:00",
     "precios": {
       "1": 799990,
@@ -92,7 +92,7 @@
       "Todas las comodidades el loving aura"
     ],
     "createdAt": "2026-02-01T02:59:50.210Z",
-    "updatedAt": "2026-06-30T20:21:00.628Z",
+    "updatedAt": "2026-07-15T17:36:36.048Z",
     "bannerImage": "/api/media/93"
   },
   {

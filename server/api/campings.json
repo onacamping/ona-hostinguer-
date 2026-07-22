@@ -60,12 +60,13 @@
     "id": 3,
     "typeId": 1,
     "name": "Aura 3",
-    "image": "/api/media/29",
+    "image": "/api/media/94",
     "images": [
-      "/api/media/34",
-      "/api/media/35",
-      "/api/media/38",
-      "/api/media/41"
+      "/api/media/95",
+      "/api/media/96",
+      "/api/media/97",
+      "/api/media/98",
+      "/api/media/101"
     ],
     "description": "Unidad Aura 3: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -93,8 +94,8 @@
     "images": [
       "/api/media/52",
       "/api/media/53",
-      "",
-      "/api/media/54"
+      "/api/media/99",
+      "/api/media/100"
     ],
     "description": "Unidad Aura 4: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -112,7 +113,8 @@
     "videos": [
       "/api/media/48",
       "/api/media/49",
-      "/api/media/51"
+      "/api/media/51",
+      "/api/media/102"
     ]
   },
   {
