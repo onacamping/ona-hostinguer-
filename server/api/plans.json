@@ -100,7 +100,7 @@
     "nombre": "CINEMA LOVE (PASADIA)",
     "eslogan": "ESCAPADA 2:00PM A 8:00PM ",
     "descripcion": "",
-    "tipo": "normal",
+    "tipo": "pasadia",
     "icono": "Sparkles",
     "color": "#8B5A2B",
     "estado": true,
@@ -121,14 +121,15 @@
       "ACCESO A PISCINA"
     ],
     "createdAt": "2026-04-17T16:27:52.749Z",
-    "updatedAt": "2026-05-11T15:41:11.287Z"
+    "updatedAt": "2026-07-22T15:35:57.393Z",
+    "bannerImage": null
   },
   {
     "id": "nature_lunch_nido_y_arbol_pasadia",
     "nombre": "NATURE LUNCH (PASADIA)",
     "eslogan": "ESCAPADA DE 11:00AM  5:00PM ",
     "descripcion": "",
-    "tipo": "normal",
+    "tipo": "pasadia",
     "icono": "Sparkles",
     "color": "#8B5A2B",
     "estado": true,
@@ -150,6 +151,7 @@
       "COMODIDADES DEL CAMPINGS Y LA FINCA"
     ],
     "createdAt": "2026-04-17T16:29:11.678Z",
-    "updatedAt": "2026-05-11T15:42:03.914Z"
+    "updatedAt": "2026-07-22T15:36:18.840Z",
+    "bannerImage": null
   }
 ]
