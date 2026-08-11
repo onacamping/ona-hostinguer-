@@ -245,6 +245,7 @@ export default function AdminDashboard() {
     features: [] as string[],
     typeId: 1,
     rating: 5,
+    visible: true,
     newFeature: ""
   });
 
@@ -954,7 +955,8 @@ export default function AdminDashboard() {
       { label: "Huésped", value: reserva.nombre || "---" },
       ...(reserva.cedula ? [{ label: "Cédula", value: reserva.cedula }] : []),
       { label: "Plan", value: reserva.plan || "---" },
-      { label: "Alojamiento", value: reserva.unidad || "---" },
+      { label: "Alojamiento", value: reserva.camping || "---" },
+      { label: "Unidad asignada", value: reserva.unidad || "---" },
       { label: "Check-in", value: formatDate(reserva.fecha_inicio) },
       { label: "Check-out", value: formatDate(reserva.fecha_fin) },
       { label: "Total", value: `$${(reserva.total || 0).toLocaleString()} COP` },
@@ -1360,7 +1362,7 @@ export default function AdminDashboard() {
                   className="bg-primary text-white hover:bg-primary/90 rounded-xl px-4 py-2 text-sm font-medium"
                   onClick={() => {
                     setEditingCamping(null);
-                    setCampingForm({ name: "", description: "", image: "", images: [], videos: [], features: [], typeId: 1, rating: 5, newFeature: "" });
+                    setCampingForm({ name: "", description: "", image: "", images: [], videos: [], features: [], typeId: 1, rating: 5, visible: true, newFeature: "" });
                     setIsCampingModalOpen(true);
                   }}
                 >
@@ -1379,10 +1381,18 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                       <p className="text-sm text-stone-500 line-clamp-2 mt-1">{c.description}</p>
+                      <div className="mt-3">
+                        <span className={cn(
+                          "rounded-full px-2.5 py-1 text-xs font-semibold",
+                          c.visible !== false ? "bg-green-100 text-green-700" : "bg-stone-100 text-stone-500"
+                        )}>
+                          {c.visible !== false ? "Visible en reservas" : "Oculta en reservas"}
+                        </span>
+                      </div>
                       <div className="flex gap-2 mt-2">
                         <Button variant="outline" size="sm" onClick={() => {
                           setEditingCamping(c);
-                          setCampingForm({ ...c, images: c.images || [], videos: c.videos || [], newFeature: "" });
+                          setCampingForm({ ...c, visible: c.visible !== false, images: c.images || [], videos: c.videos || [], newFeature: "" });
                           setIsCampingModalOpen(true);
                         }}><Edit className="w-4 h-4 mr-1" /> Editar</Button>
                         <Button variant="outline" size="sm" className="border-red-200 text-red-500 hover:bg-red-50" onClick={() => handleDeleteCamping(c.id)}>
@@ -2217,6 +2227,17 @@ export default function AdminDashboard() {
             <div className="space-y-2">
               <Label>Características (Separadas por coma)</Label>
               <Input value={campingForm.features.join(", ")} onChange={e => setCampingForm({...campingForm, features: e.target.value.split(",").map(f => f.trim())})} />
+            </div>
+            <div className="flex items-center justify-between rounded-2xl border border-stone-200 bg-stone-50/60 p-4">
+              <div>
+                <Label className="font-semibold">Visible en reservas públicas</Label>
+                <p className="text-xs text-stone-500 mt-1">Si está desactivado, los clientes no podrán verla ni reservarla.</p>
+              </div>
+              <Switch
+                checked={campingForm.visible !== false}
+                onCheckedChange={(visible) => setCampingForm({ ...campingForm, visible })}
+                aria-label="Visible en reservas públicas"
+              />
             </div>
             <div className="space-y-2">
               <Label>Imagen Principal</Label>

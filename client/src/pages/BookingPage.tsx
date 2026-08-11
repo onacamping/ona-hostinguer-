@@ -76,6 +76,7 @@ export default function BookingPage() {
     return null;
   });
   const [campings, setCampings] = useState<any[]>(staticCampings);
+  const [autoUnitUnavailable, setAutoUnitUnavailable] = useState(false);
   const [dynamicAddons, setDynamicAddons] = useState<any[]>(staticAddons);
   const [tarifas, setTarifas] = useState<any>(null);
 
@@ -380,7 +381,11 @@ export default function BookingPage() {
         { label: "Referencia", value: bookingRef || "---" },
         { label: "Huésped", value: fullName },
         { label: "Plan", value: selectedPlan?.nombre || "---" },
-        { label: "Alojamiento", value: initialCamping?.name || "---" },
+        {
+          label: "Alojamiento",
+          value: campingTypes.find((type) => type.id === selectedTypeId)?.name || "---",
+        },
+        { label: "Unidad asignada", value: initialCamping?.name || "---" },
         {
           label: "Check-in",
           value: range.from
@@ -541,8 +546,10 @@ export default function BookingPage() {
 
   const filteredUnits = useMemo(
     () =>
-      selectedTypeId ? campings.filter((c) => c.typeId === selectedTypeId) : [],
-    [selectedTypeId],
+      selectedTypeId
+        ? campings.filter((c) => c.typeId === selectedTypeId && c.visible !== false)
+        : [],
+    [selectedTypeId, campings],
   );
 
   const initialCamping = useMemo(
@@ -575,6 +582,52 @@ export default function BookingPage() {
         .catch((err) => console.error("Error fetching occupation:", err));
     }
   }, [selectedCampingId]);
+
+  // When a type has one public unit, select it and skip the unit step.
+  useEffect(() => {
+    if (!selectedTypeId) return;
+    if (filteredUnits.length === 1) {
+      const onlyUnit = filteredUnits[0];
+      setSelectedCampingId(onlyUnit.id);
+      setAutoUnitUnavailable(false);
+    } else if (
+      selectedCampingId &&
+      !filteredUnits.some((unit) => unit.id === selectedCampingId)
+    ) {
+      setSelectedCampingId(null);
+      setAutoUnitUnavailable(false);
+    }
+  }, [selectedTypeId, filteredUnits, selectedCampingId]);
+
+  // Re-check the automatically assigned unit after dates are chosen.
+  useEffect(() => {
+    if (filteredUnits.length !== 1 || !selectedCampingId || !range.from || !range.to) {
+      setAutoUnitUnavailable(false);
+      return;
+    }
+    fetch(`/api/get-ocupacion.php?unidadId=${selectedCampingId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!Array.isArray(data)) return;
+        const start = range.from!;
+        const end = range.to!;
+        const unavailable = isUnitBlocked(filteredUnits[0].name) || data.some((booking: any) => {
+          const bookingStart = new Date(
+            booking.fecha_inicio.includes("T")
+              ? booking.fecha_inicio
+              : booking.fecha_inicio + "T12:00:00",
+          );
+          const bookingEnd = new Date(
+            booking.fecha_fin.includes("T")
+              ? booking.fecha_fin
+              : booking.fecha_fin + "T12:00:00",
+          );
+          return start < bookingEnd && end > bookingStart;
+        });
+        setAutoUnitUnavailable(unavailable);
+      })
+      .catch(() => setAutoUnitUnavailable(false));
+  }, [filteredUnits, selectedCampingId, range.from, range.to, unitBlocks]);
 
   const saveBooking = (newBooking: { from: Date; to: Date }) => {
     if (!selectedCampingId) return;
@@ -850,6 +903,7 @@ export default function BookingPage() {
         return !selectedCampingId ? "Selecciona una unidad" : null;
       case 4:
         if (!range.from || !range.to) return "Selecciona las fechas";
+        if (autoUnitUnavailable) return "La unidad asignada no está disponible para las fechas seleccionadas";
         if (
           selectedPlanId &&
           isPlanBlocked(selectedPlanId, selectedTypeId, range)
@@ -880,6 +934,11 @@ export default function BookingPage() {
       }
     }
 
+    // With one visible unit, go directly from type selection to dates.
+    if (step === 2 && filteredUnits.length === 1) {
+      nextStep = 4;
+    }
+
     // Si estamos en el paso 6 (Información del Huésped) y vamos al 7 (Pago)
     // disparamos primero el modal de políticas
     if (step === 6) {
@@ -903,6 +962,14 @@ export default function BookingPage() {
       toast({
         title: "Datos incompletos",
         description: "Por favor completa todos los campos requeridos.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (autoUnitUnavailable) {
+      toast({
+        title: "Unidad no disponible",
+        description: "La unidad asignada no está disponible para las fechas seleccionadas.",
         variant: "destructive",
       });
       return;
@@ -1544,7 +1611,7 @@ export default function BookingPage() {
                         <LayoutGrid className="w-4 h-4" />
                       </div>
                       <h2 className="text-xl font-serif">
-                        3. Selecciona tu Unidad
+                          3. Selecciona tu Unidad
                       </h2>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -1596,6 +1663,11 @@ export default function BookingPage() {
                         );
                       })}
                     </div>
+                    {filteredUnits.length === 0 && (
+                      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                        No hay unidades visibles disponibles para este tipo de alojamiento.
+                      </div>
+                    )}
                     {!selectedCampingId && (
                       <p className="text-xs text-red-500 italic mt-2">
                         Selecciona una unidad para continuar

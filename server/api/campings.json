@@ -3,6 +3,7 @@
     "id": 1,
     "typeId": 1,
     "name": "Aura 1",
+    "visible": false,
     "image": "/api/media/13",
     "images": [
       "/api/media/14",
@@ -29,6 +30,7 @@
     "id": 2,
     "typeId": 1,
     "name": "Aura 2",
+    "visible": false,
     "image": "/api/media/27",
     "images": [
       "/api/media/21",
@@ -60,6 +62,7 @@
     "id": 3,
     "typeId": 1,
     "name": "Aura 3",
+    "visible": false,
     "image": "/api/media/94",
     "images": [
       "/api/media/95",
@@ -90,6 +93,7 @@
     "id": 4,
     "typeId": 1,
     "name": "Aura 4",
+    "visible": false,
     "image": "/api/media/45",
     "images": [
       "/api/media/52",
@@ -121,6 +125,7 @@
     "id": 5,
     "typeId": 2,
     "name": "Árbol 1 (PASADIA)",
+    "visible": true,
     "image": "/assets/image_1767377091964.png",
     "images": [
       "/assets/image_1767377091964.png",
@@ -144,6 +149,7 @@
     "id": 6,
     "typeId": 3,
     "name": "Nido 1 (PASADÍA)",
+    "visible": true,
     "image": "/api/media/84",
     "images": [
       "/assets/nido/nido_extra_1.png",

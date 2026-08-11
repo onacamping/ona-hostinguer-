@@ -144,9 +144,21 @@ export async function registerRoutes(
 
   app.get("/api/get-ocupacion.php", async (req, res) => {
     try {
-      const result = await pool.query(
-        "SELECT fecha_inicio, fecha_fin, unidad FROM reservas WHERE estado != 3"
-      );
+      const unidadId = req.query.unidadId;
+      const campingData: any[] = fs.existsSync(campingsFile)
+        ? JSON.parse(fs.readFileSync(campingsFile, "utf-8"))
+        : [];
+      const requestedUnit = unidadId
+        ? campingData.find((camping) => camping.id === Number(unidadId))?.name
+        : null;
+      const result = requestedUnit
+        ? await pool.query(
+            "SELECT fecha_inicio, fecha_fin, unidad FROM reservas WHERE estado != 3 AND unidad = $1",
+            [requestedUnit],
+          )
+        : await pool.query(
+            "SELECT fecha_inicio, fecha_fin, unidad FROM reservas WHERE estado != 3",
+          );
       res.json(result.rows);
     } catch (error: any) {
       console.error("Database Error:", error);
@@ -367,6 +379,16 @@ export async function registerRoutes(
     }
 
     try {
+      // Public reservations may only use units enabled by the administrator.
+      const publicCampings = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+      const requestedCamping = publicCampings.find((c: any) => c.name === unidad);
+      if (!requestedCamping || requestedCamping.visible === false) {
+        return res.status(400).json({
+          success: false,
+          error: "Esta unidad no está disponible para reservas públicas.",
+        });
+      }
+
       // Check if the specific unit is already taken for these dates
       const startOnly = fecha_inicio.substring(0, 10);
       const endOnly = fecha_fin.substring(0, 10);
@@ -646,7 +668,10 @@ export async function registerRoutes(
   app.get("/api/campings", (req, res) => {
     try {
       if (!fs.existsSync(campingsFile)) fs.writeFileSync(campingsFile, JSON.stringify([]));
-      const data = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
+      const data = JSON.parse(fs.readFileSync(campingsFile, "utf-8")).map((camping: any) => ({
+        ...camping,
+        visible: camping.visible !== false,
+      }));
       res.json(data);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
@@ -738,7 +763,7 @@ export async function registerRoutes(
     try {
       const data: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
       const maxId = data.reduce((max: number, c: any) => Math.max(max, c.id || 0), 0);
-      const newCamping = { id: maxId + 1, rating: 5, images: [], videos: [], features: [], ...req.body };
+      const newCamping = { id: maxId + 1, rating: 5, images: [], videos: [], features: [], ...req.body, visible: req.body.visible !== false };
       data.push(newCamping);
       fs.writeFileSync(campingsFile, JSON.stringify(data, null, 2));
       res.json({ success: true, camping: newCamping });
@@ -754,7 +779,7 @@ export async function registerRoutes(
       const data = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
       const index = data.findIndex((c: any) => c.id === parseInt(id));
       if (index === -1) return res.status(404).json({ success: false, error: "Camping not found" });
-      data[index] = { ...data[index], ...updatedCamping };
+      data[index] = { ...data[index], ...updatedCamping, visible: updatedCamping.visible !== false };
       fs.writeFileSync(campingsFile, JSON.stringify(data, null, 2));
       res.json({ success: true, camping: data[index] });
     } catch (error: any) {
