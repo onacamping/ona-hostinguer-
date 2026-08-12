@@ -179,6 +179,10 @@ export function CampingsSection() {
 
   const availableCampings = useMemo(() => {
     return campings.filter(c => {
+      // La visibilidad se controla desde el panel de administración. Las
+      // unidades ocultas siguen pudiendo ser asignadas automáticamente, pero
+      // nunca se muestran como tarjetas públicas.
+      if (c.visible === false) return false;
       if (isUnitBlocked(c.name, selectedDate)) return true;
       return isUnitAvailable(c, selectedDate);
     });

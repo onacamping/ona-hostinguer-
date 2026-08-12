@@ -552,9 +552,21 @@ export default function BookingPage() {
     [selectedTypeId, campings],
   );
 
+  // Las unidades son un inventario interno. Cuando un tipo tiene más de una,
+  // el huésped reserva el tipo de camping y no una unidad concreta; la unidad
+  // se asigna después de elegir las fechas.
+  const unitsForSelectedType = useMemo(
+    () =>
+      selectedTypeId
+        ? campings.filter((c) => c.typeId === selectedTypeId)
+        : [],
+    [selectedTypeId, campings],
+  );
+  const usesAutomaticUnitAssignment = unitsForSelectedType.length > 1;
+
   const initialCamping = useMemo(
     () => campings.find((c) => c.id === selectedCampingId) || campings[0],
-    [selectedCampingId],
+    [selectedCampingId, campings],
   );
 
   useEffect(() => {
@@ -583,51 +595,75 @@ export default function BookingPage() {
     }
   }, [selectedCampingId]);
 
-  // When a type has one public unit, select it and skip the unit step.
+  // A type with one unit keeps the old direct-assignment behavior. For types
+  // with multiple units, clear any unit selected from a card URL and wait for
+  // the date range to assign one automatically.
   useEffect(() => {
     if (!selectedTypeId) return;
-    if (filteredUnits.length === 1) {
-      const onlyUnit = filteredUnits[0];
+    if (!usesAutomaticUnitAssignment && unitsForSelectedType.length === 1) {
+      const onlyUnit = unitsForSelectedType[0];
       setSelectedCampingId(onlyUnit.id);
       setAutoUnitUnavailable(false);
-    } else if (
-      selectedCampingId &&
-      !filteredUnits.some((unit) => unit.id === selectedCampingId)
-    ) {
+    } else if (usesAutomaticUnitAssignment) {
       setSelectedCampingId(null);
       setAutoUnitUnavailable(false);
     }
-  }, [selectedTypeId, filteredUnits, selectedCampingId]);
+  }, [selectedTypeId, unitsForSelectedType, usesAutomaticUnitAssignment]);
 
-  // Re-check the automatically assigned unit after dates are chosen.
+  // For multi-unit types, assign the first unit that is free for the complete
+  // stay. We fetch all reservations once so a hidden unit can still be used
+  // internally without exposing it on the public page.
   useEffect(() => {
-    if (filteredUnits.length !== 1 || !selectedCampingId || !range.from || !range.to) {
+    if (!usesAutomaticUnitAssignment || !range.from || !range.to) {
       setAutoUnitUnavailable(false);
       return;
     }
-    fetch(`/api/get-ocupacion.php?unidadId=${selectedCampingId}`)
+    let cancelled = false;
+    setSelectedCampingId(null);
+    setAutoUnitUnavailable(false);
+    fetch("/api/get-ocupacion.php")
       .then((res) => res.json())
       .then((data) => {
-        if (!Array.isArray(data)) return;
+        if (!Array.isArray(data) || cancelled) return;
         const start = range.from!;
         const end = range.to!;
-        const unavailable = isUnitBlocked(filteredUnits[0].name) || data.some((booking: any) => {
-          const bookingStart = new Date(
-            booking.fecha_inicio.includes("T")
-              ? booking.fecha_inicio
-              : booking.fecha_inicio + "T12:00:00",
-          );
-          const bookingEnd = new Date(
-            booking.fecha_fin.includes("T")
-              ? booking.fecha_fin
-              : booking.fecha_fin + "T12:00:00",
-          );
-          return start < bookingEnd && end > bookingStart;
+        const candidate = unitsForSelectedType.find((unit) => {
+          if (isUnitBlocked(unit.name)) return false;
+          return !data.some((booking: any) => {
+            if (booking.unidad && booking.unidad !== unit.name) return false;
+            const bookingStart = new Date(
+              booking.fecha_inicio.includes("T")
+                ? booking.fecha_inicio
+                : booking.fecha_inicio + "T12:00:00",
+            );
+            const bookingEnd = new Date(
+              booking.fecha_fin.includes("T")
+                ? booking.fecha_fin
+                : booking.fecha_fin + "T12:00:00",
+            );
+            return start < bookingEnd && end > bookingStart;
+          });
         });
-        setAutoUnitUnavailable(unavailable);
+        if (candidate) {
+          setSelectedCampingId(candidate.id);
+          setAutoUnitUnavailable(false);
+        } else {
+          setAutoUnitUnavailable(true);
+        }
       })
-      .catch(() => setAutoUnitUnavailable(false));
-  }, [filteredUnits, selectedCampingId, range.from, range.to, unitBlocks]);
+      .catch(() => {
+        if (!cancelled) setAutoUnitUnavailable(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    usesAutomaticUnitAssignment,
+    unitsForSelectedType,
+    range.from,
+    range.to,
+    unitBlocks,
+  ]);
 
   const saveBooking = (newBooking: { from: Date; to: Date }) => {
     if (!selectedCampingId) return;
@@ -878,6 +914,9 @@ export default function BookingPage() {
         return !!selectedCampingId;
       case 4:
         if (!range.from || !range.to) return false;
+        if (usesAutomaticUnitAssignment && (!selectedCampingId || autoUnitUnavailable)) {
+          return false;
+        }
         if (
           selectedPlanId &&
           isPlanBlocked(selectedPlanId, selectedTypeId, range)
@@ -934,8 +973,9 @@ export default function BookingPage() {
       }
     }
 
-    // With one visible unit, go directly from type selection to dates.
-    if (step === 2 && filteredUnits.length === 1) {
+    // Unit selection is skipped for every camping type. For multiple units,
+    // the automatic assignment happens when dates are selected.
+    if (step === 2 && unitsForSelectedType.length > 0) {
       nextStep = 4;
     }
 
@@ -1015,6 +1055,7 @@ export default function BookingPage() {
             const qty = addonQuantities[id];
             return qty && qty > 1 ? `${id}:${qty}` : id;
           }),
+          autoAsignada: usesAutomaticUnitAssignment,
           total: total,
           nombre: fullName,
           telefono: phone,

@@ -3,7 +3,7 @@
     "id": 1,
     "typeId": 1,
     "name": "Aura 1",
-    "visible": false,
+    "visible": true,
     "image": "/api/media/13",
     "images": [
       "/api/media/14",

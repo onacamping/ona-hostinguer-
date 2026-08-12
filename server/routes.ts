@@ -372,17 +372,27 @@ export async function registerRoutes(
 
   // Customer reservation endpoint with plan block and unit availability validation
   app.post("/api/crear-reserva.php", async (req, res) => {
-    const { plan, camping, unidad, fecha_inicio, fecha_fin, adicionales, total, nombre, telefono, email, cedula } = req.body;
+    const { plan, camping, unidad, fecha_inicio, fecha_fin, adicionales, total, nombre, telefono, email, cedula, autoAsignada } = req.body;
     
     if (!plan || !camping || !unidad || !fecha_inicio || !fecha_fin || !nombre || !telefono || !email) {
       return res.status(400).json({ success: false, error: "Datos incompletos" });
     }
 
     try {
-      // Public reservations may only use units enabled by the administrator.
+      // A manually selected unit must be public. Units selected by the
+      // automatic allocator may be hidden in the admin panel, but must still
+      // belong to a configured camping type.
       const publicCampings = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
       const requestedCamping = publicCampings.find((c: any) => c.name === unidad);
-      if (!requestedCamping || requestedCamping.visible === false) {
+      const unitsInType = requestedCamping
+        ? publicCampings.filter((c: any) => c.typeId === requestedCamping.typeId)
+        : [];
+      const isValidAutomaticAssignment =
+        Boolean(autoAsignada) && unitsInType.length > 1;
+      if (
+        !requestedCamping ||
+        (requestedCamping.visible === false && !isValidAutomaticAssignment)
+      ) {
         return res.status(400).json({
           success: false,
           error: "Esta unidad no está disponible para reservas públicas.",
