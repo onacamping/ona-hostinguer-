@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "ub-1785971512432-ljia",
+    "unitName": "Nido 1",
+    "motivo": "Mantenimiento ",
+    "fechaInicio": "2026-08-05T12:00:00",
+    "fechaFin": "2026-09-30T12:00:00",
+    "createdAt": "2026-08-05T18:11:52.432Z"
+  }
+]
