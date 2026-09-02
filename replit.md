@@ -93,4 +93,4 @@ Preferred communication style: Simple, everyday language.
 - **drizzle-kit**: Database schema management and migrations
 
 ### Fonts
-- **Google Fonts**: Playfair Display (serif headings) and Montserrat (sans-serif body text)
+- **Google Fonts**: Playfair Display (serif headings) and Montserrat (sans-serif body text)# test deploy Wed Sep  2 07:55:20 PM UTC 2026
