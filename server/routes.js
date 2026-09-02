@@ -62,6 +62,45 @@ const uploadMedia = multer({
         }
     }
 });
+const normalizeDateOnly = (value) => {
+    if (typeof value !== "string" || !value.trim())
+        return null;
+    const date = value.trim().substring(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : null;
+};
+const getDiscountDateRuleError = (discount, fechaInicio, fechaFin) => {
+    const bookingStart = normalizeDateOnly(fechaInicio);
+    const bookingEnd = normalizeDateOnly(fechaFin);
+    // Codes can still be checked before dates are selected in the booking form.
+    if (!bookingStart || !bookingEnd)
+        return null;
+    if (bookingEnd < bookingStart)
+        return "Las fechas de la reserva no son válidas.";
+    const promoStart = normalizeDateOnly(discount.fechaInicio);
+    const promoEnd = normalizeDateOnly(discount.fechaFin);
+    if ((promoStart && bookingStart < promoStart) || (promoEnd && bookingEnd > promoEnd)) {
+        return `Este código solo es válido del ${promoStart || "inicio"} al ${promoEnd || "fin"}.`;
+    }
+    const nights = Math.max(1, Math.round((Date.parse(`${bookingEnd}T12:00:00Z`) - Date.parse(`${bookingStart}T12:00:00Z`)) /
+        (1000 * 60 * 60 * 24)));
+    const maxDays = Number(discount.duracionDias);
+    if (Number.isFinite(maxDays) && maxDays > 0 && nights > maxDays) {
+        return `Este código solo aplica a reservas de máximo ${maxDays} día${maxDays === 1 ? "" : "s"}.`;
+    }
+    const allowedDays = Array.isArray(discount.diasSemana)
+        ? discount.diasSemana.map((day) => Number(day)).filter((day) => day >= 0 && day <= 6)
+        : [];
+    if (allowedDays.length > 0) {
+        const startMs = Date.parse(`${bookingStart}T12:00:00Z`);
+        for (let dayIndex = 0; dayIndex < nights; dayIndex += 1) {
+            const day = new Date(startMs + dayIndex * 24 * 60 * 60 * 1000).getUTCDay();
+            if (!allowedDays.includes(day)) {
+                return "Este código no aplica a uno o más días de la semana seleccionados.";
+            }
+        }
+    }
+    return null;
+};
 async function ensurePostgresSchema() {
     try {
         // Ensure the reservas table exists with all required columns
@@ -84,12 +123,14 @@ async function ensurePostgresSchema() {
         referencia VARCHAR(50) UNIQUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         comprobante TEXT,
-        cedula VARCHAR(50)
+        cedula VARCHAR(50),
+        observaciones TEXT
       )
     `);
         console.log("PostgreSQL schema verified");
         // Add cedula column if it doesn't exist yet (migration for existing databases)
         await pool.query(`ALTER TABLE reservas ADD COLUMN IF NOT EXISTS cedula VARCHAR(50)`);
+        await pool.query(`ALTER TABLE reservas ADD COLUMN IF NOT EXISTS observaciones TEXT`);
     }
     catch (error) {
         console.error("Error ensuring PostgreSQL schema:", error);
@@ -215,7 +256,7 @@ export async function registerRoutes(httpServer, app) {
         }
     });
     app.post("/api/actualizar-reserva.php", async (req, res) => {
-        const { referencia, fecha_inicio, fecha_fin, unidad, nombre, email, telefono, cedula, plan, total, abono, estado, adicionales } = req.body;
+        const { referencia, fecha_inicio, fecha_fin, unidad, nombre, email, telefono, cedula, plan, total, abono, estado, adicionales, observaciones } = req.body;
         if (!referencia)
             return res.status(400).json({ success: false, error: "Faltan datos" });
         try {
@@ -285,6 +326,10 @@ export async function registerRoutes(httpServer, app) {
                 updates.push(`adicionales = $${paramIndex++}`);
                 params.push(adicionales !== null ? JSON.stringify(adicionales) : null);
             }
+            if (observaciones !== undefined) {
+                updates.push(`observaciones = $${paramIndex++}`);
+                params.push(observaciones ? String(observaciones).trim() : null);
+            }
             if (updates.length === 0)
                 return res.json({ success: true, message: "No updates provided" });
             const query = `UPDATE reservas SET ${updates.join(", ")} WHERE referencia = $${paramIndex}`;
@@ -319,7 +364,7 @@ export async function registerRoutes(httpServer, app) {
         }
     });
     app.post("/api/crear-reserva-manual.php", async (req, res) => {
-        const { nombre, email, telefono, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado } = req.body;
+        const { nombre, email, telefono, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado, observaciones, adicionales } = req.body;
         try {
             // Check if the specific unit is already taken for these dates
             // Normalize dates to YYYY-MM-DD for stable comparison
@@ -344,8 +389,8 @@ export async function registerRoutes(httpServer, app) {
             const fechaInicioNorm = fecha_inicio.length === 10 ? fecha_inicio + "T12:00:00" : fecha_inicio;
             const fechaFinNorm = fecha_fin.length === 10 ? fecha_fin + "T12:00:00" : fecha_fin;
             await pool.query(`INSERT INTO reservas (
-          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, [
+          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at, observaciones, adicionales
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`, [
                 plan,
                 camping,
                 unidad,
@@ -359,7 +404,9 @@ export async function registerRoutes(httpServer, app) {
                 email,
                 estado || 2,
                 referencia,
-                createdAt
+                createdAt,
+                observaciones ? String(observaciones).trim() : null,
+                adicionales ? JSON.stringify(adicionales) : null
             ]);
             res.json({ success: true, referencia });
         }
@@ -370,7 +417,7 @@ export async function registerRoutes(httpServer, app) {
     });
     // Customer reservation endpoint with plan block and unit availability validation
     app.post("/api/crear-reserva.php", async (req, res) => {
-        const { plan, camping, unidad, fecha_inicio, fecha_fin, adicionales, total, nombre, telefono, email, cedula, autoAsignada } = req.body;
+        const { plan, camping, unidad, fecha_inicio, fecha_fin, adicionales, total, nombre, telefono, email, cedula, autoAsignada, observaciones, discountCode } = req.body;
         if (!plan || !camping || !unidad || !fecha_inicio || !fecha_fin || !nombre || !telefono || !email) {
             return res.status(400).json({ success: false, error: "Datos incompletos" });
         }
@@ -460,6 +507,24 @@ export async function registerRoutes(httpServer, app) {
             }
             const matchedPlan = dynamicPlans.find((p) => p.nombre === plan);
             const planId = matchedPlan?.id || "";
+            // Revalidar el código en el servidor para que una promoción no pueda
+            // aplicarse fuera de sus fechas, días o duración mediante un payload manual.
+            if (discountCode) {
+                const discountCodesData = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
+                const foundDiscount = discountCodesData.find((d) => d.codigo?.toUpperCase() === String(discountCode).trim().toUpperCase());
+                if (!foundDiscount || !foundDiscount.activo) {
+                    return res.status(400).json({ success: false, error: "El código de descuento ya no es válido." });
+                }
+                const discountPlanOk = !foundDiscount.planIds?.length || foundDiscount.planIds.includes(planId);
+                const discountCampingOk = !foundDiscount.campingTypeIds?.length || foundDiscount.campingTypeIds.includes(typeId);
+                if (!discountPlanOk || !discountCampingOk) {
+                    return res.status(400).json({ success: false, error: "El código de descuento no aplica a esta reserva." });
+                }
+                const discountDateError = getDiscountDateRuleError(foundDiscount, fecha_inicio, fecha_fin);
+                if (discountDateError) {
+                    return res.status(400).json({ success: false, error: discountDateError });
+                }
+            }
             // Check if this plan+camping+date is blocked
             if (planId && typeId) {
                 const bookingStart = new Date(fecha_inicio + 'T12:00:00');
@@ -489,8 +554,8 @@ export async function registerRoutes(httpServer, app) {
             const fechaInicioNorm = fecha_inicio.length === 10 ? fecha_inicio + "T12:00:00" : fecha_inicio;
             const fechaFinNorm = fecha_fin.length === 10 ? fecha_fin + "T12:00:00" : fecha_fin;
             await pool.query(`INSERT INTO reservas (
-          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, adicionales, created_at, cedula
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`, [
+          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, adicionales, created_at, cedula, observaciones
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`, [
                 plan,
                 camping,
                 unidad,
@@ -506,7 +571,8 @@ export async function registerRoutes(httpServer, app) {
                 referencia,
                 adicionales ? JSON.stringify(adicionales) : null,
                 createdAt,
-                cedula || null
+                cedula || null,
+                observaciones ? String(observaciones).trim() : null
             ]);
             res.json({ success: true, referencia });
         }
@@ -788,6 +854,39 @@ export async function registerRoutes(httpServer, app) {
     const discountCodesFile = path.join(process.cwd(), "server", "api", "discount-codes.json");
     if (!fs.existsSync(discountCodesFile))
         fs.writeFileSync(discountCodesFile, JSON.stringify([]));
+    const normalizeDiscountDefinition = (input, current = {}) => {
+        const merged = { ...current, ...input };
+        const fechaInicio = normalizeDateOnly(merged.fechaInicio);
+        const fechaFin = normalizeDateOnly(merged.fechaFin);
+        const diasSemana = Array.isArray(merged.diasSemana)
+            ? [...new Set(merged.diasSemana.map((day) => Number(day)).filter((day) => day >= 0 && day <= 6))]
+            : [];
+        const duracionDias = merged.duracionDias ? Number(merged.duracionDias) : null;
+        return {
+            ...merged,
+            codigo: String(merged.codigo || "").trim().toUpperCase(),
+            planIds: Array.isArray(merged.planIds) ? merged.planIds : [],
+            campingTypeIds: Array.isArray(merged.campingTypeIds) ? merged.campingTypeIds : [],
+            diasSemana,
+            fechaInicio,
+            fechaFin,
+            duracionDias: Number.isFinite(duracionDias) && duracionDias > 0 ? Math.floor(duracionDias) : null,
+        };
+    };
+    const validateDiscountDefinition = (discount) => {
+        if (!discount.codigo)
+            return "El código es obligatorio.";
+        if (!Number.isFinite(Number(discount.valor)) || Number(discount.valor) <= 0) {
+            return "El valor del descuento debe ser mayor que cero.";
+        }
+        if (discount.tipo === "porcentaje" && Number(discount.valor) > 100) {
+            return "El porcentaje no puede ser mayor al 100%.";
+        }
+        if (discount.fechaInicio && discount.fechaFin && discount.fechaFin < discount.fechaInicio) {
+            return "La fecha fin no puede ser anterior a la fecha de inicio.";
+        }
+        return null;
+    };
     app.get("/api/discount-codes", (req, res) => {
         try {
             const data = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
@@ -800,11 +899,23 @@ export async function registerRoutes(httpServer, app) {
     app.post("/api/discount-codes", (req, res) => {
         try {
             const data = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
-            const { codigo } = req.body;
-            if (data.some((d) => d.codigo.toUpperCase() === (codigo || "").toUpperCase())) {
+            const newCode = {
+                id: `dc_${Date.now()}`,
+                activo: true,
+                planIds: [],
+                campingTypeIds: [],
+                diasSemana: [],
+                fechaInicio: null,
+                fechaFin: null,
+                duracionDias: null,
+                ...normalizeDiscountDefinition(req.body),
+            };
+            const validationError = validateDiscountDefinition(newCode);
+            if (validationError)
+                return res.status(400).json({ success: false, error: validationError });
+            if (data.some((d) => d.codigo?.toUpperCase() === newCode.codigo)) {
                 return res.status(400).json({ success: false, error: "Ya existe un código con ese nombre" });
             }
-            const newCode = { id: `dc_${Date.now()}`, activo: true, planIds: [], campingTypeIds: [], ...req.body, codigo: (codigo || "").toUpperCase() };
             data.push(newCode);
             fs.writeFileSync(discountCodesFile, JSON.stringify(data, null, 2));
             res.json({ success: true, code: newCode });
@@ -819,7 +930,14 @@ export async function registerRoutes(httpServer, app) {
             const index = data.findIndex((d) => d.id === req.params.id);
             if (index === -1)
                 return res.status(404).json({ success: false, error: "Código no encontrado" });
-            data[index] = { ...data[index], ...req.body, codigo: (req.body.codigo || data[index].codigo).toUpperCase() };
+            const updatedCode = normalizeDiscountDefinition(req.body, data[index]);
+            const validationError = validateDiscountDefinition(updatedCode);
+            if (validationError)
+                return res.status(400).json({ success: false, error: validationError });
+            if (data.some((d, i) => i !== index && d.codigo?.toUpperCase() === updatedCode.codigo)) {
+                return res.status(400).json({ success: false, error: "Ya existe un código con ese nombre" });
+            }
+            data[index] = updatedCode;
             fs.writeFileSync(discountCodesFile, JSON.stringify(data, null, 2));
             res.json({ success: true, code: data[index] });
         }
@@ -843,7 +961,7 @@ export async function registerRoutes(httpServer, app) {
     });
     app.post("/api/validate-discount", (req, res) => {
         try {
-            const { codigo, planId, campingTypeId } = req.body;
+            const { codigo, planId, campingTypeId, fecha_inicio, fecha_fin } = req.body;
             const data = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
             const plansData = JSON.parse(fs.readFileSync(path.join(process.cwd(), "server", "api", "plans.json"), "utf-8"));
             const campingsData = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
@@ -866,7 +984,21 @@ export async function registerRoutes(httpServer, app) {
                     mensaje: `Este código es válido para: ${validPlanNames}${found.campingTypeIds?.length ? ` en ${validCampingNames}` : ""}.`
                 });
             }
-            res.json({ valid: true, descuento: { tipo: found.tipo, valor: found.valor, codigo: found.codigo } });
+            const dateRuleError = getDiscountDateRuleError(found, fecha_inicio, fecha_fin);
+            if (dateRuleError)
+                return res.json({ valid: false, mensaje: dateRuleError });
+            res.json({
+                valid: true,
+                descuento: {
+                    tipo: found.tipo,
+                    valor: found.valor,
+                    codigo: found.codigo,
+                    fechaInicio: found.fechaInicio || null,
+                    fechaFin: found.fechaFin || null,
+                    diasSemana: found.diasSemana || [],
+                    duracionDias: found.duracionDias || null,
+                },
+            });
         }
         catch (error) {
             res.status(500).json({ valid: false, mensaje: error.message });

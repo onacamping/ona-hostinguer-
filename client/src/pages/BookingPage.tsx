@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
@@ -115,6 +116,7 @@ export default function BookingPage() {
   const [email, setEmail] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [phone, setPhone] = useState("");
+  const [observations, setObservations] = useState("");
   const [arrivalTime, setArrivalTime] = useState("3:00 PM");
   const [showPolicies, setShowPolicies] = useState(false);
   const [acceptedPolicies, setAcceptedPolicies] = useState(false);
@@ -278,6 +280,13 @@ export default function BookingPage() {
       .catch((err) => console.error("Error fetching unit blocks:", err));
   }, []);
 
+  useEffect(() => {
+    // A promotion is tied to the current reservation choices. Requiring it to
+    // be applied again prevents a code validated for old dates from carrying
+    // over to a different stay.
+    setDiscountResult(null);
+  }, [selectedPlanId, selectedTypeId, range.from, range.to, selectedAddons]);
+
   const isPlanBlocked = (
     planId: string,
     typeId: number | null,
@@ -343,8 +352,12 @@ export default function BookingPage() {
           return qty && qty > 1 ? `${a.title} x${qty}` : a.title;
         });
       const addonLines = activeAddonNames.length > 0 ? activeAddonNames : [];
+      const observationLines = observations.trim()
+        ? Math.max(1, Math.ceil(observations.trim().length / 70))
+        : 0;
       const extraHeight =
-        addonLines.length > 0 ? 60 + addonLines.length * 28 : 0;
+        (addonLines.length > 0 ? 60 + addonLines.length * 28 : 0) +
+        (observationLines > 0 ? 75 + observationLines * 22 : 0);
       const canvasHeight = 1000 + extraHeight;
 
       const canvas = document.createElement("canvas");
@@ -441,6 +454,36 @@ export default function BookingPage() {
         });
       }
 
+      if (observations.trim()) {
+        y += 10;
+        ctx.strokeStyle = "#E5E7EB";
+        ctx.beginPath();
+        ctx.moveTo(50, y);
+        ctx.lineTo(750, y);
+        ctx.stroke();
+        y += 30;
+        ctx.fillStyle = "#5C4033";
+        ctx.font = "bold 18px Georgia";
+        ctx.fillText("Observaciones", 50, y);
+        y += 25;
+        ctx.fillStyle = "#1F2937";
+        ctx.font = "14px Arial";
+        const words = observations.trim().split(/\s+/);
+        let line = "";
+        words.forEach((word) => {
+          const candidate = line ? `${line} ${word}` : word;
+          if (ctx.measureText(candidate).width > 650 && line) {
+            ctx.fillText(line, 80, y);
+            y += 22;
+            line = word;
+          } else {
+            line = candidate;
+          }
+        });
+        if (line) ctx.fillText(line, 80, y);
+        y += 22;
+      }
+
       ctx.fillStyle = "#F3F4F6";
       ctx.fillRect(50, y + 20, 700, 120);
       ctx.fillStyle = "#5C4033";
@@ -518,6 +561,7 @@ export default function BookingPage() {
             `Alojamiento: ${initialCamping?.name}\n` +
             `Fechas: ${range.from ? format(range.from, "dd/MM/yyyy") : ""} - ${range.to ? format(range.to, "dd/MM/yyyy") : ""}\n` +
             `Anticipo: $${deposit.toLocaleString()} COP\n\n` +
+            (observations.trim() ? `Observaciones: ${observations.trim()}\n\n` : "") +
             `Adjunto mi comprobante de pago y confirmación de reserva.`,
         );
 
@@ -855,6 +899,15 @@ export default function BookingPage() {
           codigo: discountCode.trim().toUpperCase(),
           planId: selectedPlanId,
           campingTypeId: initialCamping?.typeId ?? null,
+          fecha_inicio: range.from ? format(range.from, "yyyy-MM-dd") : "",
+          fecha_fin: range.to
+            ? format(
+                selectedAddons.some((addon) => addon.startsWith("plan_3_dias_"))
+                  ? addDays(range.to, 1)
+                  : range.to,
+                "yyyy-MM-dd",
+              )
+            : "",
         }),
       });
       const data = await res.json();
@@ -1061,6 +1114,8 @@ export default function BookingPage() {
           telefono: phone,
           email: email,
           cedula: idNumber,
+          observaciones: observations.trim() || null,
+          discountCode: discountResult?.valid ? discountCode.trim().toUpperCase() : null,
         }),
       });
 
@@ -2081,6 +2136,19 @@ export default function BookingPage() {
                               />
                             </div>
                           </div>
+                          <div className="md:col-span-2 space-y-3">
+                            <Label className="text-xs uppercase tracking-[0.2em] font-bold text-stone-400">
+                              Observaciones o notas especiales <span className="font-normal normal-case tracking-normal text-stone-300">(opcional)</span>
+                            </Label>
+                            <Textarea
+                              placeholder="Ej: Almuerzo sin vegetales, decoración con nombre..."
+                              value={observations}
+                              onChange={(e) => setObservations(e.target.value)}
+                              maxLength={500}
+                              className="min-h-24 rounded-2xl border-stone-100 bg-stone-50/50 focus:bg-white transition-all resize-y"
+                            />
+                            <p className="text-[10px] text-stone-400 text-right">{observations.length}/500</p>
+                          </div>
                         </div>
                         <Button variant="ghost" onClick={() => setStep(5)}>
                           <ChevronLeft className="w-4 h-4 mr-2" /> Volver a
@@ -2408,6 +2476,12 @@ export default function BookingPage() {
                   {fullName && (
                     <div className="pt-2 border-t border-white/10 text-[11px] text-white/50">
                       <span>Huésped: {fullName}</span>
+                    </div>
+                  )}
+                  {observations.trim() && (
+                    <div className="pt-2 border-t border-white/10 text-[11px] text-white/60">
+                      <span className="font-bold text-white/80">Observaciones:</span>{" "}
+                      {observations.trim()}
                     </div>
                   )}
                   <div className="pt-6 border-t border-white/20">
