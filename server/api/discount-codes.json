@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "dc_1788364940075",
+    "activo": true,
+    "planIds": [],
+    "campingTypeIds": [],
+    "diasSemana": [],
+    "fechaInicio": "2038-09-03",
+    "fechaFin": "2038-09-05",
+    "duracionDias": null,
+    "codigo": "LOL",
+    "tipo": "valor",
+    "valor": 100000
+  }
+]
