@@ -72,6 +72,7 @@ import {
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { campings } from "@/lib/data";
@@ -94,6 +95,7 @@ type Reserva = {
   saldo: number;
   estado: number;
   adicionales: string[] | null;
+  observaciones?: string | null;
   created_at?: string;
   comprobante?: string;
 };
@@ -177,6 +179,7 @@ export default function AdminDashboard() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isComprobanteModalOpen, setIsComprobanteModalOpen] = useState(false);
   const [comprobanteUrl, setComprobanteUrl] = useState<string | null>(null);
+  const [isGeneratingReceipt, setIsGeneratingReceipt] = useState(false);
   
   // Plan Blocks state
   type PlanBlock = {
@@ -259,7 +262,11 @@ export default function AdminDashboard() {
     valor: 0,
     planIds: [] as string[],
     campingTypeIds: [] as number[],
-    activo: true
+    activo: true,
+    fechaInicio: "",
+    fechaFin: "",
+    diasSemana: [] as number[],
+    duracionDias: null as number | null,
   });
   const [addonForm, setAddonForm] = useState({
     title: "",
@@ -336,7 +343,8 @@ export default function AdminDashboard() {
     total: 0,
     abono: 0,
     estado: 0,
-    adicionales: [] as string[]
+    adicionales: [] as string[],
+    observaciones: ""
   });
 
   const [isNewReservaModalOpen, setIsNewReservaModalOpen] = useState(false);
@@ -352,7 +360,8 @@ export default function AdminDashboard() {
     total: 0,
     abono: 0,
     estado: 2,
-    adicionales: [] as string[]
+    adicionales: [] as string[],
+    observaciones: ""
   });
 
   useEffect(() => {
@@ -883,8 +892,27 @@ export default function AdminDashboard() {
     }
   };
 
-  const generateBookingReceipt = (reserva: Reserva) => {
-    const rawAdicionales = reserva.adicionales;
+  const generateBookingReceipt = async (reserva: Reserva) => {
+    setIsGeneratingReceipt(true);
+    try {
+      // Always refresh both resources before rendering. The reservation list
+      // and addons list load independently, which previously caused the first
+      // download to render before addon names were available.
+      const [reservasResponse, addonsResponse] = await Promise.all([
+        fetch(`/api/listar-reservas.php?_=${Date.now()}`, {
+          headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+          cache: "no-store",
+        }),
+        fetch(`/api/addons?_=${Date.now()}`, { cache: "no-store" }),
+      ]);
+      const latestReservas = reservasResponse.ok ? await reservasResponse.json() : [];
+      const latestAddons = addonsResponse.ok ? await addonsResponse.json() : [];
+      const receiptReserva: Reserva = Array.isArray(latestReservas)
+        ? latestReservas.find((item: Reserva) => item.referencia === reserva.referencia) || reserva
+        : reserva;
+      const receiptAddons = Array.isArray(latestAddons) ? latestAddons : dynamicAddons;
+
+    const rawAdicionales = receiptReserva.adicionales;
     let addonIds: string[] = [];
     if (Array.isArray(rawAdicionales)) {
       addonIds = rawAdicionales;
@@ -902,13 +930,18 @@ export default function AdminDashboard() {
     });
     const addonNames = parsedAddons
       .map(({ addonId, qty }) => {
-        const addon = dynamicAddons.find((a: any) => a.id === addonId);
+        const addon = receiptAddons.find((a: any) => a.id === addonId);
         if (!addon) return null;
         return qty > 1 ? `${addon.title} x${qty}` : addon.title;
       })
       .filter((n) => Boolean(n));
-    const cedulaRow = reserva.cedula ? 1 : 0;
-    const extraHeight = addonNames.length > 0 ? 60 + addonNames.length * 28 : 0;
+    const observationLines = receiptReserva.observaciones?.trim()
+      ? Math.max(1, Math.ceil(receiptReserva.observaciones.trim().length / 70))
+      : 0;
+    const cedulaRow = receiptReserva.cedula ? 1 : 0;
+    const extraHeight =
+      (addonNames.length > 0 ? 60 + addonNames.length * 28 : 0) +
+      (observationLines > 0 ? 75 + observationLines * 22 : 0);
     const canvasHeight = 1000 + extraHeight + cedulaRow * 45;
 
     const canvas = document.createElement("canvas");
@@ -951,17 +984,17 @@ export default function AdminDashboard() {
     };
     
     const details = [
-      { label: "Referencia", value: reserva.referencia || "---" },
-      { label: "Huésped", value: reserva.nombre || "---" },
-      ...(reserva.cedula ? [{ label: "Cédula", value: reserva.cedula }] : []),
-      { label: "Plan", value: reserva.plan || "---" },
-      { label: "Alojamiento", value: reserva.camping || "---" },
-      { label: "Unidad asignada", value: reserva.unidad || "---" },
-      { label: "Check-in", value: formatDate(reserva.fecha_inicio) },
-      { label: "Check-out", value: formatDate(reserva.fecha_fin) },
-      { label: "Total", value: `$${(reserva.total || 0).toLocaleString()} COP` },
-      { label: "Abono", value: `$${(reserva.abono || 0).toLocaleString()} COP` },
-      { label: "Saldo pendiente", value: `$${(reserva.saldo || 0).toLocaleString()} COP` },
+      { label: "Referencia", value: receiptReserva.referencia || "---" },
+      { label: "Huésped", value: receiptReserva.nombre || "---" },
+      ...(receiptReserva.cedula ? [{ label: "Cédula", value: receiptReserva.cedula }] : []),
+      { label: "Plan", value: receiptReserva.plan || "---" },
+      { label: "Alojamiento", value: receiptReserva.camping || "---" },
+      { label: "Unidad asignada", value: receiptReserva.unidad || "---" },
+      { label: "Check-in", value: formatDate(receiptReserva.fecha_inicio) },
+      { label: "Check-out", value: formatDate(receiptReserva.fecha_fin) },
+      { label: "Total", value: `$${(receiptReserva.total || 0).toLocaleString()} COP` },
+      { label: "Abono", value: `$${(receiptReserva.abono || 0).toLocaleString()} COP` },
+      { label: "Saldo pendiente", value: `$${(receiptReserva.saldo || 0).toLocaleString()} COP` },
     ];
     
     let y = 250;
@@ -997,6 +1030,36 @@ export default function AdminDashboard() {
         y += 28;
       });
     }
+
+    if (receiptReserva.observaciones?.trim()) {
+      y += 10;
+      ctx.strokeStyle = "#E5E7EB";
+      ctx.beginPath();
+      ctx.moveTo(50, y);
+      ctx.lineTo(750, y);
+      ctx.stroke();
+      y += 30;
+      ctx.fillStyle = "#5C4033";
+      ctx.font = "bold 18px Georgia";
+      ctx.fillText("Observaciones", 50, y);
+      y += 25;
+      ctx.fillStyle = "#1F2937";
+      ctx.font = "14px Arial";
+      const words = receiptReserva.observaciones.trim().split(/\s+/);
+      let line = "";
+      words.forEach((word) => {
+        const candidate = line ? `${line} ${word}` : word;
+        if (ctx.measureText(candidate).width > 650 && line) {
+          ctx.fillText(line, 80, y);
+          y += 22;
+          line = word;
+        } else {
+          line = candidate;
+        }
+      });
+      if (line) ctx.fillText(line, 80, y);
+      y += 22;
+    }
     
     ctx.fillStyle = "#F3F4F6";
     ctx.fillRect(50, y + 20, 700, 120);
@@ -1017,10 +1080,15 @@ export default function AdminDashboard() {
     const imageUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = imageUrl;
-    link.download = `reserva-ona-${reserva.referencia}.png`;
+    link.download = `reserva-ona-${receiptReserva.referencia}.png`;
     link.click();
     
     toast({ title: "Comprobante generado", description: "El comprobante se ha descargado correctamente." });
+    } catch (error) {
+      toast({ title: "Error", description: "No se pudo cargar la información completa del comprobante.", variant: "destructive" });
+    } finally {
+      setIsGeneratingReceipt(false);
+    }
   };
 
   const handleAction = async (endpoint: string, payload: any) => {
@@ -1622,7 +1690,18 @@ export default function AdminDashboard() {
                   className="bg-primary text-white hover:bg-primary/90 rounded-xl px-4 py-2 text-sm font-medium"
                   onClick={() => {
                     setEditingDiscount(null);
-                    setDiscountForm({ codigo: "", tipo: "porcentaje", valor: 0, planIds: [], campingTypeIds: [], activo: true });
+                    setDiscountForm({
+                      codigo: "",
+                      tipo: "porcentaje",
+                      valor: 0,
+                      planIds: [],
+                      campingTypeIds: [],
+                      activo: true,
+                      fechaInicio: "",
+                      fechaFin: "",
+                      diasSemana: [],
+                      duracionDias: null,
+                    });
                     setIsDiscountModalOpen(true);
                   }}
                 >
@@ -1655,12 +1734,30 @@ export default function AdminDashboard() {
                           <div className="text-[11px] text-stone-400 mt-1 space-y-0.5">
                             <p>Planes: {validPlans}</p>
                             <p>Campings: {validCampings}</p>
+                             {(dc.fechaInicio || dc.fechaFin) && (
+                               <p>Vigencia: {dc.fechaInicio || "sin inicio"} — {dc.fechaFin || "sin fin"}</p>
+                             )}
+                             {dc.diasSemana?.length > 0 && (
+                               <p>Días: {dc.diasSemana.map((day: number) => ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"][day]).join(", ")}</p>
+                             )}
+                             {dc.duracionDias && <p>Máximo: {dc.duracionDias} día{dc.duracionDias === 1 ? "" : "s"} de reserva</p>}
                           </div>
                         </div>
                         <div className="flex gap-2 shrink-0">
                           <Button variant="outline" size="sm" onClick={() => {
                             setEditingDiscount(dc);
-                            setDiscountForm({ codigo: dc.codigo, tipo: dc.tipo, valor: dc.valor, planIds: dc.planIds || [], campingTypeIds: dc.campingTypeIds || [], activo: dc.activo });
+                             setDiscountForm({
+                               codigo: dc.codigo,
+                               tipo: dc.tipo,
+                               valor: dc.valor,
+                               planIds: dc.planIds || [],
+                               campingTypeIds: dc.campingTypeIds || [],
+                               activo: dc.activo,
+                               fechaInicio: dc.fechaInicio || "",
+                               fechaFin: dc.fechaFin || "",
+                               diasSemana: (dc.diasSemana || []).map((day: unknown) => Number(day)),
+                               duracionDias: dc.duracionDias || null,
+                             });
                             setIsDiscountModalOpen(true);
                           }}><Edit className="w-4 h-4" /></Button>
                           <Button variant="outline" size="sm" className="border-red-200 text-red-500 hover:bg-red-50" onClick={() => handleDeleteDiscount(dc.id)}>
@@ -2630,8 +2727,9 @@ export default function AdminDashboard() {
                     generateBookingReceipt(selectedReserva);
                   }
                 }}
+                disabled={isGeneratingReceipt}
               >
-                <Download className="w-4 h-4" /> Generar Comprobante de Reserva
+                <Download className="w-4 h-4" /> {isGeneratingReceipt ? "Cargando datos..." : "Generar Comprobante de Reserva"}
               </Button>
             )}
             <Button 
@@ -2658,7 +2756,8 @@ export default function AdminDashboard() {
                     total: selectedReserva.total,
                     abono: selectedReserva.abono,
                     estado: selectedReserva.estado,
-                    adicionales: parsedAdicionales
+                    adicionales: parsedAdicionales,
+                    observaciones: selectedReserva.observaciones || ""
                   });
                   setIsEditModalOpen(true);
                   setIsModalOpen(false);
@@ -2744,6 +2843,16 @@ export default function AdminDashboard() {
                   className="rounded-xl"
                   placeholder="Número de identificación"
                   onChange={(e) => setEditData({...editData, cedula: e.target.value})}
+                />
+              </div>
+              <div className="col-span-2 space-y-2">
+                <Label>Observaciones o notas especiales</Label>
+                <Textarea
+                  value={editData.observaciones}
+                  onChange={(e) => setEditData({...editData, observaciones: e.target.value})}
+                  placeholder="Notas del cliente o del equipo"
+                  maxLength={500}
+                  className="rounded-xl resize-y"
                 />
               </div>
             </div>
@@ -3120,6 +3229,17 @@ export default function AdminDashboard() {
               </Select>
             </div>
 
+            <div className="space-y-2">
+              <Label>Observaciones o notas especiales (opcional)</Label>
+              <Textarea
+                value={newReservaData.observaciones}
+                onChange={(e) => setNewReservaData({...newReservaData, observaciones: e.target.value})}
+                placeholder="Notas del cliente o del equipo"
+                maxLength={500}
+                className="rounded-xl resize-y"
+              />
+            </div>
+
             {dynamicAddons.length > 0 && (
               <div className="space-y-2">
                 <Label>Adicionales</Label>
@@ -3215,6 +3335,70 @@ export default function AdminDashboard() {
                   className="rounded-xl"
                 />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Rango de fechas <span className="text-stone-400 text-xs font-normal">(opcional)</span></Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Input
+                  type="date"
+                  value={discountForm.fechaInicio}
+                  onChange={e => setDiscountForm({...discountForm, fechaInicio: e.target.value})}
+                  className="rounded-xl"
+                  aria-label="Fecha de inicio de la promoción"
+                />
+                <Input
+                  type="date"
+                  value={discountForm.fechaFin}
+                  onChange={e => setDiscountForm({...discountForm, fechaFin: e.target.value})}
+                  className="rounded-xl"
+                  aria-label="Fecha de fin de la promoción"
+                />
+              </div>
+              <p className="text-[10px] text-stone-400">La reserva completa debe quedar dentro de este rango.</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Días de la semana <span className="text-stone-400 text-xs font-normal">(vacío = todos)</span></Label>
+              <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+                {[
+                  [1, "Lun"], [2, "Mar"], [3, "Mié"], [4, "Jue"],
+                  [5, "Vie"], [6, "Sáb"], [0, "Dom"],
+                ].map(([day, label]) => {
+                  const dayNumber = day as number;
+                  const checked = discountForm.diasSemana.includes(dayNumber);
+                  return (
+                    <label key={dayNumber} className={cn(
+                      "flex items-center justify-center gap-1.5 rounded-xl border px-2 py-2 text-xs cursor-pointer transition-colors",
+                      checked ? "border-accent bg-accent/10 text-accent font-bold" : "border-stone-200 text-stone-500 hover:bg-stone-50"
+                    )}>
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={e => setDiscountForm({
+                          ...discountForm,
+                          diasSemana: e.target.checked
+                            ? [...discountForm.diasSemana, dayNumber]
+                            : discountForm.diasSemana.filter(d => d !== dayNumber),
+                        })}
+                        className="sr-only"
+                      />
+                      {label}
+                    </label>
+                  );
+                })}
+              </div>
+              <p className="text-[10px] text-stone-400">Todos los días de la estancia deben coincidir con los seleccionados.</p>
+            </div>
+            <div className="space-y-2">
+              <Label>Duración máxima de la reserva <span className="text-stone-400 text-xs font-normal">(días, opcional)</span></Label>
+              <Input
+                type="number"
+                min={1}
+                step={1}
+                value={discountForm.duracionDias ?? ""}
+                onChange={e => setDiscountForm({...discountForm, duracionDias: e.target.value ? Math.max(1, parseInt(e.target.value, 10) || 1) : null})}
+                placeholder="Sin límite"
+                className="rounded-xl"
+              />
             </div>
             <div className="space-y-2">
               <Label>Planes válidos <span className="text-stone-400 text-xs font-normal">(vacío = todos)</span></Label>

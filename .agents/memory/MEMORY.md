@@ -1,0 +1,1 @@
+- [Server route source and generated output](server-route-source.md) — keep TypeScript route changes synchronized with the generated JavaScript used by production builds.
