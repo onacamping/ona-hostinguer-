@@ -543,7 +543,7 @@ async function registerRoutes(httpServer2, app2) {
     }
   });
   app2.post("/api/crear-reserva-manual.php", async (req, res) => {
-    const { nombre, email, telefono, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado } = req.body;
+    const { nombre, email, telefono, cedula, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado, observaciones, adicionales } = req.body;
     try {
       const startOnly = fecha_inicio.substring(0, 10);
       const endOnly = fecha_fin.substring(0, 10);
@@ -565,8 +565,8 @@ async function registerRoutes(httpServer2, app2) {
       const fechaInicioNorm = fecha_inicio.length === 10 ? fecha_inicio + "T12:00:00" : fecha_inicio;
       const fechaFinNorm = fecha_fin.length === 10 ? fecha_fin + "T12:00:00" : fecha_fin;
       await pool.query(`INSERT INTO reservas (
-          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, [
+          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at, observaciones, adicionales, cedula
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`, [
         plan,
         camping,
         unidad,
@@ -580,7 +580,10 @@ async function registerRoutes(httpServer2, app2) {
         email,
         estado || 2,
         referencia,
-        createdAt
+        createdAt,
+        observaciones ? String(observaciones).trim() : null,
+        adicionales ? JSON.stringify(adicionales) : null,
+        cedula ? String(cedula).trim() : null
       ]);
       res.json({ success: true, referencia });
     } catch (error) {
