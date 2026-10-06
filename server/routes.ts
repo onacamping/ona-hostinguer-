@@ -365,7 +365,7 @@ export async function registerRoutes(
   });
 
   app.post("/api/crear-reserva-manual.php", async (req, res) => {
-    const { nombre, email, telefono, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado, observaciones, adicionales } = req.body;
+    const { nombre, email, telefono, cedula, unidad, fecha_inicio, fecha_fin, plan, total, abono, estado, observaciones, adicionales } = req.body;
     
     try {
       // Check if the specific unit is already taken for these dates
@@ -401,8 +401,8 @@ export async function registerRoutes(
 
       await pool.query(
         `INSERT INTO reservas (
-          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at, observaciones, adicionales
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`,
+          plan, camping, unidad, fecha_inicio, fecha_fin, total, abono, saldo, nombre, telefono, email, estado, referencia, created_at, observaciones, adicionales, cedula
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)`,
         [
           plan,
           camping,
@@ -419,7 +419,8 @@ export async function registerRoutes(
           referencia,
           createdAt,
           observaciones ? String(observaciones).trim() : null,
-          adicionales ? JSON.stringify(adicionales) : null
+          adicionales ? JSON.stringify(adicionales) : null,
+          cedula ? String(cedula).trim() : null
         ]
       );
 
