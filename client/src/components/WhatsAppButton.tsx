@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 
 export default function WhatsAppButton() {
   const phoneNumber = "573192497753"; // Reemplazar con el número real si es diferente
-  const message = encodeURIComponent("Hola, tengo un problema y necesito ayuda con mi reserva.");
+  const message = encodeURIComponent("Hola, quiero información para reservar una experiencia.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   return (

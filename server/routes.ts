@@ -1,3 +1,5 @@
+import { createHmac } from "crypto";
+import { timingSafeEqual } from "crypto";
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage.js";
@@ -185,6 +187,112 @@ export async function registerRoutes(
   app: Express
 ): Promise<Server> {
   await ensurePostgresSchema();
+
+  // ---- API de solo lectura para la hoja de cálculo (protegida con clave) ----
+  const requireApiKey = (req: any, res: any, next: any) => {
+    const expected = process.env.ONA_API_KEY || "";
+    const provided = String(req.get("x-api-key") || req.query.key || "");
+    const a = Buffer.from(provided);
+    const b = Buffer.from(expected);
+    if (!expected || a.length !== b.length || !timingSafeEqual(a, b)) {
+      return res.status(401).json({ error: "No autorizado" });
+    }
+    next();
+  };
+
+  const SHEET_FIELDS = [
+    "referencia", "nombre", "telefono", "email", "plan", "unidad",
+    "fecha_inicio", "fecha_fin", "adicionales", "total", "abono", "saldo",
+    "estado", "created_at",
+  ];
+
+  // Evita que un texto que empiece con = + - @ se ejecute como fórmula en la hoja
+  const safeCell = (value: any) => {
+    if (value === null || value === undefined) return "";
+    if (value instanceof Date) return value.toISOString();
+    const text = String(value);
+    return /^[=+\-@]/.test(text) ? "'" + text : text;
+  };
+
+  // ---- ADMIN_AUTH_V1: autenticación de administrador con cookie firmada ----
+  const ADMIN_COOKIE = "ona_admin";
+  const ADMIN_TTL_MS = 8 * 60 * 60 * 1000;
+  const signPart = (data: string) =>
+    createHmac("sha256", process.env.ADMIN_TOKEN_SECRET || "").update(data).digest("base64url");
+
+  const issueAdminToken = (user: any) => {
+    const body = Buffer.from(JSON.stringify({
+      id: user.id, email: user.email, rol: user.rol, exp: Date.now() + ADMIN_TTL_MS,
+    })).toString("base64url");
+    return body + "." + signPart(body);
+  };
+
+  const readAdmin = (req: any): any | null => {
+    if ((process.env.ADMIN_TOKEN_SECRET || "").length < 32) return null; // sin secreto: todo cerrado
+    const raw = String(req.headers.cookie || "")
+      .split(";").map((c: string) => c.trim())
+      .find((c: string) => c.startsWith(ADMIN_COOKIE + "="));
+    if (!raw) return null;
+    const [body, sig] = raw.slice(ADMIN_COOKIE.length + 1).split(".");
+    if (!body || !sig) return null;
+    const a = Buffer.from(sig);
+    const b = Buffer.from(signPart(body));
+    if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+    try {
+      const data = JSON.parse(Buffer.from(body, "base64url").toString());
+      if (!data.exp || data.exp < Date.now()) return null;
+      if (data.rol !== "admin" && data.rol !== "superadmin") return null;
+      return data;
+    } catch {
+      return null;
+    }
+  };
+
+  // Rutas que usa la reserva pública. Todo lo demás de /api exige administrador.
+  const PUBLIC_ANY = new Set([
+    "/login.php", "/logout.php", "/check-session.php", "/get-ocupacion.php",
+    "/crear-reserva.php", "/confirmar-pago", "/validate-discount",
+    "/reservas-sheet", // esta lleva su propia clave de API
+  ]);
+  const PUBLIC_GET = new Set([
+    "/addons", "/campings", "/unit-blocks", "/settings",
+    "/plans/active", "/plan-blocks", "/tarifas",
+  ]);
+
+  app.use("/api", (req: any, res: any, next: any) => {
+    const p = req.path.replace(/\/+$/, "") || "/";
+    if (req.method === "OPTIONS") return next();
+    if (PUBLIC_ANY.has(p)) return next();
+    if ((req.method === "GET" || req.method === "HEAD") && PUBLIC_GET.has(p)) return next();
+    const admin = readAdmin(req);
+    if (admin) {
+      req.admin = admin;
+      return next();
+    }
+    return res.status(401).json({ error: "No autorizado" });
+  });
+
+  app.get("/api/reservas-sheet", requireApiKey, async (req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT " + SHEET_FIELDS.join(", ") + " FROM reservas ORDER BY created_at DESC"
+      );
+      const rows = result.rows.map((row: any) =>
+        SHEET_FIELDS.map((field) => safeCell(row[field]))
+      );
+      res.set("Cache-Control", "no-store");
+      if (req.query.format === "csv") {
+        const esc = (cell: string) => '"' + cell.replace(/"/g, '""') + '"';
+        const csv = [SHEET_FIELDS, ...rows].map((r) => r.map(esc).join(",")).join("\n");
+        res.type("text/csv").send(csv);
+      } else {
+        res.json({ headers: SHEET_FIELDS, rows });
+      }
+    } catch (error: any) {
+      console.error("Database Error:", error);
+      res.status(500).json({ error: "Error al leer las reservas" });
+    }
+  });
 
   app.get("/api/listar-reservas.php", async (req, res) => {
     try {
@@ -625,6 +733,65 @@ export async function registerRoutes(
     }
   });
 
+  // ---- ADMIN_AUTH_V1: login/logout/sesión ----
+  const loginAttempts = new Map<string, { n: number; t: number }>();
+  const cookieFlags = "; Path=/; HttpOnly; Secure; SameSite=Lax";
+
+  app.post("/api/login.php", async (req, res) => {
+    const ip = String(req.ip);
+    const now = Date.now();
+    const rec = loginAttempts.get(ip);
+    if (rec && now - rec.t < 15 * 60 * 1000 && rec.n >= 10) {
+      return res.status(429).json({ error: "Demasiados intentos. Intenta más tarde." });
+    }
+    const fail = () => {
+      const r = loginAttempts.get(ip);
+      loginAttempts.set(ip, r && now - r.t < 15 * 60 * 1000 ? { n: r.n + 1, t: r.t } : { n: 1, t: now });
+    };
+    try {
+      const { stdout } = await execa("php", [path.join(process.cwd(), "server", "api", "login.php")], {
+        input: JSON.stringify(req.body || {}),
+        shell: true,
+        env: {
+          REQUEST_METHOD: "POST",
+          CONTENT_TYPE: "application/json",
+          REMOTE_ADDR: ip,
+          HTTP_USER_AGENT: req.get("user-agent") || "",
+        },
+      });
+      const result = JSON.parse(stdout);
+      if (!result?.success || !result.user) {
+        fail();
+        return res.status(401).json({ error: "Credenciales inválidas" });
+      }
+      if (result.user.rol !== "admin" && result.user.rol !== "superadmin") {
+        return res.status(403).json({ error: "Sin permisos" });
+      }
+      loginAttempts.delete(ip);
+      res.setHeader("Set-Cookie", ADMIN_COOKIE + "=" + issueAdminToken(result.user) +
+        cookieFlags + "; Max-Age=" + Math.floor(ADMIN_TTL_MS / 1000));
+      res.set("Cache-Control", "no-store");
+      return res.json({ success: true, user: result.user });
+    } catch (error: any) {
+      console.error("Login error:", error?.message);
+      return res.status(500).json({ error: "Error de login" });
+    }
+  });
+
+  app.all("/api/logout.php", (_req, res) => {
+    res.setHeader("Set-Cookie", ADMIN_COOKIE + "=" + cookieFlags + "; Max-Age=0");
+    res.json({ success: true });
+  });
+
+  app.all("/api/check-session.php", (req, res) => {
+    const a = readAdmin(req);
+    res.set("Cache-Control", "no-store");
+    res.json({
+      logged_in: !!a,
+      user: a ? { id: a.id, email: a.email, rol: a.rol } : null,
+    });
+  });
+
   // Middleware to handle .php files
   app.all("/api/*.php", async (req, res) => {
     const relativePath = req.path.replace(/^\/api\//, "");
@@ -661,31 +828,11 @@ export async function registerRoutes(
     }
   });
 
-  // Admin route protection middleware
-  app.use("/admin", async (req, res, next) => {
-    // Avoid redirect loop if already on login page
-    if (req.path === "/login" || req.path.includes(".")) {
-      return next();
-    }
-
-    const phpCheckFile = path.join(process.cwd(), "server", "api", "check-session.php");
-    
-    if (!fs.existsSync(phpCheckFile)) {
-      // If check-session.php doesn't exist, we can't verify session, but we shouldn't block access
-      // until we create it. For now, let's proceed to avoid breaking the UI.
-      return next();
-    }
-
-    try {
-      const { stdout } = await execa("php", [phpCheckFile]);
-      const session = JSON.parse(stdout);
-      if (!session?.logged_in) {
-        return res.redirect("/admin/login");
-      }
-      next();
-    } catch (error) {
-      next(); // Fallback to next if PHP fails to avoid blocking legitimate access
-    }
+  // Admin route protection middleware (ADMIN_AUTH_V1)
+  app.use("/admin", (req, res, next) => {
+    if (req.path === "/login" || req.path.includes(".")) return next();
+    if (!readAdmin(req)) return res.redirect("/admin/login");
+    next();
   });
 
   app.post("/api/bloquear-fecha", async (req, res) => {

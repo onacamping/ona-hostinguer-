@@ -38,6 +38,7 @@ import {
   Lock,
   type LucideIcon,
 } from "lucide-react";
+import PoliciesContent from "@/components/PoliciesContent";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -1200,199 +1201,7 @@ export default function BookingPage() {
             </div>
 
             <div className="flex-grow overflow-y-auto p-8 space-y-8">
-              <div className="p-6 bg-accent/5 border border-accent/20 rounded-3xl">
-                <h3 className="text-lg font-bold text-accent flex items-center gap-2 mb-3">
-                  <Sparkles className="w-5 h-5" />
-                  Información Importante
-                </h3>
-                <p className="text-primary font-medium leading-relaxed text-base">
-                  Oná es un espacio diseñado exclusivamente para{" "}
-                  <span className="underline decoration-accent decoration-2">
-                    parejas
-                  </span>
-                  . Para garantizar la tranquilidad y la experiencia de
-                  conexión,{" "}
-                  <span className="font-bold">
-                    no se permite el ingreso de mascotas ni niños
-                  </span>
-                  .
-                </p>
-              </div>
-
-              <div className="space-y-6 text-stone-600 text-sm leading-relaxed text-justify">
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    1. Reservas y Pagos
-                  </h4>
-                  <p>
-                    1.1 Recomendamos realizar la reserva con anticipación para
-                    garantizar disponibilidad. El huésped debe verificar
-                    cuidadosamente la disponibilidad.
-                  </p>
-                  <p>
-                    1.2 La reserva se confirma con un depósito del 50%. El saldo
-                    restante se cancela al llegar a Oná.
-                  </p>
-                  <p>
-                    1.3 <strong>Cambio de fecha:</strong> Si se informa con
-                    mínimo 72 horas de anticipación, podrá reprogramarse la
-                    reserva, sujeto a disponibilidad.
-                  </p>
-                  <p>
-                    1.4 Política de cancelación: Con al menos 15 días de
-                    anticipación se reembolsa el 100%. Con menos de 15 días, no
-                    hay reembolso.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    2. Check-in y Check-out
-                  </h4>
-                  <p>
-                    2.1 Check-in: A partir de las 3:00 p.m. Última hora de
-                    entrada: 6:00 p.m.
-                  </p>
-                  <p>2.2 Check-out: Debe realizarse antes de las 12:00 a.m.</p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    3. Responsabilidades
-                  </h4>
-                  <p>
-                    3.1 Oná no se hace responsable por errores del huésped al
-                    momento de reservar (fecha, tipo de alojamiento, servicios
-                    incluidos).
-                  </p>
-                  <p>
-                    3.2 No se realizan reembolsos por malentendidos que estén
-                    claramente especificados en la información del plan.
-                  </p>
-                  <p>
-                    3.3 No hay reembolsos por condiciones climáticas, cortes de
-                    luz, lluvias o situaciones externas fuera de nuestro
-                    control.
-                  </p>
-                  <p>
-                    3.4 Si se presentan eventos ajenos tanto al camping como al
-                    cliente, tales como: paros, derrumbes, cierres de vías o
-                    accidentes, se permitirá cambio de fecha sin costo
-                    adicional, sujeto a disponibilidad.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    4. Normas del Establecimiento
-                  </h4>
-                  <p>
-                    4.1 No se permite el ingreso de alimentos ni bebidas
-                    externas.
-                  </p>
-                  <p>
-                    <span className="font-bold text-primary italic underline">
-                      4.2 Mascotas:
-                    </span>{" "}
-                    No se permite el ingreso de mascotas bajo ninguna
-                    circunstancia.
-                  </p>
-                  <p>
-                    <span className="font-bold text-primary italic underline">
-                      4.3 Menores de edad:
-                    </span>{" "}
-                    No se permite el ingreso de menores de 18 años. El espacio
-                    es exclusivo para adultos en pareja.
-                  </p>
-                  <p>
-                    4.5 Ruido: Mantener el volumen bajo después de las 9:00 p.m.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    5. Seguridad y Responsabilidad
-                  </h4>
-                  <p>
-                    • Contamos con cámaras de seguridad en áreas comunes para
-                    velar por el bienestar y la tranquilidad de nuestros
-                    huéspedes.
-                  </p>
-                  <p>
-                    • Las grabaciones se manejan de manera confidencial y solo
-                    se utilizan con fines de seguridad.
-                  </p>
-                  <p>
-                    • La finca no se hace responsable por objetos perdidos o
-                    dañados.
-                  </p>
-                  <p>
-                    • En caso de emergencia, comuníquese con el personal
-                    disponible las 24 horas.
-                  </p>
-                  <p>
-                    • Los daños ocasionados a la propiedad deberán ser pagados
-                    por el huésped.
-                  </p>
-                  <p>
-                    • Objetos olvidados se guardarán durante 30 días. Si no son
-                    reclamados, serán donados o desechados.
-                  </p>
-                  <p>
-                    • Fumar solo en áreas designadas. No está permitido dentro
-                    de las carpas o habitaciones. El incumplimiento de esta
-                    norma puede generar sanciones o retiro sin reembolso.
-                  </p>
-                  <p>
-                    • No se toleran faltas de respeto, agresiones físicas o
-                    verbales. Cualquier comportamiento violento será motivo de
-                    expulsión inmediata y se notificará a las autoridades.
-                  </p>
-                  <p>
-                    • No se permite arrojar basura, vidrio, cigarrillos u otros
-                    objetos en las fogatas o jacuzzis.
-                  </p>
-                  <p>
-                    • No se permite el consumo de sustancias alucinógenas ni
-                    comportamientos inapropiados.
-                  </p>
-                  <p>
-                    • Está prohibido ingresar armas de fuego, elementos
-                    cortopunzantes o explosivos.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    6. Derecho de Admisión
-                  </h4>
-                  <p>
-                    Nos reservamos el derecho de admisión a personas que alteren
-                    la seguridad o tranquilidad del lugar.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    7. Protección de Datos
-                  </h4>
-                  <p>
-                    La información personal se utiliza únicamente para gestionar
-                    su reserva. No se comparte con terceros sin autorización del
-                    huésped.
-                  </p>
-                </section>
-
-                <section className="space-y-3">
-                  <h4 className="font-bold text-primary uppercase tracking-wider text-xs">
-                    8. Quejas y Sugerencias
-                  </h4>
-                  <p>
-                    Cualquier inconveniente o sugerencia puede comunicarse
-                    directamente al personal durante su estadía.
-                  </p>
-                </section>
-              </div>
+              <PoliciesContent />
             </div>
 
             <div className="p-8 border-t border-stone-100 bg-stone-50/30 space-y-4">
@@ -1412,7 +1221,7 @@ export default function BookingPage() {
                   He leído y acepto los requisitos y políticas, incluyendo que
                   es un espacio{" "}
                   <span className="font-bold text-primary">
-                    solo para parejas adultos, sin niños ni mascotas
+                    solo para parejas mayores de 18 años
                   </span>
                   .
                 </Label>

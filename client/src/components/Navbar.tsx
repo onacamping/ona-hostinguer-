@@ -18,7 +18,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Inicio", href: "#home" },
-    { name: "Nuestros Campings", href: "#campings" },
+    { name: "Nuestros Loving", href: "#campings" },
     { name: "Planes", href: "#planes" },
     { name: "Contacto", href: "#footer" },
   ];

@@ -1,51 +1,51 @@
-import auraVip1 from "@assets/WhatsApp_Image_2026-01-04_at_1.03.01_PM_1767632673643.jpeg";
-import auraVip2 from "@assets/image_1767632695009.png";
-import auraVip3 from "@assets/image_1767632704929.png";
-import treeCamping from "@assets/image_1767377091964.png";
-import nidoCamping from "@assets/image_1767376107559.png";
+import auraVip1 from "@assets/WhatsApp_Image_2026-01-04_at_1.03.01_PM_1767632673643.webp";
+import auraVip2 from "@assets/image_1767632695009.webp";
+import auraVip3 from "@assets/image_1767632704929.webp";
+import treeCamping from "@assets/image_1767377091964.webp";
+import nidoCamping from "@assets/image_1767376107559.webp";
 
 const auraExtras = [
-  "/assets/aura/aura_extra_1.png",
-  "/assets/aura/aura_extra_2.png",
-  "/assets/aura/aura_extra_3.png",
-  "/assets/aura/aura_extra_4.png",
-  "/assets/aura/aura_extra_5.png",
-  "/assets/aura/aura_extra_6.png",
+  "/assets/aura/aura_extra_1.webp",
+  "/assets/aura/aura_extra_2.webp",
+  "/assets/aura/aura_extra_3.webp",
+  "/assets/aura/aura_extra_4.webp",
+  "/assets/aura/aura_extra_5.webp",
+  "/assets/aura/aura_extra_6.webp",
 ];
 
 const auraImages = [
-  "/assets/aura_new/aura_1.png",
-  "/assets/aura_new/aura_2.png",
-  "/assets/aura_new/aura_3.png",
-  "/assets/aura_new/aura_4.png",
-  "/assets/aura_new/aura_5.png",
-  "/assets/pool/pool_1.png",
-  "/assets/pool/pool_2.png",
+  "/assets/aura_new/aura_1.webp",
+  "/assets/aura_new/aura_2.webp",
+  "/assets/aura_new/aura_3.webp",
+  "/assets/aura_new/aura_4.webp",
+  "/assets/aura_new/aura_5.webp",
+  "/assets/pool/pool_1.webp",
+  "/assets/pool/pool_2.webp",
 ];
 
 const arbolExtras = [
-  "/assets/arbol/arbol_extra_1.png",
-  "/assets/arbol/arbol_extra_2.png",
-  "/assets/arbol/arbol_extra_3.png",
+  "/assets/arbol/arbol_extra_1.webp",
+  "/assets/arbol/arbol_extra_2.webp",
+  "/assets/arbol/arbol_extra_3.webp",
 ];
 
 const treeImages = [
   treeCamping,
   ...arbolExtras,
-  "/assets/pool/pool_1.png",
-  "/assets/pool/pool_2.png",
+  "/assets/pool/pool_1.webp",
+  "/assets/pool/pool_2.webp",
 ];
 
 const nidoExtras = [
-  "/assets/nido/nido_extra_1.png",
-  "/assets/nido/nido_extra_2.png",
+  "/assets/nido/nido_extra_1.webp",
+  "/assets/nido/nido_extra_2.webp",
 ];
 
 const nidoImages = [
   nidoCamping,
   ...nidoExtras,
-  "/assets/pool/pool_1.png",
-  "/assets/pool/pool_2.png",
+  "/assets/pool/pool_1.webp",
+  "/assets/pool/pool_2.webp",
 ];
 
 export const seasonalBlocks = [
@@ -69,7 +69,7 @@ export const campings = [
     typeId: 1,
     name: "Aura 1",
     images: auraImages,
-    image: "/assets/aura_new/aura_1.png",
+    image: "/assets/aura_new/aura_1.webp",
     description: "Unidad Aura 1: Privacidad total con jacuzzi privado.",
     features: [
       "Jacuzzi privado",
@@ -85,7 +85,7 @@ export const campings = [
     typeId: 1,
     name: "Aura 2",
     images: auraImages,
-    image: "/assets/aura_new/aura_1.png",
+    image: "/assets/aura_new/aura_1.webp",
     description:
       "Unidad Aura 2: Refugio romántico con todas las comodidades VIP.",
     features: [
@@ -102,7 +102,7 @@ export const campings = [
     typeId: 1,
     name: "Aura 3",
     images: auraImages,
-    image: "/assets/aura_new/aura_1.png",
+    image: "/assets/aura_new/aura_1.webp",
     description: "Unidad Aura 3: Experiencia de lujo rodeada de naturaleza.",
     features: [
       "Jacuzzi privado",
@@ -118,7 +118,7 @@ export const campings = [
     typeId: 1,
     name: "Aura 4",
     images: auraImages,
-    image: "/assets/aura_new/aura_1.png",
+    image: "/assets/aura_new/aura_1.webp",
     description:
       "Unidad Aura 4: Nuestra unidad más apartada para máxima desconexión.",
     features: [

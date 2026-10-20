@@ -8,12 +8,10 @@ require_once __DIR__ . '/auth.php';
 
 // Log raw input for debugging
 $rawInput = file_get_contents('php://input');
-error_log("Raw login input: " . $rawInput);
 
 // Fallback for cases where input might not be in php://input but passed via stdin
 if (empty($rawInput)) {
     $rawInput = stream_get_contents(STDIN);
-    error_log("Raw login input from STDIN: " . $rawInput);
 }
 
 $input = json_decode($rawInput, true);

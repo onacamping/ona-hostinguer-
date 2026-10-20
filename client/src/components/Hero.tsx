@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useLocation } from "wouter";
 import { useState, useEffect } from "react";
 import logo from "@assets/image_1767376411038.png";
-import heroBgDefault from "@assets/image_1768327290624.png";
+import heroBgDefault from "@assets/image_1768327290624.webp";
 
 export function Hero() {
   const [, setLocation] = useLocation();
