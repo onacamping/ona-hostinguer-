@@ -588,7 +588,7 @@ export async function registerRoutes(
       }
 
       // Check for unit blocks (compare against reservation dates, not current time)
-      const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
+      const ubFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "unit-blocks.json");
       if (fs.existsSync(ubFile)) {
         try {
           const ub = JSON.parse(fs.readFileSync(ubFile, "utf-8"));
@@ -608,7 +608,7 @@ export async function registerRoutes(
       }
 
       // Check for plan blocks
-      const planBlocksFile = path.join(process.cwd(), "server", "api", "plan-blocks.json");
+      const planBlocksFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plan-blocks.json");
       let planBlocks: any[] = [];
       if (fs.existsSync(planBlocksFile)) {
         try {
@@ -630,7 +630,7 @@ export async function registerRoutes(
       const typeId = campingTypeMap[camping] || 0;
 
       // Get planId from dynamic plans
-      const plansFile = path.join(process.cwd(), "server", "api", "plans.json");
+      const plansFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json");
       let dynamicPlans: any[] = [];
       try {
         dynamicPlans = JSON.parse(fs.readFileSync(plansFile, "utf-8"));
@@ -909,7 +909,7 @@ export async function registerRoutes(
   });
 
   // Campings Management
-  const campingsFile = path.join(process.cwd(), "server", "api", "campings.json");
+  const campingsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "campings.json");
   
   app.get("/api/campings", (req, res) => {
     try {
@@ -1048,7 +1048,7 @@ export async function registerRoutes(
   });
 
   // Discount Codes Management
-  const discountCodesFile = path.join(process.cwd(), "server", "api", "discount-codes.json");
+  const discountCodesFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "discount-codes.json");
   if (!fs.existsSync(discountCodesFile)) fs.writeFileSync(discountCodesFile, JSON.stringify([]));
   const normalizeDiscountDefinition = (input: any, current: any = {}) => {
     const merged = { ...current, ...input };
@@ -1147,7 +1147,7 @@ export async function registerRoutes(
     try {
       const { codigo, planId, campingTypeId, fecha_inicio, fecha_fin } = req.body;
       const data: any[] = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
-      const plansData: any[] = JSON.parse(fs.readFileSync(path.join(process.cwd(), "server", "api", "plans.json"), "utf-8"));
+      const plansData: any[] = JSON.parse(fs.readFileSync(path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json"), "utf-8"));
       const campingsData: any[] = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
 
       const found = data.find((d: any) => d.codigo.toUpperCase() === (codigo || "").toUpperCase());
@@ -1189,7 +1189,7 @@ export async function registerRoutes(
   });
 
   // Addons Management
-  const addonsFile = path.join(process.cwd(), "server", "api", "addons.json");
+  const addonsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "addons.json");
 
   app.get("/api/addons", (req, res) => {
     try {
@@ -1241,7 +1241,7 @@ export async function registerRoutes(
   });
 
   // Settings (hero media, etc.)
-  const settingsFile = path.join(process.cwd(), "server", "api", "settings.json");
+  const settingsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "settings.json");
   app.get("/api/settings", (req, res) => {
     try {
       if (!fs.existsSync(settingsFile)) fs.writeFileSync(settingsFile, JSON.stringify({ heroMedia: { type: "image", url: "" } }));
@@ -1258,7 +1258,7 @@ export async function registerRoutes(
   });
 
   // Tarifas por día
-  const tarifasFile = path.join(process.cwd(), "server", "api", "tarifas.json");
+  const tarifasFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "tarifas.json");
   const defaultTarifas = { entreSemana: 0, viernesODomingo: 0, sabadoFestivo: 0, diasFestivos: [], fechasEspeciales: [] };
   app.get("/api/tarifas", (req, res) => {
     try {
@@ -1324,7 +1324,7 @@ export async function registerRoutes(
   });
 
   // ============ Plan Blocks API ============
-  const planBlocksFile = path.join(process.cwd(), "server", "api", "plan-blocks.json");
+  const planBlocksFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plan-blocks.json");
 
   const ensurePlanBlocksFile = () => {
     if (!fs.existsSync(planBlocksFile)) {
@@ -1435,7 +1435,7 @@ export async function registerRoutes(
   });
 
   // ============ Unit Blocks API ============
-  const unitBlocksFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
+  const unitBlocksFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "unit-blocks.json");
 
   const readUnitBlocks = (): any[] => {
     try {
@@ -1526,7 +1526,7 @@ export async function registerRoutes(
   });
 
   // ============ Dynamic Plans API ============
-  const plansFile = path.join(process.cwd(), "server", "api", "plans.json");
+  const plansFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json");
 
   const readPlans = (): any[] => {
     try {
