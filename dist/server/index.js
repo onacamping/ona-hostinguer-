@@ -619,7 +619,7 @@ async function registerRoutes(httpServer2, app2) {
           error: "Esta unidad ya se encuentra reservada o bloqueada para las fechas seleccionadas."
         });
       }
-      const ubFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
+      const ubFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "unit-blocks.json");
       if (fs.existsSync(ubFile)) {
         try {
           const ub = JSON.parse(fs.readFileSync(ubFile, "utf-8"));
@@ -640,7 +640,7 @@ async function registerRoutes(httpServer2, app2) {
         } catch {
         }
       }
-      const planBlocksFile2 = path.join(process.cwd(), "server", "api", "plan-blocks.json");
+      const planBlocksFile2 = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plan-blocks.json");
       let planBlocks = [];
       if (fs.existsSync(planBlocksFile2)) {
         try {
@@ -660,7 +660,7 @@ async function registerRoutes(httpServer2, app2) {
       } catch {
       }
       const typeId = campingTypeMap[camping] || 0;
-      const plansFile2 = path.join(process.cwd(), "server", "api", "plans.json");
+      const plansFile2 = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json");
       let dynamicPlans = [];
       try {
         dynamicPlans = JSON.parse(fs.readFileSync(plansFile2, "utf-8"));
@@ -836,7 +836,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Failed to create booking" });
     }
   });
-  const campingsFile = path.join(process.cwd(), "server", "api", "campings.json");
+  const campingsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "campings.json");
   app2.get("/api/campings", (req, res) => {
     try {
       if (!fs.existsSync(campingsFile))
@@ -970,7 +970,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const discountCodesFile = path.join(process.cwd(), "server", "api", "discount-codes.json");
+  const discountCodesFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "discount-codes.json");
   if (!fs.existsSync(discountCodesFile))
     fs.writeFileSync(discountCodesFile, JSON.stringify([]));
   app2.get("/api/discount-codes", (req, res) => {
@@ -1026,7 +1026,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { codigo, planId, campingTypeId } = req.body;
       const data = JSON.parse(fs.readFileSync(discountCodesFile, "utf-8"));
-      const plansData = JSON.parse(fs.readFileSync(path.join(process.cwd(), "server", "api", "plans.json"), "utf-8"));
+      const plansData = JSON.parse(fs.readFileSync(path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json"), "utf-8"));
       const campingsData = JSON.parse(fs.readFileSync(campingsFile, "utf-8"));
       const found = data.find((d) => d.codigo.toUpperCase() === (codigo || "").toUpperCase());
       if (!found)
@@ -1048,7 +1048,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ valid: false, mensaje: error.message });
     }
   });
-  const addonsFile = path.join(process.cwd(), "server", "api", "addons.json");
+  const addonsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "addons.json");
   app2.get("/api/addons", (req, res) => {
     try {
       if (!fs.existsSync(addonsFile))
@@ -1096,7 +1096,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const settingsFile = path.join(process.cwd(), "server", "api", "settings.json");
+  const settingsFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "settings.json");
   app2.get("/api/settings", (req, res) => {
     try {
       if (!fs.existsSync(settingsFile))
@@ -1116,7 +1116,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const tarifasFile = path.join(process.cwd(), "server", "api", "tarifas.json");
+  const tarifasFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "tarifas.json");
   const defaultTarifas = { entreSemana: 0, viernesODomingo: 0, sabadoFestivo: 0, diasFestivos: [], fechasEspeciales: [] };
   app2.get("/api/tarifas", (req, res) => {
     try {
@@ -1173,7 +1173,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const planBlocksFile = path.join(process.cwd(), "server", "api", "plan-blocks.json");
+  const planBlocksFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plan-blocks.json");
   const ensurePlanBlocksFile = () => {
     if (!fs.existsSync(planBlocksFile)) {
       fs.writeFileSync(planBlocksFile, JSON.stringify([], null, 2));
@@ -1254,7 +1254,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const unitBlocksFile = path.join(process.cwd(), "server", "api", "unit-blocks.json");
+  const unitBlocksFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "unit-blocks.json");
   const readUnitBlocks = () => {
     try {
       if (!fs.existsSync(unitBlocksFile)) {
@@ -1323,7 +1323,7 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ success: false, error: error.message });
     }
   });
-  const plansFile = path.join(process.cwd(), "server", "api", "plans.json");
+  const plansFile = path.join(process.env.DATA_DIR || "/home/u211298421/data/api", "plans.json");
   const readPlans = () => {
     try {
       if (!fs.existsSync(plansFile)) {
