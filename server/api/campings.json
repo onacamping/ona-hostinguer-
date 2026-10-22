@@ -4,12 +4,17 @@
     "typeId": 1,
     "name": "Aura 1",
     "visible": true,
-    "image": "/api/media/13",
+    "image": "/api/media/289",
     "images": [
-      "/api/media/14",
+      "/api/media/289",
       "/api/media/15",
       "/api/media/16",
-      "/api/media/32"
+      "/api/media/32",
+      "/api/media/284",
+      "/api/media/285",
+      "/api/media/286",
+      "/api/media/287",
+      "/api/media/288"
     ],
     "description": "Unidad Aura 1: MIRADOR A LAS MONTAÑAS🌳",
     "features": [
@@ -24,21 +29,31 @@
       "parqueadero."
     ],
     "rating": 5,
-    "videos": []
+    "videos": [
+      "/api/media/290"
+    ]
   },
   {
     "id": 2,
     "typeId": 1,
     "name": "Aura 2",
-    "visible": false,
-    "image": "/api/media/27",
+    "visible": true,
+    "image": "/api/media/266",
     "images": [
-      "/api/media/21",
+      "/api/media/266",
       "/api/media/23",
       "/api/media/24",
       "/api/media/33",
       "/api/media/42",
-      "/api/media/43"
+      "/api/media/43",
+      "/api/media/260",
+      "/api/media/261",
+      "/api/media/262",
+      "/api/media/263",
+      "/api/media/264",
+      "/api/media/265",
+      "/api/media/21",
+      "/api/media/267"
     ],
     "description": "Unidad Aura 2: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -55,21 +70,29 @@
     "rating": 5,
     "videos": [
       "/api/media/25",
-      "/api/media/44"
+      "/api/media/44",
+      "/api/media/268"
     ]
   },
   {
     "id": 3,
     "typeId": 1,
     "name": "Aura 3",
-    "visible": false,
-    "image": "/api/media/94",
+    "visible": true,
+    "image": "/api/media/275",
     "images": [
-      "/api/media/95",
+      "/api/media/275",
       "/api/media/96",
       "/api/media/97",
       "/api/media/98",
-      "/api/media/101"
+      "/api/media/101",
+      "/api/media/269",
+      "/api/media/270",
+      "/api/media/271",
+      "/api/media/272",
+      "/api/media/273",
+      "/api/media/274",
+      "/api/media/95"
     ],
     "description": "Unidad Aura 3: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [
@@ -93,13 +116,18 @@
     "id": 4,
     "typeId": 1,
     "name": "Aura 4",
-    "visible": false,
+    "visible": true,
     "image": "/api/media/45",
     "images": [
       "/api/media/52",
       "/api/media/53",
-      "/api/media/99",
-      "/api/media/100"
+      "/api/media/100",
+      "/api/media/276",
+      "/api/media/277",
+      "/api/media/278",
+      "/api/media/279",
+      "/api/media/280",
+      "/api/media/281"
     ],
     "description": "Unidad Aura 4: MIRADOR A LAS MONTAÑAS🌳🌞",
     "features": [

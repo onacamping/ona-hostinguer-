@@ -239,5 +239,21 @@
       }
     ],
     "id": "addon_1781209793672"
+  },
+  {
+    "title": "Experiencia en cuatrimoto para dos ",
+    "price": 120000,
+    "description": "Recorrido por la vereda y termina en una quebrada✨",
+    "details": [],
+    "allowMultiple": false,
+    "multipleLabel": "",
+    "maxQuantity": null,
+    "media": [
+      {
+        "url": "/api/media/258",
+        "type": "image"
+      }
+    ],
+    "id": "addon_1792520598432"
   }
 ]
