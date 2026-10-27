@@ -32,7 +32,7 @@ export function Footer() {
               </li>
               <li className="flex items-center justify-center md:justify-start gap-3 text-gray-300">
                 <Mail className="w-5 h-5 text-accent" />
-                <span>reservas@onaxperience.com</span>
+                <span>onaxperience0@gmail.com</span>
               </li>
             </ul>
           </div>
